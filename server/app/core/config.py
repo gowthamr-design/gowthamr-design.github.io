@@ -1,8 +1,28 @@
 import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from dotenv import load_dotenv
+
+# Resolve .env file location robustly
+_env_file = None
+for candidate in [
+    Path(".env"),
+    Path("server/.env"),
+    Path(__file__).resolve().parent.parent.parent / ".env",
+]:
+    if candidate.is_file():
+        _env_file = str(candidate)
+        break
+
+if _env_file:
+    load_dotenv(_env_file)
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=_env_file or ".env",
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
     PROJECT_NAME: str = "Banana Brothers Events API"
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = os.getenv("SECRET_KEY", "banana_brothers_secret_jwt_key_2026_secure")
@@ -22,6 +42,7 @@ class Settings(BaseSettings):
     SMTP_USER: str = os.getenv("SMTP_USER", "")
     SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
     SMTP_FROM_EMAIL: str = os.getenv("SMTP_FROM_EMAIL", "")
+    SMTP_FROM_NAME: str = os.getenv("SMTP_FROM_NAME", "Banana Brothers Events")
 
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:

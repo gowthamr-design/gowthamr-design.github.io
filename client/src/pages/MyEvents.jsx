@@ -109,8 +109,8 @@ export default function MyEvents() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            background: 'rgba(0,0,0,0.75)',
-            backdropFilter: 'blur(8px)',
+            background: 'rgba(5, 8, 20, 0.88)',
+            backdropFilter: 'blur(10px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -121,55 +121,55 @@ export default function MyEvents() {
         >
           <div
             style={{
-              background: '#0f172a',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              borderRadius: '12px',
-              padding: '26px',
+              background: 'rgba(13, 20, 48, 0.96)',
+              border: '1px solid rgba(56, 189, 248, 0.35)',
+              borderRadius: '18px',
+              padding: '28px',
               maxWidth: '520px',
               width: '100%',
-              boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
-              color: '#fff'
+              boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
+              color: '#ffffff'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#fff' }}>{selectedEvent.title}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+              <h3 style={{ fontSize: '1.35rem', fontWeight: '800', color: '#ffffff', fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif" }}>{selectedEvent.title}</h3>
               <span style={{
-                background: selectedEvent.status === 'COMPLETED' ? 'rgba(56, 161, 105, 0.2)' : 'rgba(221, 107, 32, 0.2)',
-                color: selectedEvent.status === 'COMPLETED' ? '#68d391' : '#f6ad55',
-                border: `1px solid ${selectedEvent.status === 'COMPLETED' ? '#38a169' : '#dd6b20'}`,
-                padding: '3px 10px',
-                borderRadius: '12px',
-                fontSize: '0.78rem',
-                fontWeight: '700'
+                background: selectedEvent.status === 'COMPLETED' ? 'rgba(34, 197, 94, 0.22)' : 'rgba(56, 189, 248, 0.22)',
+                color: selectedEvent.status === 'COMPLETED' ? '#4ade80' : '#38bdf8',
+                border: `1px solid ${selectedEvent.status === 'COMPLETED' ? '#22c55e' : '#38bdf8'}`,
+                padding: '4px 12px',
+                borderRadius: '20px',
+                fontSize: '0.76rem',
+                fontWeight: '750'
               }}>
                 {selectedEvent.status}
               </span>
             </div>
 
             {selectedEvent.booking_reference && (
-              <div style={{ marginBottom: '14px', fontSize: '0.85rem', color: '#a0aec0' }}>
-                Booking Ref: <strong style={{ color: '#63b3ed', fontFamily: 'monospace' }}>{selectedEvent.booking_reference}</strong>
+              <div style={{ marginBottom: '16px', fontSize: '0.86rem', color: '#cbd5e1' }}>
+                Booking Ref: <strong style={{ color: '#38bdf8', fontFamily: 'monospace', background: 'rgba(56, 189, 248, 0.12)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(56, 189, 248, 0.25)' }}>{selectedEvent.booking_reference}</strong>
               </div>
             )}
 
-            <div style={{ background: 'rgba(255,255,255,0.04)', padding: '12px 16px', borderRadius: '8px', marginBottom: '14px' }}>
-              <div style={{ fontSize: '0.88rem', marginBottom: '6px', color: '#e2e8f0' }}>
-                <strong>📅 Date:</strong> {selectedEvent.date}
+            <div style={{ background: 'rgba(10, 16, 40, 0.7)', padding: '14px 16px', borderRadius: '10px', marginBottom: '16px', border: '1px solid rgba(56, 189, 248, 0.15)' }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '8px', color: '#f8fafc' }}>
+                <strong style={{ color: '#38bdf8' }}>📅 Date:</strong> {selectedEvent.date}
               </div>
-              <div style={{ fontSize: '0.88rem', color: '#e2e8f0' }}>
-                <strong>📍 Venue / District:</strong> {selectedEvent.location}
+              <div style={{ fontSize: '0.9rem', color: '#f8fafc' }}>
+                <strong style={{ color: '#38bdf8' }}>📍 Venue / District:</strong> {selectedEvent.location}
               </div>
             </div>
 
-            <p style={{ fontSize: '0.9rem', color: '#cbd5e0', lineHeight: 1.5, marginBottom: '18px' }}>
+            <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: 1.55, marginBottom: '20px' }}>
               {selectedEvent.description}
             </p>
 
             {selectedEvent.total_amount && (
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: '10px 14px', background: 'rgba(56, 161, 105, 0.1)', border: '1px solid rgba(56, 161, 105, 0.3)', borderRadius: '8px' }}>
-                <span style={{ fontSize: '0.9rem', color: '#a0aec0' }}>Total Package Amount:</span>
-                <span style={{ fontSize: '1.2rem', fontWeight: '800', color: '#68d391' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '22px', padding: '12px 16px', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '10px' }}>
+                <span style={{ fontSize: '0.9rem', color: '#cbd5e1' }}>Total Package Amount:</span>
+                <span style={{ fontSize: '1.3rem', fontWeight: '850', color: '#38bdf8' }}>
                   ₹ {Number(selectedEvent.total_amount).toLocaleString('en-IN')}
                 </span>
               </div>
@@ -178,7 +178,7 @@ export default function MyEvents() {
             <button
               type="button"
               className="view-btn"
-              style={{ width: '100%', padding: '10px', fontSize: '0.95rem', cursor: 'pointer', textAlign: 'center' }}
+              style={{ width: '100%', padding: '12px', fontSize: '0.95rem', cursor: 'pointer', textAlign: 'center', background: 'var(--pink-gradient)', color: '#ffffff', fontWeight: '750', border: 'none', borderRadius: '8px', boxShadow: '0 4px 15px rgba(255, 45, 135, 0.4)' }}
               onClick={() => setSelectedEvent(null)}
             >
               Close Details

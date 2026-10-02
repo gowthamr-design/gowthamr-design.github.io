@@ -15,45 +15,82 @@ export default function Register() {
   const [msg, setMsg] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const showToast = (text) => {
     setMsg(text);
-    setTimeout(() => setMsg(''), 3000);
+    setTimeout(() => setMsg(''), 3500);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (otpSent || otpVerified) {
+      setOtpSent(false);
+      setOtpVerified(false);
+    }
   };
 
   const handleSendOTP = async () => {
-    if (!email) {
-      showToast('Please enter email address first');
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      showToast('Please enter your email address first');
       return;
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      showToast('Please enter a valid email address');
+      return;
+    }
+
+    setSendingOtp(true);
     try {
-      await authAPI.sendOTP(email);
+      const res = await authAPI.sendOTP(trimmedEmail);
       setOtpSent(true);
-      showToast('OTP sent to your email! (Test OTP: 123456)');
+      setOtpVerified(false);
+      showToast(res.data?.message || 'Verification code sent to your email! Please check your inbox.');
     } catch (err) {
-      showToast(err.response?.data?.detail || 'Failed to send OTP');
+      showToast(err.response?.data?.detail || 'Failed to send verification code via email.');
+    } finally {
+      setSendingOtp(false);
     }
   };
 
   const handleVerifyOTP = async () => {
-    if (!otp) {
-      showToast('Please enter the OTP');
+    const trimmedOtp = otp.trim();
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      showToast('Please enter your email address');
       return;
     }
+    if (!trimmedOtp) {
+      showToast('Please enter the 6-digit verification code');
+      return;
+    }
+
+    setVerifyingOtp(true);
     try {
-      await authAPI.verifyOTP(email, otp);
+      const res = await authAPI.verifyOTP(trimmedEmail, trimmedOtp);
       setOtpVerified(true);
-      showToast('OTP verified successfully!');
+      showToast(res.data?.message || 'OTP verified successfully!');
     } catch (err) {
-      showToast(err.response?.data?.detail || 'Invalid or expired OTP');
+      setOtpVerified(false);
+      showToast(err.response?.data?.detail || 'Invalid or expired verification code.');
+    } finally {
+      setVerifyingOtp(false);
     }
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (!otpVerified) {
+      showToast('Please send and verify the OTP code before registering.');
+      return;
+    }
 
     if (password !== confirmPassword) {
       showToast('Passwords do not match');
@@ -63,14 +100,14 @@ export default function Register() {
     setLoading(true);
     try {
       const res = await authAPI.register({
-        firstName,
-        lastName,
-        username,
-        email,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        username: username.trim(),
+        email: email.trim(),
         age: parseInt(age),
         password,
         confirmPassword,
-        otp
+        otp: otp.trim()
       });
 
       if (res.data && res.data.access_token) {
@@ -143,14 +180,15 @@ export default function Register() {
                 required
                 autoComplete="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
               />
               <button
                 type="button"
                 className="action-btn"
                 onClick={handleSendOTP}
+                disabled={sendingOtp}
               >
-                {otpSent ? 'Resend' : 'Send OTP'}
+                {sendingOtp ? 'Sending...' : otpSent ? 'Resend' : 'Send OTP'}
               </button>
             </div>
           </div>
@@ -161,18 +199,20 @@ export default function Register() {
               <input
                 type="text"
                 className="input-field-auth"
-                placeholder="Enter OTP (e.g. 123456)"
+                placeholder="Enter 6-digit OTP"
                 maxLength="6"
                 required
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
+                disabled={otpVerified}
               />
               <button
                 type="button"
                 className="action-btn"
                 onClick={handleVerifyOTP}
+                disabled={verifyingOtp || otpVerified}
               >
-                {otpVerified ? '✓ Verified' : 'Verify'}
+                {verifyingOtp ? 'Verifying...' : otpVerified ? '✓ Verified' : 'Verify'}
               </button>
             </div>
           </div>

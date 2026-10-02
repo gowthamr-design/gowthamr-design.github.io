@@ -14,9 +14,9 @@ export default function Footer() {
             Banana Brothers delivers premium event management services, offering tailored packages for corporate functions, grand weddings, and private celebrations with timeless simplicity.
           </p>
           <div className="footer-contact-info">
-            <span>📍 Chennai, Tamil Nadu, India</span>
-            <span>✉️ contact@bananabrothers.com</span>
-            <span>📞 +91 98765 43210</span>
+            <span>📍 Tiruppur, Tamil Nadu, India</span>
+            <span>✉️ bananabrothers@gmail.com</span>
+            <span>📞 +91 9952805415</span>
           </div>
         </div>
 

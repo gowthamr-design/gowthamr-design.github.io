@@ -50,7 +50,7 @@ export default function Navbar() {
             <Link
               to="/admin"
               className={location.pathname === '/admin' ? 'active' : ''}
-              style={{ color: '#fc8181', fontWeight: '700' }}
+              style={{ color: '#38bdf8', fontWeight: '750' }}
             >
               ★ Admin Panel
             </Link>
@@ -88,7 +88,7 @@ export default function Navbar() {
             className="user-badge"
             onClick={handleLogout}
             title="Click to Logout"
-            style={isAdmin ? { background: '#9b2c2c', borderColor: '#feb2b2' } : {}}
+            style={isAdmin ? { background: 'linear-gradient(135deg, #c53030, #742a2a)', color: '#fff', border: '1px solid rgba(254, 178, 178, 0.4)' } : {}}
           >
             {isAdmin ? `🛡️ Admin (${user.username})` : (user.first_name || user.username || 'User')}
           </span>
