@@ -440,9 +440,9 @@ export default function Home() {
     lbTouchEndX.current = 0;
   };
 
-  // 6. Grand Portfolio / Moments Made Extraordinary (Scroll-Synced Luxury Card Reveal)
+  // 6. Grand Portfolio / Moments Made Extraordinary (Automatic Left-to-Right Loop)
   const [portfolioIndex, setPortfolioIndex] = useState(0);
-  const [portfolioProgress, setPortfolioProgress] = useState(0);
+  const [isPortfolioPaused, setIsPortfolioPaused] = useState(false);
   const portfolioSectionRef = useRef(null);
 
   const occasionCategories = [
@@ -504,49 +504,18 @@ export default function Home() {
     },
   ];
 
-  // Scroll synchronization: directly follows user's scroll with zero delay & natural reverse
+  // Automatic Left-to-Right card transition interval
   useEffect(() => {
-    let ticking = false;
+    if (isPortfolioPaused) return;
+    const timer = setInterval(() => {
+      setPortfolioIndex((prev) => (prev + 1) % occasionCategories.length);
+    }, 4200);
+    return () => clearInterval(timer);
+  }, [isPortfolioPaused, occasionCategories.length]);
 
-    const handlePortfolioScroll = () => {
-      if (!portfolioSectionRef.current) return;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const rect = portfolioSectionRef.current.getBoundingClientRect();
-          const windowHeight = window.innerHeight;
-          const scrollDistance = portfolioSectionRef.current.offsetHeight - windowHeight;
-          if (scrollDistance <= 0) {
-            ticking = false;
-            return;
-          }
-          const scrolled = -rect.top;
-          const progress = Math.max(0, Math.min(1, scrolled / scrollDistance));
-          setPortfolioProgress(progress);
-
-          const numCards = occasionCategories.length;
-          const targetIndex = Math.min(numCards - 1, Math.floor(progress * numCards * 0.999));
-          setPortfolioIndex(targetIndex);
-
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handlePortfolioScroll, { passive: true });
-    handlePortfolioScroll(); // initialize on mount
-    return () => window.removeEventListener('scroll', handlePortfolioScroll);
-  }, [occasionCategories.length]);
-
-  // Click tab to smoothly scroll directly to that card
+  // Click tab to immediately switch card
   const scrollToPortfolioCard = (idx) => {
-    if (!portfolioSectionRef.current) return;
-    const rect = portfolioSectionRef.current.getBoundingClientRect();
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const sectionTop = scrollTop + rect.top;
-    const scrollDistance = portfolioSectionRef.current.offsetHeight - window.innerHeight;
-    const targetScroll = sectionTop + (idx / (occasionCategories.length - 1)) * scrollDistance + 15;
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    setPortfolioIndex(idx);
   };
 
   // 7. Hero Card 3D Magnetic Parallax Tilt
@@ -639,10 +608,12 @@ export default function Home() {
         />
       </div>
 
-      {/* Ambient Parallax Glowing Orbs */}
+      {/* Ambient Parallax Glowing Orbs & Geometric Rings */}
       <div className="ambient-glow-orb orb-1"></div>
       <div className="ambient-glow-orb orb-2"></div>
       <div className="ambient-glow-orb orb-3"></div>
+      <div className="evently-geometric-ring evently-geometric-ring-1"></div>
+      <div className="evently-geometric-ring evently-geometric-ring-2"></div>
 
       {/* =========================================================================
           1. ENHANCED HERO SECTION
@@ -1452,16 +1423,22 @@ export default function Home() {
           </div>
 
           {/* Central Scroll-Synced Card Stacking Deck */}
-          <div className="portfolio-deck-stage">
+          <div
+            className="portfolio-deck-stage"
+            onMouseEnter={() => setIsPortfolioPaused(true)}
+            onMouseLeave={() => setIsPortfolioPaused(false)}
+          >
             <div className="portfolio-cards-container">
               {occasionCategories.map((occ, idx) => {
                 let cardClass = 'waiting';
                 if (idx === portfolioIndex) {
                   cardClass = 'active';
-                } else if (idx < portfolioIndex) {
+                } else if (idx === (portfolioIndex - 1 + occasionCategories.length) % occasionCategories.length) {
                   cardClass = 'prev';
-                } else {
+                } else if (idx === (portfolioIndex + 1) % occasionCategories.length) {
                   cardClass = 'next';
+                } else {
+                  cardClass = 'waiting';
                 }
 
                 return (
@@ -1538,14 +1515,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Bottom Dynamic Scroll Indicator */}
+          {/* Bottom Dynamic Autoplay Indicator */}
           <div className="portfolio-scroll-hint">
-            <span className="hint-mouse-wheel"></span>
-            <span>
-              {portfolioIndex === occasionCategories.length - 1
-                ? 'Scroll to continue discovery ↓'
-                : 'Scroll down to reveal next event ↓'}
-            </span>
+            <span className="tab-sparkle">✦</span>
+            <span>Autoplaying Moments • Click any category above</span>
           </div>
         </div>
       </section>
@@ -1564,6 +1537,8 @@ export default function Home() {
 
         <div className="pillars-grid">
           <div className="pillar-card reveal delay-100">
+            <div className="pillar-card-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="pillar-card-overlay" />
             <div className="pillar-icon-wrapper">💎</div>
             <h3>Bespoke Curation</h3>
             <p>
@@ -1572,6 +1547,8 @@ export default function Home() {
           </div>
 
           <div className="pillar-card reveal delay-200">
+            <div className="pillar-card-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="pillar-card-overlay" />
             <div className="pillar-icon-wrapper">⚡</div>
             <h3>Transparent Estimator</h3>
             <p>
@@ -1580,6 +1557,8 @@ export default function Home() {
           </div>
 
           <div className="pillar-card reveal delay-300">
+            <div className="pillar-card-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="pillar-card-overlay" />
             <div className="pillar-icon-wrapper">👨‍🍳</div>
             <h3>Gourmet Catering</h3>
             <p>
@@ -1588,6 +1567,8 @@ export default function Home() {
           </div>
 
           <div className="pillar-card reveal delay-400">
+            <div className="pillar-card-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="pillar-card-overlay" />
             <div className="pillar-icon-wrapper">🎯</div>
             <h3>Stress-Free Execution</h3>
             <p>
@@ -1611,24 +1592,32 @@ export default function Home() {
 
         <div className="timeline-steps-grid">
           <div className="timeline-step-card reveal delay-100">
+            <div className="timeline-step-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="timeline-step-overlay" />
             <span className="step-num-badge">01</span>
             <h4>Select Your Package</h4>
             <p>Choose between Standard, Premium Delight, or Royal Experience depending on your scale.</p>
           </div>
 
           <div className="timeline-step-card reveal delay-200">
+            <div className="timeline-step-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="timeline-step-overlay" />
             <span className="step-num-badge">02</span>
             <h4>Tailor Add-ons</h4>
             <p>Customize catering plates, lighting options, photography, and decor elements live on the screen.</p>
           </div>
 
           <div className="timeline-step-card reveal delay-300">
+            <div className="timeline-step-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="timeline-step-overlay" />
             <span className="step-num-badge">03</span>
             <h4>Instant Confirmation</h4>
             <p>Lock your date with clear transparency and direct booking management in your account.</p>
           </div>
 
           <div className="timeline-step-card reveal delay-400">
+            <div className="timeline-step-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80')` }} />
+            <div className="timeline-step-overlay" />
             <span className="step-num-badge">04</span>
             <h4>Celebrate in Style</h4>
             <p>Relax and enjoy the special occasion while our master crew handles all logistics flawlessly.</p>

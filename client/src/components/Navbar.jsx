@@ -43,6 +43,9 @@ export default function Navbar() {
           <Link to="/packages" className={location.pathname.startsWith('/packages') ? 'active' : ''}>Packages</Link>
         </li>
         <li>
+          <Link to="/gallery" className={location.pathname === '/gallery' ? 'active' : ''}>Gallery</Link>
+        </li>
+        <li>
           <Link to="/my-events" className={location.pathname === '/my-events' ? 'active' : ''}>My Events</Link>
         </li>
         {isAdmin && (

@@ -1,0 +1,554 @@
+/* ==========================================================================
+   GALLERY PAGE STYLES (Editorial Luxury Visual Reference)
+   ========================================================================== */
+
+.gallery-page-container {
+  min-height: 100vh;
+  background-color: #050814;
+  background-image: 
+    radial-gradient(at 10% 15%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+    radial-gradient(at 90% 85%, rgba(2, 132, 199, 0.07) 0px, transparent 50%);
+  color: #ffffff;
+  padding-bottom: 80px;
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   1. HERO SPOTLIGHT HEADER SECTION (Rings Banner Reference)
+   -------------------------------------------------------------------------- */
+.gallery-hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  background: #02040a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.gallery-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1600&q=85') center center / cover no-repeat;
+  filter: brightness(0.42) contrast(1.15);
+  opacity: 0.85;
+}
+
+.gallery-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 35% 50%, rgba(5, 8, 20, 0.2) 0%, rgba(2, 4, 10, 0.85) 65%, #02040a 100%),
+              linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.95) 100%);
+  pointer-events: none;
+}
+
+.gallery-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px 6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gallery-breadcrumbs {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.gallery-breadcrumbs span.active {
+  color: #38bdf8;
+}
+
+.gallery-hero-title {
+  font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+  font-size: 3.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+  margin: 0 0 16px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+.gallery-hero-tagline {
+  max-width: 680px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  font-weight: 400;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   2. SECTION TITLE & FILTER PILLS (Our Captured Moments)
+   -------------------------------------------------------------------------- */
+.gallery-main-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 60px 6% 20px;
+}
+
+.gallery-header-block {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.gallery-subtitle {
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #38bdf8;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.gallery-main-title {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 850;
+  color: #ffffff;
+  margin: 0 0 24px;
+  letter-spacing: -0.5px;
+}
+
+/* Category Filter Bar */
+.gallery-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.gallery-filter-pill {
+  background: rgba(13, 20, 48, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  color: #cbd5e1;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 650;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
+}
+
+.gallery-filter-pill:hover {
+  border-color: #38bdf8;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.gallery-filter-pill.active {
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #00f0ff 100%);
+  border-color: #38bdf8;
+  color: #030712;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.45);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   3. EDITORIAL MAGAZINE GALLERY GRID (Reference Match)
+   -------------------------------------------------------------------------- */
+.gallery-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+/* Standard Gallery Image Card */
+.gallery-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #091026;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  height: 310px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.65);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.25);
+}
+
+.gallery-card-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.gallery-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.gallery-card:hover .gallery-card-img {
+  transform: scale(1.06);
+}
+
+/* Card Hover Overlay with Details */
+.gallery-card-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 8, 20, 0.1) 0%, rgba(9, 16, 38, 0.88) 100%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  transition: opacity 0.35s ease;
+}
+
+.gallery-card:hover .gallery-card-hover-overlay {
+  opacity: 1;
+}
+
+.gallery-card-tag {
+  align-self: flex-start;
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  font-size: 0.68rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  backdrop-filter: blur(8px);
+}
+
+.gallery-card-title {
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.gallery-card-location {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.gallery-card-zoom-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(13, 20, 48, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+  backdrop-filter: blur(8px);
+}
+
+/* --------------------------------------------------------------------------
+   4. EDITORIAL QUOTE CARDS (Exact Reference Style)
+   -------------------------------------------------------------------------- */
+.gallery-quote-card {
+  position: relative;
+  background: #c2c9bf;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  height: 310px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
+  border: 8px solid #ffffff;
+  outline: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-quote-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.gallery-quote-inner {
+  text-align: center;
+  padding: 10px;
+}
+
+.gallery-quote-text {
+  font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  font-weight: 600;
+  color: #2b3a36;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Quote Card 2 (Blush / Slate Accent) */
+.gallery-quote-card.accent-card {
+  background: #d8c4be;
+  border: 8px solid #ffffff;
+}
+
+.gallery-quote-card.accent-card .gallery-quote-text {
+  color: #3d2b27;
+}
+
+/* --------------------------------------------------------------------------
+   5. FLOATING SOCIAL ICON BAR (Under Center Feature Moment)
+   -------------------------------------------------------------------------- */
+.gallery-card-with-social {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-floating-social-strip {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 25px;
+  padding: 4px 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.social-strip-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #1e293b;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.social-strip-btn:hover {
+  color: #0284c7;
+  transform: scale(1.15);
+}
+
+/* --------------------------------------------------------------------------
+   6. FULLSCREEN HD LIGHTBOX MODAL
+   -------------------------------------------------------------------------- */
+.gallery-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(2, 4, 10, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: lightboxFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lightboxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.gallery-lightbox-container {
+  position: relative;
+  max-width: 90vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-lightbox-media-wrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.2);
+}
+
+.gallery-lightbox-img {
+  max-width: 82vw;
+  max-height: 72vh;
+  object-fit: contain;
+  display: block;
+}
+
+.gallery-lightbox-caption {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.gallery-lightbox-title {
+  font-size: 1.25rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.gallery-lightbox-sub {
+  font-size: 0.88rem;
+  color: #38bdf8;
+  margin: 0;
+}
+
+/* Lightbox Controls */
+.lightbox-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(13, 20, 48, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.lightbox-close-btn:hover {
+  background: #38bdf8;
+  color: #02040a;
+  transform: scale(1.1);
+}
+
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(13, 20, 48, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.lightbox-nav-btn:hover {
+  background: #38bdf8;
+  color: #02040a;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav-btn.prev {
+  left: 28px;
+}
+
+.lightbox-nav-btn.next {
+  right: 28px;
+}
+
+.lightbox-counter-badge {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(13, 20, 48, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 750;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   7. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .gallery-editorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .gallery-hero-title {
+    font-size: 2.8rem;
+  }
+
+  .gallery-card,
+  .gallery-quote-card {
+    height: 280px;
+  }
+}
+
+@media (max-width: 680px) {
+  .gallery-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .gallery-hero-section {
+    min-height: 340px;
+  }
+
+  .gallery-hero-title {
+    font-size: 2.2rem;
+  }
+
+  .gallery-main-title {
+    font-size: 1.85rem;
+  }
+
+  .gallery-card,
+  .gallery-quote-card {
+    height: 260px;
+  }
+
+  .gallery-quote-text {
+    font-size: 1.15rem;
+  }
+
+  .lightbox-nav-btn.prev {
+    left: 10px;
+  }
+
+  .lightbox-nav-btn.next {
+    right: 10px;
+  }
+}

@@ -70,29 +70,45 @@ export default function Packages() {
       <div className="packages-ambient-orb packages-orb-2"></div>
 
       {/* =========================================================================
-          HERO HEADER
+          1. EDITORIAL SPLIT 50/50 HERO SECTION (Reference Inspired)
           ========================================================================= */}
-      <section className="packages-hero">
-        <div className="packages-hero-badge">
-          <span>✦</span>
-          <span>Bespoke Celebration Plans</span>
+      <section className="packages-editorial-hero">
+        {/* Left Half: Dramatic Full-Bleed Banquet Imagery */}
+        <div className="packages-hero-left-media">
+          <img
+            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1600&q=85"
+            alt="Luxury Event Banquet Setup"
+            className="packages-hero-banquet-img"
+          />
+          <div className="packages-hero-media-gradient"></div>
         </div>
 
-        <h1 className="packages-hero-title">
-          OUR EVENT <span className="gradient-gold">PACKAGES</span>
-        </h1>
+        {/* Right Half: Editorial Typography & Brand Emblem */}
+        <div className="packages-hero-right-content">
+          <div className="packages-brand-emblem-dock">
+            <div className="packages-brand-emblem-circle">
+              <span className="packages-brand-emblem-symbol">BB</span>
+            </div>
+            <span className="packages-brand-emblem-label">Banana Brothers Events</span>
+          </div>
 
-        <p className="packages-hero-subtitle">
-          Designed for every celebration
-        </p>
+          <h1 className="packages-hero-title">
+            <span>OUR EVENT</span>
+            <span className="gradient-gold">PACKAGES</span>
+          </h1>
 
-        <p className="packages-hero-desc">
-          From grand monumental weddings and executive corporate summits to vibrant intimate milestone celebrations, select an expertly tailored package orchestrated for perfection.
-        </p>
+          <p className="packages-hero-subtitle">
+            Designed for every celebration
+          </p>
+
+          <p className="packages-hero-desc">
+            From grand monumental weddings and executive corporate summits to vibrant intimate milestone celebrations, select an expertly tailored package orchestrated for perfection.
+          </p>
+        </div>
       </section>
 
       {/* =========================================================================
-          3-COLUMN PACKAGES GRID
+          2. 3-COLUMN PACKAGES GRID
           ========================================================================= */}
       <section className="packages-grid-section">
         <div className="packages-grid">
@@ -139,7 +155,7 @@ export default function Packages() {
                 <div className="pkg-features-list">
                   {pkg.features.map((feat, fIdx) => (
                     <div key={fIdx} className="pkg-feature-item">
-                      <span className="pkg-feature-icon">✓</span>
+                      <span className="pkg-feature-icon">✦</span>
                       <span>{feat}</span>
                     </div>
                   ))}
