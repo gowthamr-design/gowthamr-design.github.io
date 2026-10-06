@@ -3813,3 +3813,245 @@
     font-size: 0.9rem;
   }
 }
+/* ==========================================================================
+   MOBILE RESPONSIVENESS: Home Page
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Prevent horizontal overflow */
+  body, html {
+    overflow-x: hidden;
+  }
+  .home-master-wrapper {
+    overflow-x: hidden;
+  }
+
+  /* 1. Stack Hero Content & Event Card Vertically */
+  .hero-enhanced {
+    flex-direction: column;
+    padding: 100px 20px 40px;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .hero-left-col {
+    width: 100%;
+    text-align: center;
+    padding-right: 0;
+    margin-bottom: 40px;
+  }
+  
+  .hero-cta-wrapper {
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .hero-right-col {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .hero-3d-stage {
+    width: 100%;
+    height: 300px;
+    margin: 0 auto;
+  }
+  
+  .hero-3d-card {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* 2. Change the 4 statistics into a compact 2x2 grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  /* 3. Event Stories horizontally swipeable (Main card + part of next visible) */
+  .showcase-slider-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    padding: 0 20px;
+    /* Hide scrollbar */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+  }
+  
+  .showcase-slider-track::-webkit-scrollbar {
+    display: none; 
+  }
+  
+  .showcase-slide {
+    flex: 0 0 85%; /* 85% width so part of the next card is visible */
+    scroll-snap-align: center;
+  }
+
+  /* 4. Moments Made Extraordinary image/content stacked */
+  .portfolio-content-area {
+    flex-direction: column;
+  }
+  
+  .portfolio-img-col, .portfolio-text-col {
+    width: 100%;
+  }
+  
+  .portfolio-img-col {
+    height: 250px;
+    margin-bottom: 20px;
+  }
+
+  /* 5. Convert feature and process cards into clean 1-column or 2x2 */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .process-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .process-step {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-connector {
+    display: none;
+  }
+
+  /* 6. Make reviews swipeable one card at a time */
+  .reviews-slider-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 20px;
+  }
+  
+  .reviews-slider-track::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .review-card {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    margin-right: 15px;
+  }
+
+  /* Keep images properly sized */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Keep typography balanced */
+  .hero-main-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+/* --- Mobile Responsive Updates --- */
+@media screen and (max-width: 768px) {
+  html, body, #root, .home-master-wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+  .hero-enhanced {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 100px 15px 40px 15px !important;
+    min-height: auto !important;
+  }
+  .hero-left-col, .hero-right-col {
+    width: 100% !important;
+    padding: 0 !important;
+    text-align: center !important;
+  }
+  .hero-cta-wrapper {
+    justify-content: center !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .hero-cta-wrapper > * {
+    width: 100% !important;
+    margin: 5px 0 !important;
+  }
+  .hero-3d-stage {
+    width: 100% !important;
+    height: 350px !important;
+    margin-top: 30px !important;
+  }
+  .home-stats-grid, .metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px !important;
+  }
+  .event-stories-grid, .showcase-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 15px !important;
+    padding-bottom: 20px !important;
+    width: 100% !important;
+  }
+  .story-card, .showcase-card {
+    flex: 0 0 85% !important;
+    scroll-snap-align: center !important;
+    width: 85% !important;
+  }
+  .portfolio-section, .portfolio-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  .portfolio-card {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .portfolio-card-img-wrapper {
+    width: 100% !important;
+    height: 250px !important;
+  }
+  .portfolio-card-content {
+    width: 100% !important;
+    padding: 20px !important;
+  }
+  .features-grid, .process-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  .reviews-slider-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x mandatory !important;
+  }
+  .review-active-card, .review-card {
+    flex: 0 0 100% !important;
+    scroll-snap-align: center !important;
+    width: 100% !important;
+  }
+  .footer-container, .cta-section {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 40px 15px !important;
+    text-align: center !important;
+  }
+  img, .hero-carousel-halo {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

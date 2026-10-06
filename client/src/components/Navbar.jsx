@@ -45,9 +45,6 @@ export default function Navbar() {
         <li>
           <Link to="/gallery" className={location.pathname === '/gallery' ? 'active' : ''}>Gallery</Link>
         </li>
-        <li>
-          <Link to="/my-events" className={location.pathname === '/my-events' ? 'active' : ''}>My Events</Link>
-        </li>
         {isAdmin && (
           <li>
             <Link

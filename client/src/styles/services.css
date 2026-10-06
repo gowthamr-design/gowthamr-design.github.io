@@ -1013,3 +1013,121 @@
     padding: 22px 18px;
   }
 }
+
+/* --- Strict Mobile Responsive Updates for Services Page --- */
+@media screen and (max-width: 768px) {
+  /* Prevent horizontal overflow globally */
+  .services-master-wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* Make Hero section fit nicely */
+  .services-editorial-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 80px 15px 30px 15px !important;
+    min-height: auto !important;
+    text-align: center !important;
+  }
+  .services-giant-studio-title {
+    font-size: 2.2rem !important;
+  }
+
+  /* Category tabs scrollable horizontally */
+  .services-category-tabs, .services-nav-tabs, .category-filter {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 10px !important;
+    padding-bottom: 10px !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+  .services-category-tabs > *, .services-nav-tabs > *, .category-filter > * {
+    white-space: nowrap !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* Stack Spotlight image and list vertically */
+  .services-editorial-split-stage, .services-manifesto-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    width: 100% !important;
+  }
+  
+  .services-editorial-nav-list {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+
+  .featured-media-container, .services-spotlight-img-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 220px !important;
+  }
+  .featured-content-dock {
+    padding: 20px 15px !important;
+  }
+
+  /* Stack creative grid */
+  .services-dual-creative-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  .creative-media-block {
+    width: 100% !important;
+    height: 220px !important;
+    clip-path: none !important; /* Make mobile design cleaner */
+  }
+
+  /* Make What You Get cards full width */
+  .showcase-features-grid, .what-you-get-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  .showcase-feature-cell, .what-you-get-card {
+    width: 100% !important;
+  }
+
+  /* FAQ section */
+  .showcase-faq-block {
+    padding: 20px 15px !important;
+  }
+  .faq-accordion-header {
+    padding: 14px 15px !important;
+    font-size: 0.9rem !important;
+  }
+  .faq-accordion-body {
+    padding: 0 15px 14px !important;
+  }
+
+  /* Three feature cards (pillars) stacked vertically */
+  .services-pillars-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  .services-pillar-item {
+    width: 100% !important;
+    padding: 20px 15px !important;
+  }
+
+  /* Ensure Images resize properly */
+  img, .creative-img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Sections container paddings */
+  .services-details-inclusions-section, .services-pillars-banner {
+    padding: 20px 15px !important;
+  }
+}
