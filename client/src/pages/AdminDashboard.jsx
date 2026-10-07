@@ -76,8 +76,8 @@ export default function AdminDashboard() {
     return (
       <div className="admin-container">
         <div className="empty-state" style={{ padding: '80px 20px' }}>
-          <h2 style={{ color: '#fc8181', marginBottom: '15px' }}>🔒 Access Restricted</h2>
-          <p style={{ color: '#cbd5e0', maxWidth: '500px', margin: '0 auto 25px auto' }}>
+          <h2 style={{ color: '#FFF4DC', marginBottom: '15px' }}>🔒 Access Restricted</h2>
+          <p style={{ color: '#F0D28A', maxWidth: '500px', margin: '0 auto 25px auto' }}>
             This portal is exclusively reserved for Banana Brothers administrative personnel.
             Please sign in with administrator credentials to manage event operations.
           </p>
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
           <p>Real-time booking management, order fulfillment, and metrics tracking</p>
         </div>
         {updateMsg && (
-          <div style={{ background: 'rgba(56, 161, 105, 0.2)', border: '1px solid #38a169', color: '#68d391', padding: '8px 16px', borderRadius: '6px', fontSize: '0.88rem' }}>
+          <div style={{ background: 'rgba(56, 161, 105, 0.2)', border: '1px solid #D9A441', color: '#FFC400', padding: '8px 16px', borderRadius: '6px', fontSize: '0.88rem' }}>
             ✓ {updateMsg}
           </div>
         )}
@@ -186,27 +186,27 @@ export default function AdminDashboard() {
                   </td>
                   <td>
                     <strong>{b.full_name}</strong>
-                    <div style={{ fontSize: '0.8rem', color: '#a0aec0' }}>{b.mobile_no}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#F0D28A' }}>{b.mobile_no}</div>
                   </td>
                   <td>
                     <div>{b.function_category || 'Custom Event'}</div>
-                    <div style={{ fontSize: '0.78rem', color: '#a0aec0' }}>
+                    <div style={{ fontSize: '0.78rem', color: '#F0D28A' }}>
                       {b.package_tier ? `${b.package_tier.toUpperCase()} Tier` : 'Standard'}
                     </div>
                   </td>
                   <td>
                     <div>{b.district}</div>
-                    <div style={{ fontSize: '0.78rem', color: '#a0aec0' }}>{b.place_area}</div>
+                    <div style={{ fontSize: '0.78rem', color: '#F0D28A' }}>{b.place_area}</div>
                   </td>
                   <td>
                     <div>{b.from_date}</div>
                     {b.duration_days > 1 && (
-                      <div style={{ fontSize: '0.78rem', color: '#f6ad55' }}>
+                      <div style={{ fontSize: '0.78rem', color: '#FFC400' }}>
                         {b.duration_days} Days (to {b.to_date})
                       </div>
                     )}
                   </td>
-                  <td style={{ fontWeight: '700', color: '#68d391' }}>
+                  <td style={{ fontWeight: '700', color: '#FFC400' }}>
                     ₹ {(b.total_amount || 0).toLocaleString('en-IN')}
                   </td>
                   <td>
@@ -302,7 +302,7 @@ export default function AdminDashboard() {
                 )}
                 <div className="detail-item">
                   <div className="detail-label">Total Booking Amount</div>
-                  <div className="detail-val" style={{ color: '#68d391', fontSize: '1.2rem', fontWeight: '700' }}>
+                  <div className="detail-val" style={{ color: '#FFC400', fontSize: '1.2rem', fontWeight: '700' }}>
                     ₹ {(selectedBooking.total_amount || 0).toLocaleString('en-IN')}
                   </div>
                 </div>

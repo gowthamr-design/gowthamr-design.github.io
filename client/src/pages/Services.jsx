@@ -10,12 +10,12 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'End-to-End Bespoke Wedding Curation',
     description: 'Complete end-to-end wedding management with traditional arrangements, themed setups, and seamless coordination.',
-    image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (3).jpg',
     video_url: '/videos/celebration.webm',
     features: ['Bespoke Theme Architecture', 'Vendor Synchronization', 'Day-of Concierge & Flow'],
     gallery: [
-      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=85'
+      '/images (23).jpg',
+      '/images (6).jpg'
     ]
   },
   {
@@ -24,11 +24,11 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'Grand Stage Entrances & Ambient Celebrations',
     description: 'Grand ring ceremony setups, luxury stage entrances, floral backdrops, and complete guest hospitality.',
-    image_url: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (7).jpg',
     features: ['Grand Entrance Staging', 'Ambient Floral Canopy', 'VIP Reception Hospitality'],
     gallery: [
-      'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1000&q=85'
+      '/images (4).jpg',
+      '/images (8).jpg'
     ]
   },
   {
@@ -37,11 +37,11 @@ const DEFAULT_SERVICES = [
     category: 'Corporate',
     subtitle: 'Executive Conferences, Galas & Summits',
     description: 'Professional business conferences, product launches, annual company meets, and team celebrations.',
-    image_url: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (20).jpg',
     features: ['Keynote Stage & Podium', 'Live Broadcast AV Rigs', 'Executive Lounge Hosting'],
     gallery: [
-      'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=85'
+      '/images (10).jpg',
+      '/images (17).jpg'
     ]
   },
   {
@@ -50,12 +50,12 @@ const DEFAULT_SERVICES = [
     category: 'Corporate',
     subtitle: 'Performance Rigs & Festival Production',
     description: 'Vibrant college fest execution, traditional performance stages, sound systems, and lighting management.',
-    image_url: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (14).jpg',
     video_url: '/videos/celebration.webm',
-    features: ['Traditional Decor Accents', 'Acoustic Line Arrays', 'Artist & Green Room Logistics'],
+    features: ['Kerala Chenda Melam Troupe', 'Acoustic Line Arrays', 'Artist & Green Room Logistics'],
     gallery: [
-      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=85'
+      '/images (9).jpg',
+      '/images (13).jpg'
     ]
   },
   {
@@ -64,11 +64,11 @@ const DEFAULT_SERVICES = [
     category: 'Birthdays',
     subtitle: 'Immersive Themes & Joyful Milestone Celebrations',
     description: 'Customized themed birthday setups for children and adults with fun activities and decorative cake tables.',
-    image_url: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (19).jpg',
     features: ['Custom Thematic Backdrop', 'Interactive Activities & DJ', 'Decorative Dessert Tables'],
     gallery: [
-      'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1000&q=85'
+      '/images (5).jpg',
+      '/images (7).jpg'
     ]
   },
   {
@@ -77,11 +77,11 @@ const DEFAULT_SERVICES = [
     category: 'Birthdays',
     subtitle: 'Ethereal Pastels & Blessing Ceremonies',
     description: 'Traditional and modern baby shower themes, decorated cradle setups, photo booths, and event management.',
-    image_url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1600&q=85',
-    features: ['Floral Cradle Decoration', 'Themed Photo Booth', 'Welcome Hospitality & Gifts'],
+    image_url: '/images (11).jpg',
+    features: ['Traditional Blessing Setup', 'Themed Photo Booth', 'Welcome Hospitality & Gifts'],
     gallery: [
-      'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85'
+      '/images (4).jpg',
+      '/images (23).jpg'
     ]
   },
   {
@@ -90,11 +90,11 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: 'Intimate Proposals & Secret Milestone Moments',
     description: 'Memorable romantic proposals, anniversary surprises, secret birthday celebrations, and custom setups.',
-    image_url: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1600&q=85',
-    features: ['Secret Location Setup', 'Candlelight & Rose Pathway', 'Live Acoustic Serenade'],
+    image_url: '/download (2).jpg',
+    features: ['Secret Location Setup', 'Candlelight & Floral Pathway', 'Live Acoustic Serenade'],
     gallery: [
-      'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85'
+      '/images (6).jpg',
+      '/images (12).jpg'
     ]
   },
   {
@@ -103,11 +103,11 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'Majestic Floral Sculptures & Modern Architecture',
     description: 'Elegant flower arc stages, custom balloon backdrops, ambient lighting, and modern thematic decorations.',
-    image_url: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (5).jpg',
     features: ['Custom Floral Sculptures', 'Dynamic Beam Illumination', '3D Textured Stage Backdrops'],
     gallery: [
-      'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85'
+      '/images (8).jpg',
+      '/images (19).jpg'
     ]
   },
   {
@@ -116,11 +116,11 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'Banana Leaf Feasts & Luxury Multi-Cuisine Buffets',
     description: 'Delicious vegetarian and non-vegetarian buffet spreads, traditional banana leaf feasts, and live counters.',
-    image_url: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (16).jpg',
     features: ['Traditional Banana Leaf Feasts', 'Gourmet Multi-Cuisine Buffet', 'Master Culinary Chefs'],
     gallery: [
-      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1000&q=85'
+      '/images (24).jpg',
+      '/images (22).jpg'
     ]
   },
   {
@@ -129,11 +129,11 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: 'Candid Storytelling & Cinematic Portraits',
     description: 'High-resolution candid photography, traditional portraits, pre-wedding photoshoots, and premium albums.',
-    image_url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (6).jpg',
     features: ['Ultra-HD Candid Coverage', 'Cinematic Portraiture', 'Premium Leatherbound Albums'],
     gallery: [
-      'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=85'
+      '/images (23).jpg',
+      '/download (2).jpg'
     ]
   },
   {
@@ -142,12 +142,12 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: '4K Cinema Drone Films & Live Highlights',
     description: 'Cinematic 4K video coverage, aerial drone shots, live event streaming setups, and highlight editing.',
-    image_url: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (9).jpg',
     video_url: '/videos/celebration.webm',
     features: ['4K Cinema Drone Aerials', 'Same-Day Highlight Teasers', 'Multi-Cam Live Streaming'],
     gallery: [
-      'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1000&q=85'
+      '/images (17).jpg',
+      '/images (10).jpg'
     ]
   },
   {
@@ -156,12 +156,12 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: 'High-Octane Sound, Lasers & Celebrity Hosts',
     description: 'High-energy live DJ performances, concert-grade sound setups, LED dance floors, and event anchors.',
-    image_url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=85',
+    image_url: '/images (14).jpg',
     video_url: '/videos/laser-show.webm',
-    features: ['Pro Concert Audio Rig', 'Intelligent Laser Fixtures', 'Celebrity Emcees & DJs'],
+    features: ['Chenda Melam & Live Bands', 'Intelligent Laser Fixtures', 'Celebrity Emcees & DJs'],
     gallery: [
-      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=1000&q=85'
+      '/images (13).jpg',
+      '/images (20).jpg'
     ]
   }
 ];

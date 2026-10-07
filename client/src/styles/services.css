@@ -1,14 +1,16 @@
 /* ==========================================================================
-   SERVICES PAGE — EDITORIAL STUDIO BLUE TEMPLATE
+   SERVICES PAGE — CONSISTENT MASTER DESIGN SYSTEM
+   Visual Language: Deep Wine, Maroon, Banana Gold & Warm Gold Accents
    ========================================================================== */
 
 .services-page-master {
   position: relative;
-  background-color: #040714;
+  background-color: #0D0306;
   background-image: 
-    radial-gradient(at 10% 12%, rgba(56, 189, 248, 0.09) 0px, transparent 50%),
-    radial-gradient(at 90% 88%, rgba(2, 132, 199, 0.08) 0px, transparent 50%);
-  color: #f8fafc;
+    radial-gradient(ellipse at 50% 0%, #3D0B16 0%, #24070D 50%, #0D0306 100%),
+    radial-gradient(at 10% 12%, rgba(217, 164, 65, 0.12) 0px, transparent 50%),
+    radial-gradient(at 90% 88%, rgba(61, 11, 22, 0.25) 0px, transparent 50%);
+  color: #FFF4DC;
   min-height: 100vh;
   padding-bottom: 70px;
   overflow-x: hidden;
@@ -29,7 +31,7 @@
   left: -8%;
   width: 550px;
   height: 550px;
-  background: radial-gradient(circle, rgba(14, 116, 244, 0.45) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(217, 164, 65, 0.25) 0%, transparent 70%);
 }
 
 .services-orb-2 {
@@ -37,7 +39,7 @@
   right: -8%;
   width: 650px;
   height: 650px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(61, 11, 22, 0.45) 0%, transparent 70%);
 }
 
 .services-orb-3 {
@@ -45,24 +47,24 @@
   left: 10%;
   width: 580px;
   height: 580px;
-  background: radial-gradient(circle, rgba(2, 132, 199, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 194, 26, 0.2) 0%, transparent 70%);
 }
 
 /* --------------------------------------------------------------------------
-   1. HERO SECTION (Visual Reference: Creating Moments, Delivering Experiences)
+   1. HERO SECTION
    -------------------------------------------------------------------------- */
 .services-hero-reference-layout {
   position: relative;
   width: 100%;
   min-height: 540px;
-  background: #02050f;
+  background: #0D0306;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   align-items: center;
   padding: 40px 6% 30px;
   box-sizing: border-box;
   overflow: hidden;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(217, 164, 65, 0.25);
   z-index: 1;
   gap: 40px;
 }
@@ -71,9 +73,9 @@
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 75% 35%, rgba(56, 189, 248, 0.2) 0%, rgba(2, 132, 199, 0.1) 45%, transparent 70%),
-    radial-gradient(circle at 15% 20%, rgba(14, 116, 244, 0.15) 0%, transparent 50%),
-    linear-gradient(180deg, rgba(2, 5, 15, 0.6) 0%, rgba(2, 5, 15, 0.95) 100%);
+    radial-gradient(circle at 75% 35%, rgba(217, 164, 65, 0.18) 0%, rgba(61, 11, 22, 0.35) 45%, transparent 70%),
+    radial-gradient(circle at 15% 20%, rgba(255, 194, 26, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(13, 3, 6, 0.6) 0%, rgba(13, 3, 6, 0.95) 100%);
   pointer-events: none;
 }
 
@@ -95,34 +97,34 @@
 }
 
 .ref-overline-text {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   font-size: 0.82rem;
   font-weight: 850;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  color: #38bdf8;
+  color: #FFC21A;
 }
 
 .ref-overline-bar {
   width: 45px;
   height: 2px;
-  background: linear-gradient(90deg, #38bdf8, transparent);
+  background: linear-gradient(90deg, #FFC21A, transparent);
   border-radius: 2px;
 }
 
 .services-ref-hero-title {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', 'Cinzel', 'Playfair Display', sans-serif;
   font-size: clamp(2.4rem, 4vw, 3.8rem);
   font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -1px;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
   line-height: 1.15;
   margin: 0 0 18px 0;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
 .ref-title-cyan {
-  background: linear-gradient(135deg, #38bdf8 0%, #00f0ff 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFF4DC 35%, #FFC21A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline;
@@ -130,7 +132,7 @@
 
 .services-ref-hero-desc {
   font-size: 1.02rem;
-  color: #cbd5e1;
+  color: #FFF4DC;
   line-height: 1.65;
   margin: 0 0 28px 0;
   max-width: 540px;
@@ -147,22 +149,23 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
-  color: #ffffff;
+  background: #FFC21A;
+  color: #0D0306;
   padding: 13px 26px;
   border-radius: 30px;
   font-size: 0.92rem;
-  font-weight: 750;
+  font-weight: 800;
   text-decoration: none;
-  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+  box-shadow: 0 6px 20px rgba(217, 164, 65, 0.35);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid rgba(56, 189, 248, 0.5);
+  border: 1px solid #D9A441;
 }
 
 .btn-ref-primary:hover {
+  background: #D9A441;
+  color: #0D0306;
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(56, 189, 248, 0.6), 0 0 20px rgba(0, 240, 255, 0.4);
-  filter: brightness(1.1);
+  box-shadow: 0 10px 28px rgba(217, 164, 65, 0.45);
 }
 
 .btn-arrow-icon {
@@ -180,7 +183,7 @@
   gap: 10px;
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #FFF4DC;
   font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
@@ -189,28 +192,28 @@
 }
 
 .btn-ref-watch:hover {
-  color: #38bdf8;
+  color: #FFC21A;
 }
 
 .watch-play-circle {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(13, 20, 48, 0.85);
-  border: 1.5px solid rgba(56, 189, 248, 0.6);
+  background: rgba(13, 3, 6, 0.85);
+  border: 1.5px solid rgba(217, 164, 65, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #38bdf8;
+  color: #FFC21A;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 15px rgba(217, 164, 65, 0.25);
 }
 
 .btn-ref-watch:hover .watch-play-circle {
-  background: #38bdf8;
-  color: #02050f;
+  background: #FFC21A;
+  color: #0D0306;
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 20px rgba(255, 194, 26, 0.5);
 }
 
 /* Right Visual Composition */
@@ -231,7 +234,7 @@
   height: 420px;
 }
 
-/* Angled Geometric Polygon Frame (Reference match) */
+/* Angled Geometric Polygon Frame */
 .ref-angled-frame-bg {
   position: absolute;
   top: 10px;
@@ -239,9 +242,9 @@
   width: 100%;
   height: 360px;
   clip-path: polygon(18% 0%, 100% 0%, 82% 100%, 0% 100%);
-  background: linear-gradient(135deg, rgba(14, 116, 244, 0.35) 0%, rgba(2, 132, 199, 0.15) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.5);
-  box-shadow: 0 0 40px rgba(56, 189, 248, 0.25);
+  background: linear-gradient(135deg, rgba(217, 164, 65, 0.25) 0%, rgba(61, 11, 22, 0.45) 100%);
+  border: 1px solid rgba(217, 164, 65, 0.4);
+  box-shadow: 0 0 40px rgba(217, 164, 65, 0.15);
   pointer-events: none;
 }
 
@@ -255,16 +258,33 @@
   object-position: top center;
   border-radius: 20px;
   clip-path: polygon(15% 0%, 100% 0%, 95% 100%, 0% 100%);
-  filter: brightness(0.9) contrast(1.12);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  filter: brightness(0.92) contrast(1.1);
+  box-shadow: 0 20px 50px rgba(13, 3, 6, 0.85);
   transition: transform 0.6s ease;
+}
+
+.ref-visual-stage::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 78%;
+  height: 380px;
+  border-radius: 20px;
+  clip-path: polygon(15% 0%, 100% 0%, 95% 100%, 0% 100%);
+  background: 
+    radial-gradient(circle at 80% 20%, rgba(240, 210, 138, 0.18) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(13, 3, 6, 0.12) 0%, rgba(61, 11, 22, 0.22) 55%, rgba(13, 3, 6, 0.55) 100%);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.5s ease;
 }
 
 .ref-visual-stage:hover .ref-couple-main-img {
   transform: scale(1.03);
 }
 
-/* Angled Inset Floating Stage Card */
+/* Angled Inset Floating Stage Card — Translucent Maroon & Gold Glass */
 .ref-floating-stage-card {
   position: absolute;
   bottom: 25px;
@@ -274,9 +294,10 @@
   border-radius: 12px;
   overflow: hidden;
   clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
-  border: 1px solid rgba(56, 189, 248, 0.6);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.35);
-  background: #091026;
+  border: 1px solid rgba(217, 164, 65, 0.5);
+  box-shadow: 0 14px 35px rgba(13, 3, 6, 0.8), 0 0 20px rgba(217, 164, 65, 0.25);
+  background: rgba(61, 11, 22, 0.75);
+  backdrop-filter: blur(12px);
   z-index: 5;
 }
 
@@ -286,7 +307,7 @@
   object-fit: cover;
 }
 
-/* Elegant Script Overlay (Reference Match: Better Events, Greater Memories) */
+/* Elegant Script Overlay */
 .ref-script-overlay {
   position: absolute;
   top: 30px;
@@ -294,15 +315,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  font-family: 'Playfair Display', 'Cinzel', Georgia, cursive, serif;
-  font-style: italic;
-  color: #ffffff;
-  font-size: 1.15rem;
+  font-family: 'Great Vibes', 'Playfair Display', Georgia, cursive, serif;
+  color: #F0D28A;
+  font-size: 1.35rem;
   letter-spacing: 0.5px;
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 10px rgba(56, 189, 248, 0.5);
+  text-shadow: 0 4px 15px rgba(13, 3, 6, 0.9), 0 0 12px rgba(255, 194, 26, 0.6);
   pointer-events: none;
   z-index: 6;
-  opacity: 0.92;
+  opacity: 0.95;
 }
 
 .ref-beam-accent {
@@ -311,9 +331,9 @@
   right: 15%;
   width: 120px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+  background: linear-gradient(90deg, transparent, #F0D28A, transparent);
   transform: rotate(-35deg);
-  box-shadow: 0 0 12px #00f0ff;
+  box-shadow: 0 0 12px #D9A441;
   pointer-events: none;
 }
 
@@ -322,21 +342,21 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: rgba(13, 20, 48, 0.9);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(13, 3, 6, 0.9);
+  border: 1px solid rgba(217, 164, 65, 0.4);
   padding: 8px 18px;
   border-radius: 20px;
   margin-top: 14px;
   font-size: 0.88rem;
-  color: #e2e8f0;
+  color: #FFF4DC;
 }
 
 .services-search-status strong {
-  color: #38bdf8;
+  color: #FFC21A;
 }
 
 .services-clear-search {
-  color: #38bdf8;
+  color: #FFC21A;
   background: transparent;
   border: none;
   font-weight: 750;
@@ -345,7 +365,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. BRAND MANIFESTO & ASYMMETRIC IMAGE BLOCKS (Visual Reference Block)
+   2. BRAND MANIFESTO & ASYMMETRIC IMAGE BLOCKS
    -------------------------------------------------------------------------- */
 .services-manifesto-section {
   position: relative;
@@ -366,8 +386,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 10px #38bdf8;
+  background: #FFC21A;
+  box-shadow: 0 0 10px #FFC21A;
 }
 
 .manifesto-kicker-text {
@@ -375,7 +395,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #38bdf8;
+  color: #FFC21A;
 }
 
 .services-manifesto-layout {
@@ -386,11 +406,11 @@
 }
 
 .manifesto-statement-text {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: clamp(1.6rem, 2.6vw, 2.35rem);
   font-weight: 900;
   line-height: 1.25;
-  color: #ffffff;
+  color: #FFFFFF;
   text-transform: uppercase;
   letter-spacing: -0.5px;
   margin: 0;
@@ -398,13 +418,13 @@
 
 .manifesto-highlight-pill {
   display: inline-block;
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  color: #ffffff;
+  background: #FFC21A;
+  color: #0D0306;
   padding: 0 14px;
   border-radius: 6px;
   margin: 0 6px;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 15px rgba(217, 164, 65, 0.35);
 }
 
 /* Asymmetric Image Block with Chamfered Corner */
@@ -413,9 +433,9 @@
   width: 100%;
   height: 240px;
   clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
-  background: #0d1430;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  background: #0D0306;
+  border: 1px solid rgba(217, 164, 65, 0.4);
+  box-shadow: 0 16px 40px rgba(13, 3, 6, 0.6);
   overflow: hidden;
 }
 
@@ -434,18 +454,18 @@
   position: absolute;
   top: 14px;
   left: 14px;
-  background: rgba(13, 20, 48, 0.9);
-  border: 1px solid rgba(56, 189, 248, 0.5);
+  background: rgba(13, 3, 6, 0.9);
+  border: 1px solid rgba(217, 164, 65, 0.5);
   padding: 4px 10px;
   border-radius: 4px;
-  color: #38bdf8;
+  color: #FFC21A;
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 1px;
 }
 
 /* --------------------------------------------------------------------------
-   3. ASYMMETRIC CATEGORY FILTER CHIPS (Top Right Block Reference)
+   3. ASYMMETRIC CATEGORY FILTER CHIPS
    -------------------------------------------------------------------------- */
 .services-category-strip-section {
   position: relative;
@@ -467,11 +487,11 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(13, 20, 48, 0.8);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(13, 3, 6, 0.8);
+  border: 1px solid rgba(217, 164, 65, 0.35);
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
   padding: 10px 22px;
-  color: #cbd5e1;
+  color: #FFF4DC;
   font-size: 0.86rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -482,30 +502,30 @@
 }
 
 .service-asymmetric-chip:hover {
-  background: rgba(20, 32, 75, 0.95);
-  border-color: #38bdf8;
-  color: #ffffff;
+  background: rgba(61, 11, 22, 0.95);
+  border-color: #FFC21A;
+  color: #FFFFFF;
   transform: translateY(-2px);
 }
 
 .service-asymmetric-chip.active {
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  border-color: #38bdf8;
-  color: #ffffff;
-  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.45);
+  background: var(--gold-pill-gradient);
+  border-color: #FFC21A;
+  color: #0D0306;
+  box-shadow: 0 4px 18px rgba(255, 194, 26, 0.35);
   transform: translateY(-2px);
 }
 
 .chip-counter {
   font-size: 0.72rem;
-  opacity: 0.8;
-  background: rgba(255, 255, 255, 0.15);
+  opacity: 0.9;
+  background: rgba(13, 3, 6, 0.45);
   padding: 2px 6px;
   border-radius: 4px;
 }
 
 /* --------------------------------------------------------------------------
-   4. "WHAT'S COMING NEXT" / MAIN EDITORIAL SHOWCASE (Reference Grid)
+   4. MAIN EDITORIAL SHOWCASE
    -------------------------------------------------------------------------- */
 .services-editorial-showcase-section {
   position: relative;
@@ -520,24 +540,24 @@
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 24px;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(217, 164, 65, 0.25);
   padding-bottom: 16px;
 }
 
 .editorial-section-title {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', 'Cinzel', system-ui, sans-serif;
   font-size: 1.85rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.5px;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0;
 }
 
 .editorial-section-subtitle {
   font-size: 0.84rem;
-  color: #94a3b8;
-  font-weight: 600;
+  color: #FFC21A;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
@@ -550,26 +570,30 @@
   align-items: stretch;
 }
 
-/* Big Left Featured Showcase Card with Notched Corner */
+/* Big Left Featured Showcase Card — Translucent Maroon & Gold Glass */
 .featured-showcase-master-card {
   position: relative;
-  background: #091026;
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(61, 11, 22, 0.48);
+  border: 1px solid rgba(217, 164, 65, 0.25);
   clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 16px 40px rgba(13, 3, 6, 0.5), 0 0 20px rgba(217, 164, 65, 0.06);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 4px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.45s ease,
-              border-color 0.45s ease;
+              border-color 0.45s ease,
+              background 0.45s ease;
 }
 
 .featured-showcase-master-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(56, 189, 248, 0.7);
-  box-shadow: 0 30px 75px rgba(0, 0, 0, 0.8), 0 0 45px rgba(56, 189, 248, 0.3);
+  background: rgba(61, 11, 22, 0.65);
+  border-color: rgba(240, 210, 138, 0.55);
+  box-shadow: 0 20px 50px rgba(13, 3, 6, 0.65), 0 0 30px rgba(217, 164, 65, 0.18);
 }
 
 .featured-media-container {
@@ -593,7 +617,7 @@
 .featured-media-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(5, 8, 20, 0.1) 0%, rgba(9, 16, 38, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(13, 3, 6, 0.1) 0%, rgba(13, 3, 6, 0.95) 100%);
   pointer-events: none;
 }
 
@@ -601,17 +625,17 @@
   position: absolute;
   top: 18px;
   left: 18px;
-  background: rgba(13, 20, 48, 0.9);
-  border: 1px solid rgba(56, 189, 248, 0.5);
+  background: rgba(61, 11, 22, 0.85);
+  border: 1px solid rgba(217, 164, 65, 0.55);
   padding: 6px 14px;
   border-radius: 20px;
-  color: #38bdf8;
+  color: #F0D28A;
   font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(13, 3, 6, 0.5);
 }
 
 .featured-content-dock {
@@ -620,29 +644,30 @@
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  background: linear-gradient(180deg, rgba(9, 16, 38, 0.95) 0%, #060a1c 100%);
+  background: linear-gradient(180deg, rgba(61, 11, 22, 0.75) 0%, rgba(13, 3, 6, 0.85) 100%);
 }
 
 .featured-kicker {
   font-size: 0.8rem;
   font-weight: 800;
-  color: #38bdf8;
+  color: #F0D28A;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 4px;
 }
 
 .featured-title {
+  font-family: 'Outfit', 'Cinzel', 'Playfair Display', sans-serif;
   font-size: 1.8rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #FFFFFF;
   letter-spacing: -0.5px;
   margin: 0 0 10px;
 }
 
 .featured-desc {
   font-size: 0.92rem;
-  color: #cbd5e1;
+  color: #FFF4DC;
   line-height: 1.6;
   margin: 0 0 20px;
 }
@@ -662,14 +687,14 @@
 }
 
 .services-editorial-nav-list::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.35);
+  background: rgba(217, 164, 65, 0.35);
   border-radius: 4px;
 }
 
 .editorial-nav-card {
   position: relative;
-  background: rgba(13, 20, 48, 0.75);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(61, 11, 22, 0.45);
+  border: 1px solid rgba(217, 164, 65, 0.25);
   clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
   padding: 16px 20px;
   display: flex;
@@ -678,20 +703,21 @@
   gap: 14px;
   cursor: pointer;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .editorial-nav-card:hover {
-  background: rgba(20, 32, 75, 0.95);
-  border-color: #38bdf8;
+  background: rgba(61, 11, 22, 0.65);
+  border-color: #D9A441;
   transform: translateX(8px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.25);
+  box-shadow: 0 8px 25px rgba(13, 3, 6, 0.5), 0 0 20px rgba(217, 164, 65, 0.18);
 }
 
 .editorial-nav-card.active {
-  background: linear-gradient(135deg, rgba(14, 28, 70, 0.95) 0%, rgba(8, 16, 42, 0.98) 100%);
-  border-color: #38bdf8;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 28px rgba(56, 189, 248, 0.35), inset 0 0 15px rgba(56, 189, 248, 0.2);
+  background: linear-gradient(135deg, rgba(61, 11, 22, 0.70) 0%, rgba(13, 3, 6, 0.65) 100%);
+  border-color: #D9A441;
+  box-shadow: 0 10px 30px rgba(13, 3, 6, 0.6), 0 0 28px rgba(217, 164, 65, 0.25), inset 0 0 15px rgba(217, 164, 65, 0.15);
   transform: translateX(8px);
 }
 
@@ -705,8 +731,8 @@
   font-family: monospace;
   font-size: 0.85rem;
   font-weight: 800;
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.12);
+  color: #F0D28A;
+  background: rgba(217, 164, 65, 0.15);
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -714,22 +740,22 @@
 .editorial-nav-info h4 {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0 0 2px;
 }
 
 .editorial-nav-info span {
   font-size: 0.76rem;
-  color: #94a3b8;
+  color: #F0D28A;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 
 .editorial-nav-arrow {
-  color: #38bdf8;
+  color: #D9A441;
   font-size: 1.2rem;
   font-weight: 800;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
 }
 
 .editorial-nav-card:hover .editorial-nav-arrow {
@@ -760,8 +786,8 @@
   height: 260px;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(217, 164, 65, 0.3);
+  box-shadow: 0 16px 40px rgba(13, 3, 6, 0.6);
 }
 
 .creative-media-block.left-notched {
@@ -786,32 +812,34 @@
 .creative-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(4, 7, 20, 0.85) 100%);
+  background: linear-gradient(180deg, transparent 40%, rgba(13, 3, 6, 0.88) 100%);
   pointer-events: none;
 }
 
-/* What You Get / Included Offerings */
+/* What You Get / Included Offerings — Translucent Maroon & Gold Glass */
 .showcase-offerings-block {
-  background: rgba(9, 16, 38, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(61, 11, 22, 0.48);
+  border: 1px solid rgba(217, 164, 65, 0.25);
   border-radius: 18px;
   padding: 32px 36px;
   margin-bottom: 40px;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 14px 40px rgba(13, 3, 6, 0.45), 0 0 15px rgba(217, 164, 65, 0.06);
 }
 
 .showcase-section-heading {
+  font-family: 'Outfit', 'Cinzel', 'Playfair Display', sans-serif;
   font-size: 1.5rem;
   font-weight: 850;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0 0 6px;
   letter-spacing: -0.3px;
 }
 
 .showcase-section-subtext {
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: #FFF4DC;
   line-height: 1.5;
   margin: 0 0 24px;
 }
@@ -823,41 +851,44 @@
 }
 
 .showcase-feature-cell {
-  background: rgba(13, 20, 48, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(13, 3, 6, 0.50);
+  border: 1px solid rgba(217, 164, 65, 0.20);
   padding: 14px 18px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .showcase-feature-cell:hover {
-  border-color: #38bdf8;
-  background: rgba(20, 32, 75, 0.95);
+  border-color: #D9A441;
+  background: rgba(61, 11, 22, 0.70);
   transform: translateY(-2px);
 }
 
 .feature-cell-icon {
-  color: #38bdf8;
+  color: #D9A441;
   font-size: 1rem;
 }
 
 .feature-cell-text {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
-/* FAQ Accordion Section */
+/* FAQ Accordion Section — Translucent Maroon & Gold Glass */
 .showcase-faq-block {
-  background: rgba(9, 16, 38, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(61, 11, 22, 0.48);
+  border: 1px solid rgba(217, 164, 65, 0.25);
   border-radius: 18px;
   padding: 32px 36px;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 14px 40px rgba(13, 3, 6, 0.45), 0 0 15px rgba(217, 164, 65, 0.06);
 }
 
 .showcase-faq-list {
@@ -868,16 +899,18 @@
 }
 
 .faq-accordion-item {
-  border: 1px solid rgba(56, 189, 248, 0.22);
+  border: 1px solid rgba(217, 164, 65, 0.20);
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(13, 20, 48, 0.7);
+  background: rgba(13, 3, 6, 0.50);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .faq-accordion-item.is-open {
-  border-color: #38bdf8;
-  background: rgba(16, 26, 62, 0.9);
+  border-color: #D9A441;
+  background: rgba(61, 11, 22, 0.70);
 }
 
 .faq-accordion-header {
@@ -888,7 +921,7 @@
   padding: 16px 20px;
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 0.98rem;
   font-weight: 750;
   text-align: left;
@@ -896,7 +929,7 @@
 }
 
 .faq-toggle-icon {
-  color: #38bdf8;
+  color: #D9A441;
   font-size: 1.3rem;
   font-weight: 800;
   margin-left: 12px;
@@ -904,7 +937,7 @@
 
 .faq-accordion-body {
   padding: 0 20px 16px;
-  color: #cbd5e1;
+  color: #FFF4DC;
   font-size: 0.88rem;
   line-height: 1.6;
 }
@@ -927,18 +960,19 @@
 }
 
 .services-pillar-item {
-  background: rgba(13, 20, 48, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(61, 11, 22, 0.48);
+  border: 1px solid rgba(217, 164, 65, 0.25);
   border-radius: 16px;
   padding: 24px 22px;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transition: all 0.35s ease;
 }
 
 .services-pillar-item:hover {
-  border-color: #38bdf8;
+  border-color: #D9A441;
   transform: translateY(-4px);
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 14px 30px rgba(13, 3, 6, 0.5), 0 0 20px rgba(217, 164, 65, 0.15);
 }
 
 .pillar-icon-gold {
@@ -948,15 +982,16 @@
 }
 
 .services-pillar-item h3 {
+  font-family: 'Outfit', 'Cinzel', sans-serif;
   font-size: 1.15rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0 0 8px;
 }
 
 .services-pillar-item p {
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: #FFF4DC;
   line-height: 1.5;
   margin: 0;
 }
@@ -1084,7 +1119,7 @@
   .creative-media-block {
     width: 100% !important;
     height: 220px !important;
-    clip-path: none !important; /* Make mobile design cleaner */
+    clip-path: none !important;
   }
 
   /* Make What You Get cards full width */

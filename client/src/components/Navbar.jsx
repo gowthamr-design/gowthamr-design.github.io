@@ -28,7 +28,7 @@ export default function Navbar() {
     <nav className="navbar">
       {/* Brand / Logo */}
       <Link to="/" className="logo">
-        <img src="/bb.jpeg" alt="Banana Brothers Logo" />
+        <img src="/BB_Logo.jpg" alt="Banana Brothers Logo" />
       </Link>
 
       {/* Main Navigation Links */}
@@ -50,7 +50,7 @@ export default function Navbar() {
             <Link
               to="/admin"
               className={location.pathname === '/admin' ? 'active' : ''}
-              style={{ color: '#38bdf8', fontWeight: '750' }}
+              style={{ color: '#FFC400', fontWeight: '750' }}
             >
               ★ Admin Panel
             </Link>
@@ -88,7 +88,7 @@ export default function Navbar() {
             className="user-badge"
             onClick={handleLogout}
             title="Click to Logout"
-            style={isAdmin ? { background: 'linear-gradient(135deg, #c53030, #742a2a)', color: '#fff', border: '1px solid rgba(254, 178, 178, 0.4)' } : {}}
+            style={isAdmin ? { background: 'linear-gradient(135deg, #4A0712, #2A050D)', color: '#fff', border: '1px solid rgba(254, 178, 178, 0.4)' } : {}}
           >
             {isAdmin ? `🛡️ Admin (${user.username})` : (user.first_name || user.username || 'User')}
           </span>

@@ -8,7 +8,7 @@ export default function Footer() {
         {/* Left Side: About Section */}
         <div className="footer-about">
           <Link to="/" className="footer-brand">
-            <img src="/bb.jpeg" alt="Banana Brothers Logo" />
+            <img src="/BB_Logo.jpg" alt="Banana Brothers Logo" />
           </Link>
           <p className="footer-about-text">
             Banana Brothers delivers premium event management services, offering tailored packages for corporate functions, grand weddings, and private celebrations with timeless simplicity.

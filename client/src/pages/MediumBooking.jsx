@@ -1,11 +1,7 @@
 import React from 'react';
 import BookingConfigurator from '../components/BookingConfigurator';
 
-const MEDIUM_IMAGES = [
-  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1200&q=80'
-];
+const MEDIUM_IMAGES = ['/images (5).jpg', '/images (20).jpg', '/images (16).jpg'];
 
 export default function MediumBooking() {
   return (

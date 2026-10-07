@@ -12,7 +12,7 @@ const PACKAGES_DATA = [
     tagline: 'Royal Bespoke Experience',
     description: 'Complete royal wedding curation featuring monumental stage architectures, imported floral canopies, 4K multi-cam drone cinematography, and opulent culinary banquets.',
     price: '₹3,50,000',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    image: '/images (3).jpg',
     features: [
       'Bespoke Stage Architecture & Imported Florals',
       '4K Cinematic Cinema Drone & Live Coverage',
@@ -31,7 +31,7 @@ const PACKAGES_DATA = [
     tagline: 'High-Impact Executive Production',
     description: 'Premier business conferences, product launches, and annual awards celebrations equipped with concert-grade line arrays, professional photography, and executive dining.',
     price: '₹1,20,000',
-    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
+    image: '/images (20).jpg',
     features: [
       'Keynote Staging & Live Broadcast AV Array',
       'Ultra-HD Candid Event Photography & Albums',
@@ -50,7 +50,7 @@ const PACKAGES_DATA = [
     tagline: 'Vibrant Milestone Memories',
     description: 'Customized milestone birthdays, baby showers, and anniversary surprises with elegant themed backdrops, balloon installations, mood lighting, and high-energy music.',
     price: '₹25,000',
-    image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80',
+    image: '/images (7).jpg',
     features: [
       'Custom Thematic Backdrop & Balloon Architecture',
       'High-Definition Candid Photography Coverage',
@@ -76,7 +76,7 @@ export default function Packages() {
         {/* Left Half: Dramatic Full-Bleed Banquet Imagery */}
         <div className="packages-hero-left-media">
           <img
-            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1600&q=85"
+            src="/bg.png"
             alt="Luxury Event Banquet Setup"
             className="packages-hero-banquet-img"
           />

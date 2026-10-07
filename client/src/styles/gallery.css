@@ -1,31 +1,33 @@
 /* ==========================================================================
-   GALLERY PAGE STYLES (Editorial Luxury Visual Reference)
+   GALLERY PAGE STYLES — MASTER DESIGN SYSTEM
+   Visual Language: Deep Wine, Maroon, Banana Gold & Warm Gold Accents
    ========================================================================== */
 
 .gallery-page-container {
   min-height: 100vh;
-  background-color: #050814;
+  background-color: #0D0306;
   background-image: 
-    radial-gradient(at 10% 15%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
-    radial-gradient(at 90% 85%, rgba(2, 132, 199, 0.07) 0px, transparent 50%);
-  color: #ffffff;
+    radial-gradient(ellipse at 50% 0%, #3D0B16 0%, #24070D 50%, #0D0306 100%),
+    radial-gradient(at 10% 15%, rgba(217, 164, 65, 0.12) 0px, transparent 50%),
+    radial-gradient(at 90% 85%, rgba(61, 11, 22, 0.25) 0px, transparent 50%);
+  color: #FFF4DC;
   padding-bottom: 80px;
   overflow-x: hidden;
 }
 
 /* --------------------------------------------------------------------------
-   1. HERO SPOTLIGHT HEADER SECTION (Rings Banner Reference)
+   1. HERO SPOTLIGHT HEADER SECTION
    -------------------------------------------------------------------------- */
 .gallery-hero-section {
   position: relative;
   width: 100%;
   min-height: 420px;
-  background: #02040a;
+  background: #0D0306;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(217, 164, 65, 0.25);
 }
 
 .gallery-hero-bg {
@@ -34,15 +36,15 @@
   width: 100%;
   height: 100%;
   background: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1600&q=85') center center / cover no-repeat;
-  filter: brightness(0.42) contrast(1.15);
+  filter: brightness(0.38) contrast(1.2);
   opacity: 0.85;
 }
 
 .gallery-hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 35% 50%, rgba(5, 8, 20, 0.2) 0%, rgba(2, 4, 10, 0.85) 65%, #02040a 100%),
-              linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.95) 100%);
+  background: radial-gradient(circle at 35% 50%, rgba(61, 11, 22, 0.35) 0%, rgba(13, 3, 6, 0.88) 65%, #0D0306 100%),
+              linear-gradient(180deg, rgba(13, 3, 6, 0.4) 0%, rgba(13, 3, 6, 0.96) 100%);
   pointer-events: none;
 }
 
@@ -60,38 +62,38 @@
 
 .gallery-breadcrumbs {
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: #F0D28A;
   letter-spacing: 2px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 12px;
 }
 
 .gallery-breadcrumbs span.active {
-  color: #38bdf8;
+  color: #FFC21A;
 }
 
 .gallery-hero-title {
   font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
   font-size: 3.6rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #FFFFFF;
   letter-spacing: 1px;
   margin: 0 0 16px;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 4px 20px rgba(13, 3, 6, 0.8);
 }
 
 .gallery-hero-tagline {
   max-width: 680px;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #cbd5e1;
+  color: #FFF4DC;
   font-weight: 400;
   margin: 0 auto;
 }
 
 /* --------------------------------------------------------------------------
-   2. SECTION TITLE & FILTER PILLS (Our Captured Moments)
+   2. SECTION TITLE & FILTER PILLS
    -------------------------------------------------------------------------- */
 .gallery-main-section {
   max-width: 1240px;
@@ -108,17 +110,17 @@
   font-size: 0.88rem;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: #38bdf8;
-  font-weight: 700;
+  color: #FFC21A;
+  font-weight: 800;
   display: block;
   margin-bottom: 10px;
 }
 
 .gallery-main-title {
-  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Outfit', 'Cinzel', 'Playfair Display', sans-serif;
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   font-weight: 850;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0 0 24px;
   letter-spacing: -0.5px;
 }
@@ -134,9 +136,9 @@
 }
 
 .gallery-filter-pill {
-  background: rgba(13, 20, 48, 0.75);
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  color: #cbd5e1;
+  background: rgba(61, 11, 22, 0.45);
+  border: 1px solid rgba(217, 164, 65, 0.25);
+  color: #FFF4DC;
   padding: 8px 20px;
   border-radius: var(--radius-pill);
   font-size: 0.84rem;
@@ -144,26 +146,28 @@
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: var(--transition-smooth);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .gallery-filter-pill:hover {
-  border-color: #38bdf8;
-  color: #ffffff;
+  border-color: #D9A441;
+  color: #FFFFFF;
   transform: translateY(-2px);
+  background: rgba(61, 11, 22, 0.65);
 }
 
 .gallery-filter-pill.active {
-  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #00f0ff 100%);
-  border-color: #38bdf8;
-  color: #030712;
+  background: var(--gold-pill-gradient);
+  border-color: #D9A441;
+  color: #0D0306;
   font-weight: 800;
-  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.45);
+  box-shadow: 0 4px 18px rgba(217, 164, 65, 0.35);
   transform: translateY(-2px);
 }
 
 /* --------------------------------------------------------------------------
-   3. EDITORIAL MAGAZINE GALLERY GRID (Reference Match)
+   3. EDITORIAL MAGAZINE GALLERY GRID
    -------------------------------------------------------------------------- */
 .gallery-editorial-grid {
   display: grid;
@@ -172,25 +176,28 @@
   align-items: stretch;
 }
 
-/* Standard Gallery Image Card */
+/* Standard Gallery Image Card — Translucent Maroon & Gold Glass */
 .gallery-card {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: #091026;
-  border: 1px solid rgba(56, 189, 248, 0.22);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
+  background: rgba(61, 11, 22, 0.48);
+  border: 1px solid rgba(217, 164, 65, 0.25);
+  box-shadow: 0 12px 30px rgba(13, 3, 6, 0.45), 0 0 15px rgba(217, 164, 65, 0.06);
   transition: var(--transition-smooth);
   cursor: pointer;
   height: 310px;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .gallery-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.65);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.25);
+  transform: translateY(-5px);
+  border-color: rgba(240, 210, 138, 0.55);
+  background: rgba(61, 11, 22, 0.65);
+  box-shadow: 0 18px 42px rgba(13, 3, 6, 0.6), 0 0 22px rgba(217, 164, 65, 0.18);
 }
 
 .gallery-card-img-wrapper {
@@ -216,7 +223,7 @@
 .gallery-card-hover-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(5, 8, 20, 0.1) 0%, rgba(9, 16, 38, 0.88) 100%);
+  background: linear-gradient(180deg, rgba(13, 3, 6, 0.1) 0%, rgba(13, 3, 6, 0.92) 100%);
   opacity: 0;
   display: flex;
   flex-direction: column;
@@ -231,9 +238,9 @@
 
 .gallery-card-tag {
   align-self: flex-start;
-  background: rgba(56, 189, 248, 0.2);
-  border: 1px solid rgba(56, 189, 248, 0.5);
-  color: #38bdf8;
+  background: rgba(61, 11, 22, 0.7);
+  border: 1px solid rgba(217, 164, 65, 0.5);
+  color: #F0D28A;
   font-size: 0.68rem;
   font-weight: 750;
   text-transform: uppercase;
@@ -247,13 +254,13 @@
 .gallery-card-title {
   font-size: 1.05rem;
   font-weight: 750;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0 0 4px;
 }
 
 .gallery-card-location {
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: #FFF4DC;
   margin: 0;
 }
 
@@ -264,36 +271,40 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(13, 20, 48, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(13, 3, 6, 0.88);
+  border: 1px solid rgba(217, 164, 65, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #38bdf8;
+  color: #F0D28A;
   backdrop-filter: blur(8px);
 }
 
 /* --------------------------------------------------------------------------
-   4. EDITORIAL QUOTE CARDS (Exact Reference Style)
+   4. EDITORIAL QUOTE CARDS
    -------------------------------------------------------------------------- */
 .gallery-quote-card {
   position: relative;
-  background: #c2c9bf;
-  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(61, 11, 22, 0.55) 0%, rgba(13, 3, 6, 0.65) 100%);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 30px;
   height: 310px;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
-  border: 8px solid #ffffff;
-  outline: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 12px 30px rgba(13, 3, 6, 0.45), 0 0 15px rgba(217, 164, 65, 0.08);
+  border: 1.5px solid rgba(217, 164, 65, 0.30);
+  outline: 1px solid rgba(217, 164, 65, 0.15);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .gallery-quote-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.2);
+  transform: translateY(-5px);
+  border-color: rgba(240, 210, 138, 0.65);
+  background: linear-gradient(135deg, rgba(61, 11, 22, 0.70) 0%, rgba(13, 3, 6, 0.75) 100%);
+  box-shadow: 0 18px 42px rgba(13, 3, 6, 0.6), 0 0 22px rgba(217, 164, 65, 0.20);
 }
 
 .gallery-quote-inner {
@@ -306,19 +317,20 @@
   font-size: 1.35rem;
   font-style: italic;
   font-weight: 600;
-  color: #2b3a36;
+  color: #FFF4DC;
   line-height: 1.55;
   margin: 0;
+  text-shadow: 0 2px 10px rgba(13, 3, 6, 0.7);
 }
 
-/* Quote Card 2 (Blush / Slate Accent) */
+/* Quote Card 2 (Warm Gold Accent) */
 .gallery-quote-card.accent-card {
-  background: #d8c4be;
-  border: 8px solid #ffffff;
+  background: linear-gradient(135deg, rgba(61, 11, 22, 0.65) 0%, rgba(13, 3, 6, 0.70) 100%);
+  border: 1.5px solid rgba(217, 164, 65, 0.38);
 }
 
 .gallery-quote-card.accent-card .gallery-quote-text {
-  color: #3d2b27;
+  color: #F0D28A;
 }
 
 /* --------------------------------------------------------------------------
@@ -339,10 +351,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #ffffff;
+  background: #FFFFFF;
   border-radius: 25px;
   padding: 4px 14px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(13, 3, 6, 0.5);
+  border: 1px solid rgba(217, 164, 65, 0.5);
 }
 
 .social-strip-btn {
@@ -352,13 +365,13 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  color: #1e293b;
+  color: #0D0306;
   text-decoration: none;
   transition: all 0.25s ease;
 }
 
 .social-strip-btn:hover {
-  color: #0284c7;
+  color: #FFC21A;
   transform: scale(1.15);
 }
 
@@ -369,7 +382,7 @@
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: rgba(2, 4, 10, 0.94);
+  background: rgba(13, 3, 6, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   display: flex;
@@ -397,8 +410,8 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(217, 164, 65, 0.45);
+  box-shadow: 0 25px 80px rgba(13, 3, 6, 0.9), 0 0 40px rgba(217, 164, 65, 0.25);
 }
 
 .gallery-lightbox-img {
@@ -416,13 +429,13 @@
 .gallery-lightbox-title {
   font-size: 1.25rem;
   font-weight: 750;
-  color: #ffffff;
+  color: #FFFFFF;
   margin: 0 0 4px;
 }
 
 .gallery-lightbox-sub {
   font-size: 0.88rem;
-  color: #38bdf8;
+  color: #FFC21A;
   margin: 0;
 }
 
@@ -434,9 +447,9 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(13, 20, 48, 0.8);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  color: #ffffff;
+  background: rgba(13, 3, 6, 0.85);
+  border: 1px solid rgba(217, 164, 65, 0.45);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -446,8 +459,8 @@
 }
 
 .lightbox-close-btn:hover {
-  background: #38bdf8;
-  color: #02040a;
+  background: var(--gold-pill-gradient);
+  color: #0D0306;
   transform: scale(1.1);
 }
 
@@ -458,9 +471,9 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(13, 20, 48, 0.8);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  color: #ffffff;
+  background: rgba(13, 3, 6, 0.85);
+  border: 1px solid rgba(217, 164, 65, 0.45);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -470,8 +483,8 @@
 }
 
 .lightbox-nav-btn:hover {
-  background: #38bdf8;
-  color: #02040a;
+  background: var(--gold-pill-gradient);
+  color: #0D0306;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -488,9 +501,9 @@
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(13, 20, 48, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  color: #38bdf8;
+  background: rgba(13, 3, 6, 0.9);
+  border: 1px solid rgba(217, 164, 65, 0.45);
+  color: #FFC21A;
   font-family: monospace;
   font-size: 0.85rem;
   font-weight: 750;
