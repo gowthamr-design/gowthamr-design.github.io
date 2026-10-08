@@ -633,7 +633,7 @@ export default function Home() {
           </h1>
 
           <p className="hero-lead-text">
-            Elevate your celebrations with Banana Brothers. From bespoke premium packages to seamless online booking, we turn your special moments into unforgettable luxury experiences.
+            From thoughtful planning to grand celebrations, we bring your vision to life with seamless execution. Every detail is managed with care to create unforgettable moments.
           </p>
 
           <div className="hero-cta-wrapper">

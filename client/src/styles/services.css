@@ -246,21 +246,57 @@
   border: 1px solid rgba(217, 164, 65, 0.4);
   box-shadow: 0 0 40px rgba(217, 164, 65, 0.15);
   pointer-events: none;
+  animation: refFrameEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s backwards;
+}
+
+@keyframes refFrameEntrance {
+  from {
+    opacity: 0;
+    transform: translate3d(-15px, -10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .ref-couple-main-img {
   position: absolute;
   top: 0;
   right: 0;
-  width: 78%;
+  width: 82%;
   height: 380px;
   object-fit: cover;
   object-position: top center;
   border-radius: 20px;
-  clip-path: polygon(15% 0%, 100% 0%, 95% 100%, 0% 100%);
+  clip-path: polygon(14% 0%, 100% 0%, 96% 100%, 0% 100%);
   filter: brightness(0.92) contrast(1.1);
   box-shadow: 0 20px 50px rgba(13, 3, 6, 0.85);
-  transition: transform 0.6s ease;
+  animation: refMainImgEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s backwards, refMainImgAmbient 18s ease-in-out 1s infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes refMainImgEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes refMainImgAmbient {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.025) translate3d(-2px, -2px, 0);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .ref-visual-stage::after {
@@ -268,20 +304,15 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 78%;
+  width: 82%;
   height: 380px;
   border-radius: 20px;
-  clip-path: polygon(15% 0%, 100% 0%, 95% 100%, 0% 100%);
+  clip-path: polygon(14% 0%, 100% 0%, 96% 100%, 0% 100%);
   background: 
     radial-gradient(circle at 80% 20%, rgba(240, 210, 138, 0.18) 0%, transparent 50%),
     linear-gradient(180deg, rgba(13, 3, 6, 0.12) 0%, rgba(61, 11, 22, 0.22) 55%, rgba(13, 3, 6, 0.55) 100%);
   pointer-events: none;
   z-index: 2;
-  transition: opacity 0.5s ease;
-}
-
-.ref-visual-stage:hover .ref-couple-main-img {
-  transform: scale(1.03);
 }
 
 /* Angled Inset Floating Stage Card — Translucent Maroon & Gold Glass */
@@ -289,8 +320,8 @@
   position: absolute;
   bottom: 25px;
   left: 0;
-  width: 200px;
-  height: 140px;
+  width: 195px;
+  height: 135px;
   border-radius: 12px;
   overflow: hidden;
   clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
@@ -299,6 +330,38 @@
   background: rgba(61, 11, 22, 0.75);
   backdrop-filter: blur(12px);
   z-index: 5;
+  animation: refThumbCardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.38s backwards, refThumbFloat 6s ease-in-out 1.2s infinite alternate;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  will-change: transform, opacity;
+}
+
+@keyframes refThumbCardEntrance {
+  from {
+    opacity: 0;
+    transform: translate3d(-20px, 20px, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes refThumbFloat {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0) scale(1.01);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.ref-floating-stage-card:hover {
+  transform: translate3d(0, -8px, 0) scale(1.04) !important;
+  animation-play-state: paused;
+  box-shadow: 0 18px 45px rgba(13, 3, 6, 0.9), 0 0 28px rgba(217, 164, 65, 0.35);
 }
 
 .ref-stage-thumb-img {
@@ -307,22 +370,37 @@
   object-fit: cover;
 }
 
-/* Elegant Script Overlay */
+/* Elegant Script Overlay (Fully Contained Inside the Main Image Safe Area) */
 .ref-script-overlay {
   position: absolute;
-  top: 30px;
-  right: -10px;
+  top: 24px;
+  right: 24px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  text-align: right;
   font-family: 'Great Vibes', 'Playfair Display', Georgia, cursive, serif;
   color: #F0D28A;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
+  line-height: 1.28;
   letter-spacing: 0.5px;
-  text-shadow: 0 4px 15px rgba(13, 3, 6, 0.9), 0 0 12px rgba(255, 194, 26, 0.6);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 0 16px rgba(13, 3, 6, 0.9), 0 0 8px rgba(217, 164, 65, 0.5);
   pointer-events: none;
   z-index: 6;
-  opacity: 0.95;
+  opacity: 0.96;
+  animation: refScriptEntrance 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.28s backwards;
+  will-change: transform, opacity;
+}
+
+@keyframes refScriptEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 0.96;
+    transform: translateY(0);
+  }
 }
 
 .ref-beam-accent {
@@ -335,6 +413,7 @@
   transform: rotate(-35deg);
   box-shadow: 0 0 12px #D9A441;
   pointer-events: none;
+  animation: refFrameEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s backwards;
 }
 
 /* Search Status */
@@ -402,7 +481,7 @@
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: 36px;
-  align-items: center;
+  align-items: start;
 }
 
 .manifesto-statement-text {
@@ -429,7 +508,8 @@
 
 /* Asymmetric Image Block with Chamfered Corner */
 .manifesto-asymmetric-media-block {
-  position: relative;
+  position: sticky;
+  top: 96px;
   width: 100%;
   height: 240px;
   clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
@@ -437,6 +517,7 @@
   border: 1px solid rgba(217, 164, 65, 0.4);
   box-shadow: 0 16px 40px rgba(13, 3, 6, 0.6);
   overflow: hidden;
+  z-index: 4;
 }
 
 .manifesto-media-img {
@@ -567,12 +648,13 @@
   display: grid;
   grid-template-columns: 1.45fr 1fr;
   gap: 28px;
-  align-items: stretch;
+  align-items: start;
 }
 
 /* Big Left Featured Showcase Card — Translucent Maroon & Gold Glass */
 .featured-showcase-master-card {
-  position: relative;
+  position: sticky;
+  top: 88px;
   background: rgba(61, 11, 22, 0.48);
   border: 1px solid rgba(217, 164, 65, 0.25);
   clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
@@ -583,6 +665,7 @@
   border-radius: 4px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  z-index: 5;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.45s ease,
               border-color 0.45s ease,
@@ -603,15 +686,27 @@
   overflow: hidden;
 }
 
+@keyframes serviceVideoEntrance {
+  from {
+    opacity: 0.2;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .featured-media-element {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  animation: serviceVideoEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .featured-showcase-master-card:hover .featured-media-element {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .featured-media-gradient {
@@ -1096,6 +1191,12 @@
     width: 100% !important;
   }
   
+  .featured-showcase-master-card,
+  .manifesto-asymmetric-media-block {
+    position: static !important;
+    top: auto !important;
+  }
+
   .services-editorial-nav-list {
     max-height: none !important;
     overflow-y: visible !important;
@@ -1165,4 +1266,49 @@
   .services-details-inclusions-section, .services-pillars-banner {
     padding: 20px 15px !important;
   }
+
+  /* Hero visual stage mobile containment */
+  .services-hero-reference-layout {
+    grid-template-columns: 1fr !important;
+    padding: 30px 5% 25px !important;
+    gap: 30px !important;
+  }
+
+  .services-ref-hero-right {
+    height: auto !important;
+    min-height: 380px !important;
+    width: 100% !important;
+  }
+
+  .ref-visual-stage {
+    max-width: 440px !important;
+    height: 380px !important;
+  }
+
+  .ref-script-overlay {
+    font-size: 1.25rem !important;
+    top: 18px !important;
+    right: 20px !important;
+  }
+
+  .ref-floating-stage-card {
+    width: 170px !important;
+    height: 120px !important;
+    bottom: 15px !important;
+  }
 }
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .ref-angled-frame-bg,
+  .ref-couple-main-img,
+  .ref-floating-stage-card,
+  .ref-script-overlay,
+  .ref-beam-accent {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+

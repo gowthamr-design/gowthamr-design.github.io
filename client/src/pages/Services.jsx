@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { catalogAPI } from '../services/api';
 import '../styles/services.css';
@@ -10,12 +10,12 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'End-to-End Bespoke Wedding Curation',
     description: 'Complete end-to-end wedding management with traditional arrangements, themed setups, and seamless coordination.',
-    image_url: '/images (3).jpg',
-    video_url: '/videos/celebration.webm',
+    image_url: '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+    video_url: '/videos/reel-chenda-cultural.mp4',
     features: ['Bespoke Theme Architecture', 'Vendor Synchronization', 'Day-of Concierge & Flow'],
     gallery: [
-      '/images (23).jpg',
-      '/images (6).jpg'
+      '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+      '/bg1.png'
     ]
   },
   {
@@ -24,11 +24,12 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'Grand Stage Entrances & Ambient Celebrations',
     description: 'Grand ring ceremony setups, luxury stage entrances, floral backdrops, and complete guest hospitality.',
-    image_url: '/images (7).jpg',
+    image_url: '/f214bc94-72b6-4202-9a01-2cece637fc3d.png',
+    video_url: '/videos/reel-grand-entry.mp4',
     features: ['Grand Entrance Staging', 'Ambient Floral Canopy', 'VIP Reception Hospitality'],
     gallery: [
-      '/images (4).jpg',
-      '/images (8).jpg'
+      '/f214bc94-72b6-4202-9a01-2cece637fc3d.png',
+      '/bg1.png'
     ]
   },
   {
@@ -37,11 +38,12 @@ const DEFAULT_SERVICES = [
     category: 'Corporate',
     subtitle: 'Executive Conferences, Galas & Summits',
     description: 'Professional business conferences, product launches, annual company meets, and team celebrations.',
-    image_url: '/images (20).jpg',
+    image_url: '/bg.png',
+    video_url: '/videos/reel-stage-concert.mp4',
     features: ['Keynote Stage & Podium', 'Live Broadcast AV Rigs', 'Executive Lounge Hosting'],
     gallery: [
-      '/images (10).jpg',
-      '/images (17).jpg'
+      '/bg.png',
+      '/bg_blue.png'
     ]
   },
   {
@@ -50,12 +52,12 @@ const DEFAULT_SERVICES = [
     category: 'Corporate',
     subtitle: 'Performance Rigs & Festival Production',
     description: 'Vibrant college fest execution, traditional performance stages, sound systems, and lighting management.',
-    image_url: '/images (14).jpg',
-    video_url: '/videos/celebration.webm',
+    image_url: '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+    video_url: '/videos/reel-chenda-cultural.mp4',
     features: ['Kerala Chenda Melam Troupe', 'Acoustic Line Arrays', 'Artist & Green Room Logistics'],
     gallery: [
-      '/images (9).jpg',
-      '/images (13).jpg'
+      '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+      '/bg1.png'
     ]
   },
   {
@@ -64,11 +66,12 @@ const DEFAULT_SERVICES = [
     category: 'Birthdays',
     subtitle: 'Immersive Themes & Joyful Milestone Celebrations',
     description: 'Customized themed birthday setups for children and adults with fun activities and decorative cake tables.',
-    image_url: '/images (19).jpg',
+    image_url: '/bg1.png',
+    video_url: '/videos/reel-celebration-event.mp4',
     features: ['Custom Thematic Backdrop', 'Interactive Activities & DJ', 'Decorative Dessert Tables'],
     gallery: [
-      '/images (5).jpg',
-      '/images (7).jpg'
+      '/bg1.png',
+      '/f214bc94-72b6-4202-9a01-2cece637fc3d.png'
     ]
   },
   {
@@ -77,11 +80,12 @@ const DEFAULT_SERVICES = [
     category: 'Birthdays',
     subtitle: 'Ethereal Pastels & Blessing Ceremonies',
     description: 'Traditional and modern baby shower themes, decorated cradle setups, photo booths, and event management.',
-    image_url: '/images (11).jpg',
+    image_url: '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+    video_url: '/videos/reel-badaga-tradition.mp4',
     features: ['Traditional Blessing Setup', 'Themed Photo Booth', 'Welcome Hospitality & Gifts'],
     gallery: [
-      '/images (4).jpg',
-      '/images (23).jpg'
+      '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+      '/bg1.png'
     ]
   },
   {
@@ -90,11 +94,12 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: 'Intimate Proposals & Secret Milestone Moments',
     description: 'Memorable romantic proposals, anniversary surprises, secret birthday celebrations, and custom setups.',
-    image_url: '/download (2).jpg',
+    image_url: '/f214bc94-72b6-4202-9a01-2cece637fc3d.png',
+    video_url: '/videos/reel-candid-entry.mp4',
     features: ['Secret Location Setup', 'Candlelight & Floral Pathway', 'Live Acoustic Serenade'],
     gallery: [
-      '/images (6).jpg',
-      '/images (12).jpg'
+      '/f214bc94-72b6-4202-9a01-2cece637fc3d.png',
+      '/bg.png'
     ]
   },
   {
@@ -103,11 +108,12 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'Majestic Floral Sculptures & Modern Architecture',
     description: 'Elegant flower arc stages, custom balloon backdrops, ambient lighting, and modern thematic decorations.',
-    image_url: '/images (5).jpg',
+    image_url: '/bg1.png',
+    video_url: '/videos/reel-reception-decor.mp4',
     features: ['Custom Floral Sculptures', 'Dynamic Beam Illumination', '3D Textured Stage Backdrops'],
     gallery: [
-      '/images (8).jpg',
-      '/images (19).jpg'
+      '/bg1.png',
+      '/f214bc94-72b6-4202-9a01-2cece637fc3d.png'
     ]
   },
   {
@@ -116,11 +122,12 @@ const DEFAULT_SERVICES = [
     category: 'Weddings',
     subtitle: 'Banana Leaf Feasts & Luxury Multi-Cuisine Buffets',
     description: 'Delicious vegetarian and non-vegetarian buffet spreads, traditional banana leaf feasts, and live counters.',
-    image_url: '/images (16).jpg',
+    image_url: '/f214bc94-72b6-4202-9a01-2cece637fc3d.png',
+    video_url: '/videos/reel-celebration-event.mp4',
     features: ['Traditional Banana Leaf Feasts', 'Gourmet Multi-Cuisine Buffet', 'Master Culinary Chefs'],
     gallery: [
-      '/images (24).jpg',
-      '/images (22).jpg'
+      '/f214bc94-72b6-4202-9a01-2cece637fc3d.png',
+      '/bg1.png'
     ]
   },
   {
@@ -129,11 +136,12 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: 'Candid Storytelling & Cinematic Portraits',
     description: 'High-resolution candid photography, traditional portraits, pre-wedding photoshoots, and premium albums.',
-    image_url: '/images (6).jpg',
+    image_url: '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+    video_url: '/videos/reel-candid-entry.mp4',
     features: ['Ultra-HD Candid Coverage', 'Cinematic Portraiture', 'Premium Leatherbound Albums'],
     gallery: [
-      '/images (23).jpg',
-      '/download (2).jpg'
+      '/f7cabbcd-e205-4b02-9924-97ccfe667442.png',
+      '/f214bc94-72b6-4202-9a01-2cece637fc3d.png'
     ]
   },
   {
@@ -142,12 +150,12 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: '4K Cinema Drone Films & Live Highlights',
     description: 'Cinematic 4K video coverage, aerial drone shots, live event streaming setups, and highlight editing.',
-    image_url: '/images (9).jpg',
-    video_url: '/videos/celebration.webm',
+    image_url: '/bg.png',
+    video_url: '/videos/reel-short-teaser.mp4',
     features: ['4K Cinema Drone Aerials', 'Same-Day Highlight Teasers', 'Multi-Cam Live Streaming'],
     gallery: [
-      '/images (17).jpg',
-      '/images (10).jpg'
+      '/bg.png',
+      '/bg_blue.png'
     ]
   },
   {
@@ -156,12 +164,12 @@ const DEFAULT_SERVICES = [
     category: 'Entertainment',
     subtitle: 'High-Octane Sound, Lasers & Celebrity Hosts',
     description: 'High-energy live DJ performances, concert-grade sound setups, LED dance floors, and event anchors.',
-    image_url: '/images (14).jpg',
-    video_url: '/videos/laser-show.webm',
+    image_url: '/bg_blue.png',
+    video_url: '/videos/reel-dj-lights.mp4',
     features: ['Chenda Melam & Live Bands', 'Intelligent Laser Fixtures', 'Celebrity Emcees & DJs'],
     gallery: [
-      '/images (13).jpg',
-      '/images (20).jpg'
+      '/bg_blue.png',
+      '/bg.png'
     ]
   }
 ];
@@ -189,7 +197,6 @@ export default function Services() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchKeyword = searchParams.get('q') || '';
   const [services, setServices] = useState(DEFAULT_SERVICES);
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [activeServiceId, setActiveServiceId] = useState(DEFAULT_SERVICES[0].id);
   const [openFaq, setOpenFaq] = useState(0);
 
@@ -198,7 +205,11 @@ export default function Services() {
       .then((res) => {
         if (res.data && res.data.length > 0) {
           const enriched = res.data.map((item) => {
-            const def = DEFAULT_SERVICES.find((d) => d.name.toLowerCase() === item.name.toLowerCase()) || {};
+            const def = DEFAULT_SERVICES.find((d) => 
+              d.name.toLowerCase() === item.name.toLowerCase() || 
+              d.id === item.id ||
+              (item.name.toLowerCase().includes('wedding') && d.name.toLowerCase().includes('wedding'))
+            ) || {};
             return {
               ...item,
               subtitle: item.subtitle || def.subtitle || `${item.category} Curation`,
@@ -227,19 +238,57 @@ export default function Services() {
       });
   }, [searchKeyword]);
 
-  const categoriesList = [
-    { id: 'all', label: 'All Services' },
-    { id: 'Weddings', label: 'Weddings & Receptions' },
-    { id: 'Corporate', label: 'Corporate & Summits' },
-    { id: 'Birthdays', label: 'Milestones & Birthdays' },
-    { id: 'Entertainment', label: 'Entertainment & Production' },
-  ];
+  const activeService = services.find((s) => s.id === activeServiceId) || services[0] || DEFAULT_SERVICES[0];
+  const spotlightVideoRef = useRef(null);
+  const manifestoVideoRef = useRef(null);
 
-  const displayedServices = selectedCategory === 'all'
-    ? services
-    : services.filter((s) => s.category === selectedCategory);
+  // Pause spotlight video when not visible, play smoothly when visible
+  useEffect(() => {
+    const videoEl = spotlightVideoRef.current;
+    if (!videoEl) return;
 
-  const activeService = services.find((s) => s.id === activeServiceId) || displayedServices[0] || DEFAULT_SERVICES[0];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoEl.play().catch(() => {});
+          } else {
+            videoEl.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(videoEl);
+    return () => {
+      observer.unobserve(videoEl);
+    };
+  }, [activeService.id]);
+
+  // Pause manifesto video when not visible, play when visible
+  useEffect(() => {
+    const vEl = manifestoVideoRef.current;
+    if (!vEl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            vEl.play().catch(() => {});
+          } else {
+            vEl.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(vEl);
+    return () => {
+      observer.unobserve(vEl);
+    };
+  }, []);
 
   const clearSearch = () => {
     setSearchParams({});
@@ -358,10 +407,16 @@ export default function Services() {
           </p>
 
           <div className="manifesto-asymmetric-media-block">
-            <img
-              src={activeService.gallery ? activeService.gallery[0] : activeService.image_url}
-              alt="Live Production Atmosphere"
+            <video
+              ref={manifestoVideoRef}
+              src="/videos/reel-stage-concert.mp4"
+              poster="/bg1.png"
+              autoPlay
+              loop
+              muted
+              playsInline
               className="manifesto-media-img"
+              title="Live Production Atmosphere"
             />
             <span className="manifesto-media-badge">EXPERIENCE</span>
           </div>
@@ -369,35 +424,7 @@ export default function Services() {
       </section>
 
       {/* =========================================================================
-          3. ASYMMETRIC CATEGORY FILTER CHIPS (Top Right Block Reference)
-          ========================================================================= */}
-      <section className="services-category-strip-section">
-        <div className="services-chips-grid">
-          {categoriesList.map((cat) => {
-            const count = cat.id === 'all'
-              ? services.length
-              : services.filter((s) => s.category === cat.id).length;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                className={`service-asymmetric-chip ${selectedCategory === cat.id ? 'active' : ''}`}
-                onClick={() => {
-                  setSelectedCategory(cat.id);
-                  const firstOfCat = cat.id === 'all' ? services[0] : services.find((s) => s.category === cat.id);
-                  if (firstOfCat) setActiveServiceId(firstOfCat.id);
-                }}
-              >
-                <span>{cat.label}</span>
-                <span className="chip-counter">{count}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* =========================================================================
-          4. "WHAT'S IN THE SPOTLIGHT" / MAIN EDITORIAL SHOWCASE (Reference Grid)
+          3. "WHAT'S IN THE SPOTLIGHT" / MAIN EDITORIAL SHOWCASE (Reference Grid)
           ========================================================================= */}
       <section className="services-editorial-showcase-section" id="services-main-showcase">
         <div className="editorial-section-header">
@@ -411,6 +438,7 @@ export default function Services() {
             <div className="featured-media-container">
               {activeService.video_url ? (
                 <video
+                  ref={spotlightVideoRef}
                   key={`vid-${activeService.id}`}
                   src={activeService.video_url}
                   poster={activeService.image_url}
@@ -444,7 +472,7 @@ export default function Services() {
 
           {/* Right Column: Vertical Asymmetric Editorial Cards List */}
           <div className="services-editorial-nav-list">
-            {displayedServices.map((s, index) => {
+            {services.map((s, index) => {
               const isCurrent = s.id === activeServiceId;
               return (
                 <div
