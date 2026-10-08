@@ -1,0 +1,1 @@
+import{j as o}from"./index-BnJ5EVNi.js";import{B as e}from"./BookingConfigurator-DpAO1Ys9.js";const a=["/images (7).jpg","/images (19).jpg","/images (4).jpg"];function r(){return o.jsx(e,{tier:"low",badgeText:"Low Package",basePrice:3e4,images:a})}export{r as default};

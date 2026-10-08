@@ -3970,7 +3970,7 @@
   .hero-enhanced {
     display: flex !important;
     flex-direction: column !important;
-    padding: 100px 15px 40px 15px !important;
+    padding: 24px 15px 40px 15px !important;
     min-height: auto !important;
   }
   .hero-left-col, .hero-right-col {

@@ -1,1 +1,0 @@
-import{j as g}from"./index-0P9In4sU.js";import{B as i}from"./BookingConfigurator-CSOlRG_Q.js";const e=["/bg.png","/images (3).jpg","/images (23).jpg"];function r(){return g.jsx(i,{tier:"high",badgeText:"High Package",basePrice:15e4,images:e})}export{r as default};

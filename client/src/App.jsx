@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useLayoutEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-// Dynamic code-splitting for routes
-const Home = lazy(() => import('./pages/Home'));
+// Eagerly import Home to eliminate initial Suspense empty-main flash of Footer
+import Home from './pages/Home';
+
+// Dynamic code-splitting for secondary routes
 const Services = lazy(() => import('./pages/Services'));
 const Packages = lazy(() => import('./pages/Packages'));
 const Gallery = lazy(() => import('./pages/Gallery'));
@@ -20,12 +22,10 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 function ScrollToTop() {
   const { pathname, search } = useLocation();
-  const isInitialMount = useRef(true);
 
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.documentElement.scrollTop = 0;
