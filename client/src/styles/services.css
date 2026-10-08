@@ -1298,6 +1298,86 @@
   }
 }
 
+@media (max-width: 480px) {
+  .services-hero-reference-layout {
+    padding: 24px 4% 20px !important;
+    gap: 20px !important;
+  }
+  .services-ref-hero-title {
+    font-size: clamp(1.85rem, 6.8vw, 2.4rem) !important;
+  }
+  .services-ref-hero-desc {
+    font-size: 0.88rem !important;
+    margin-bottom: 20px !important;
+  }
+  .services-ref-hero-actions {
+    gap: 12px !important;
+  }
+  .btn-ref-primary {
+    padding: 11px 20px !important;
+    font-size: 0.85rem !important;
+  }
+  .services-ref-hero-right {
+    min-height: 310px !important;
+  }
+  .ref-visual-stage {
+    max-width: 340px !important;
+    height: 300px !important;
+  }
+  .ref-angled-frame-bg {
+    height: 250px !important;
+  }
+  .ref-couple-main-img {
+    height: 230px !important;
+  }
+  .ref-floating-stage-card {
+    width: 140px !important;
+    height: 100px !important;
+    bottom: 10px !important;
+    left: 8px !important;
+  }
+  .ref-stage-badge-pill {
+    padding: 3px 8px !important;
+    font-size: 0.65rem !important;
+  }
+  .ref-script-overlay {
+    font-size: 1.1rem !important;
+    top: 10px !important;
+    right: 12px !important;
+  }
+  .category-tab-btn {
+    padding: 8px 14px !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .services-hero-reference-layout {
+    padding: 20px 3% 16px !important;
+  }
+  .services-ref-hero-title {
+    font-size: 1.65rem !important;
+  }
+  .services-ref-hero-right {
+    min-height: 260px !important;
+  }
+  .ref-visual-stage {
+    max-width: 290px !important;
+    height: 250px !important;
+  }
+  .ref-angled-frame-bg {
+    height: 210px !important;
+  }
+  .ref-couple-main-img {
+    height: 195px !important;
+  }
+  .ref-floating-stage-card {
+    width: 115px !important;
+    height: 80px !important;
+    bottom: 6px !important;
+  }
+}
+
 /* --- Accessibility: Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
   .ref-angled-frame-bg,

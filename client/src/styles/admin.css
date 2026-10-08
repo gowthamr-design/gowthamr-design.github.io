@@ -494,9 +494,45 @@
     max-width: 95vw;
   }
   .admin-modal-header {
-    padding: 16px;
+    padding: 14px 16px;
   }
   .admin-modal-body {
-    padding: 16px;
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .admin-title-group h1 {
+    font-size: 1.35rem;
+  }
+  .admin-badge {
+    margin-left: 4px;
+    font-size: 0.72rem;
+    padding: 3px 10px;
+  }
+  .admin-stat-value {
+    font-size: 1.4rem;
+  }
+  .admin-tab-btn {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+  .ref-code {
+    font-size: 0.78rem;
+    padding: 2px 6px;
+  }
+  .status-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-stat-card,
+  .admin-tab-btn,
+  .admin-modal {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }

@@ -496,11 +496,15 @@
   }
 
   .packages-hero-right-content {
-    padding: 30px 16px;
+    padding: 26px 16px;
+  }
+
+  .packages-hero-title {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
   }
 
   .pkg-card-media {
-    height: 200px;
+    height: 190px;
   }
 
   .pkg-card-body {
@@ -513,5 +517,55 @@
 
   .pkg-price-val {
     font-size: 1.25rem;
+  }
+
+  .pkg-view-btn {
+    padding: 11px 18px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .packages-hero-left-media {
+    height: 190px;
+  }
+
+  .packages-hero-right-content {
+    padding: 20px 12px;
+  }
+
+  .packages-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .pkg-card-media {
+    height: 170px;
+  }
+
+  .pkg-card-body {
+    padding: 14px 12px;
+  }
+
+  .pkg-title {
+    font-size: 1.3rem;
+  }
+
+  .pkg-desc {
+    font-size: 0.82rem;
+  }
+
+  .pkg-price-val {
+    font-size: 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .packages-hero-banquet-img,
+  .pkg-premium-card,
+  .pkg-card-img,
+  .pkg-view-btn {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }

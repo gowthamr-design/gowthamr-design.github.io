@@ -28,7 +28,7 @@ export default function Navbar() {
     <nav className="navbar">
       {/* Brand / Logo */}
       <Link to="/" className="logo">
-        <img src="/BB_Logo.jpg" alt="Banana Brothers Logo" />
+        <img src="/BB_Logo.jpg" alt="Banana Brothers Logo" width="135" height="46" fetchPriority="high" loading="eager" decoding="async" />
       </Link>
 
       {/* Main Navigation Links */}

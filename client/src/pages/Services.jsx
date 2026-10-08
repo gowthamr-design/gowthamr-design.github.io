@@ -371,15 +371,24 @@ export default function Services() {
             <div className="ref-beam-accent" />
             <div className="ref-angled-frame-bg" />
             <img
-              src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=85"
+              src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=75"
               alt="Special Moment Celebration"
               className="ref-couple-main-img"
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              width="440"
+              height="380"
             />
             <div className="ref-floating-stage-card">
               <img
-                src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=600&q=80"
+                src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=400&q=75"
                 alt="Grand Production Stage"
                 className="ref-stage-thumb-img"
+                loading="lazy"
+                decoding="async"
+                width="170"
+                height="120"
               />
             </div>
             <div className="ref-script-overlay">
@@ -415,6 +424,7 @@ export default function Services() {
               loop
               muted
               playsInline
+              preload="metadata"
               className="manifesto-media-img"
               title="Live Production Atmosphere"
             />
@@ -446,6 +456,7 @@ export default function Services() {
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   className="featured-media-element"
                   title={activeService.name}
                 />

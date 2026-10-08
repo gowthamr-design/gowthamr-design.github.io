@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import '../styles/home.css';
 
 export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [cardTilt, setCardTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [counterTriggered, setCounterTriggered] = useState(false);
@@ -17,14 +16,25 @@ export default function Home() {
   const heroCardRef = useRef(null);
   const metricsSectionRef = useRef(null);
   const masterContainerRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const mouseRafRef = useRef(null);
 
-  // 1. Scroll Progress Tracking (Background images remain completely static)
+  // 1. Optimized RAF Scroll Progress Tracking (Zero React component re-renders)
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollTop || document.body.scrollTop;
-      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollPercent = windowHeight > 0 ? (totalScroll / windowHeight) * 100 : 0;
-      setScrollProgress(scrollPercent);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (progressBarRef.current) {
+            const totalScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = windowHeight > 0 ? (totalScroll / windowHeight) * 100 : 0;
+            progressBarRef.current.style.width = `${scrollPercent}%`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -106,42 +116,42 @@ export default function Home() {
   const heroSlides = [
     {
       id: 1,
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75',
       tag: 'Luxury Weddings',
       title: 'The Grand Imperial Wedding',
       desc: 'Bespoke grand mandap setups, ethereal floral canopies & regal crystal chandeliers.',
     },
     {
       id: 2,
-      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=75',
       tag: 'Corporate Summits',
       title: 'Global Leadership Summit',
       desc: 'Cutting-edge panoramic staging, intelligent beam lighting & executive keynote production.',
     },
     {
       id: 3,
-      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=75',
       tag: 'Milestone Celebrations',
       title: 'Opulent Golden Soirée',
       desc: 'Luxe marquee illuminations, artisanal decor arrangements & VIP celebratory hosting.',
     },
     {
       id: 4,
-      image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=75',
       tag: 'Concerts & Festivals',
       title: 'Electrifying Arena Stage',
       desc: 'Concert line-array acoustics, dynamic synchronized laser fixtures & stadium energy.',
     },
     {
       id: 5,
-      image: 'https://images.unsplash.com/photo-1545232979-fbf69c362143?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1545232979-fbf69c362143?auto=format&fit=crop&w=800&q=75',
       tag: 'Destination Galas',
       title: 'Ethereal Sunset Pavilion',
       desc: 'Panoramic beachfront florals, fairy-light canopies & timeless romantic elegance.',
     },
     {
       id: 6,
-      image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=75',
       tag: 'Royal Banquets',
       title: 'Prestige Ballroom Honors',
       desc: 'Black-tie dining staging, majestic ceiling drapery & world-class banquet coordination.',
@@ -259,49 +269,49 @@ export default function Home() {
   const showcaseSlides = [
     {
       id: 1,
-      image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=75',
       tag: 'Royal Wedding',
       title: 'The Grand Regal Symphony',
       desc: 'An opulent fairytale wedding banquet bathed in warm amber chandeliers and celestial floral cascades.',
     },
     {
       id: 2,
-      image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=75',
       tag: 'Corporate Gala',
       title: 'Global Leadership Summit',
       desc: 'Cutting-edge panoramic staging, intelligent beam lighting, and executive keynote production.',
     },
     {
       id: 3,
-      image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=800&q=75',
       tag: 'Milestone Soirée',
       title: 'Golden Jubilee Celebration',
       desc: 'A masterfully curated milestone evening featuring custom artisanal installations and intimate dining.',
     },
     {
       id: 4,
-      image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=75',
       tag: 'Live Concert',
       title: 'Acoustic Euphoria Arena',
       desc: 'Electrifying 3,000-seat amphitheater concert with precision line-array acoustics and lasers.',
     },
     {
       id: 5,
-      image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=75',
       tag: 'Destination Wedding',
       title: 'Ethereal Shoreline Vows',
       desc: 'Sunset coastal mandap crafted with 10,000 fresh white orchids and shimmering gold mirror walkways.',
     },
     {
       id: 6,
-      image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=75',
       tag: 'Award Night',
       title: 'Prestige Honors Gala',
       desc: 'A black-tie red carpet ceremony celebrating industry luminaries under synchronized golden illuminations.',
     },
     {
       id: 7,
-      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1800&q=85',
+      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=75',
       tag: 'Youth Festival',
       title: 'Neon Pulse Carnival',
       desc: 'High-octane electronic celebration with dynamic pyrotechnics, LED wristbands, and VIP hospitality.',
@@ -456,7 +466,7 @@ export default function Home() {
       link: '/packages/high',
       linkLabel: 'Explore Royal Package',
       badge: 'Signature Royal',
-      image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=75',
       metrics: '200–2,500+ Guests • Bespoke Staging',
       features: ['Bespoke Floral Mandap Architecture', 'Multi-Cuisine Royal Banquet Service', 'Bridal & Groom VIP Concierge'],
     },
@@ -470,7 +480,7 @@ export default function Home() {
       link: '/packages/medium',
       linkLabel: 'Explore Corporate Package',
       badge: 'Executive Elite',
-      image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=75',
       metrics: '50–1,500+ Delegates • Full Broadcast AV',
       features: ['Keynote & Award Gala Staging', 'Ultra-HD LED Backdrops & Sound', 'VIP Hospitality & Registration'],
     },
@@ -484,7 +494,7 @@ export default function Home() {
       link: '/packages/low',
       linkLabel: 'Explore Standard Package',
       badge: 'Festive Classic',
-      image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=800&q=75',
       metrics: '30–500+ Guests • Thematic Staging',
       features: ['Custom Thematic Decor & Backdrops', 'Interactive Entertainment & DJ', 'Complete Catering & Cake Setup'],
     },
@@ -498,7 +508,7 @@ export default function Home() {
       link: '/services',
       linkLabel: 'Explore Live Services',
       badge: 'Live Production',
-      image: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=1600&q=85',
+      image: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=800&q=75',
       metrics: '500–10,000+ Attendees • Arena Rigging',
       features: ['Concert-Grade Acoustic Line Arrays', 'Dynamic Intelligent Stage Lighting', 'Live Stage & Artist Logistics'],
     },
@@ -518,7 +528,7 @@ export default function Home() {
     setPortfolioIndex(idx);
   };
 
-  // 7. Hero Card 3D Magnetic Parallax Tilt
+  // 7. Hero Card 3D Magnetic Parallax Tilt with RAF throttling
   const handleMouseMove = (e) => {
     if (!heroCardRef.current) return;
     const rect = heroCardRef.current.getBoundingClientRect();
@@ -530,11 +540,15 @@ export default function Home() {
     const rotateX = ((y - centerY) / centerY) * -10;
     const rotateY = ((x - centerX) / centerX) * 10;
 
-    setCardTilt({ x: rotateX, y: rotateY });
+    if (mouseRafRef.current) cancelAnimationFrame(mouseRafRef.current);
+    mouseRafRef.current = requestAnimationFrame(() => {
+      setCardTilt({ x: rotateX, y: rotateY });
+    });
   };
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => {
+    if (mouseRafRef.current) cancelAnimationFrame(mouseRafRef.current);
     setIsHovered(false);
     setCardTilt({ x: 0, y: 0 });
   };
@@ -550,7 +564,7 @@ export default function Home() {
       author: "Priya & Rajesh",
       role: "Grand Palace Wedding, Chennai",
       stars: 5,
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=75",
       tag: "Royal Tier Celebration"
     },
     {
@@ -559,7 +573,7 @@ export default function Home() {
       author: "Arun Karthik",
       role: "Managing Director, Apex Innovations",
       stars: 5,
-      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80",
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=75",
       tag: "Corporate Summit Gala"
     },
     {
@@ -568,7 +582,7 @@ export default function Home() {
       author: "Deepa Sundaram",
       role: "Milestone Celebration, Chennai",
       stars: 5,
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80",
+      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=75",
       tag: "Theme Milestone Bash"
     },
     {
@@ -577,7 +591,7 @@ export default function Home() {
       author: "Vikramaditya & Sunita",
       role: "Cultural Arts Festival Board",
       stars: 5,
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=75",
       tag: "Live Festival Production"
     }
   ];
@@ -604,7 +618,8 @@ export default function Home() {
       <div className="home-scroll-progress-container">
         <div
           className="home-scroll-progress-bar"
-          style={{ width: `${scrollProgress}%` }}
+          ref={progressBarRef}
+          style={{ width: '0%' }}
         />
       </div>
 
@@ -660,19 +675,31 @@ export default function Home() {
           <div className="hero-trust-proof">
             <div className="trust-avatar-group">
               <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=75"
                 alt="Client Avatar"
                 className="trust-avatar"
+                loading="lazy"
+                decoding="async"
+                width="40"
+                height="40"
               />
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=75"
                 alt="Client Avatar"
                 className="trust-avatar"
+                loading="lazy"
+                decoding="async"
+                width="40"
+                height="40"
               />
               <img
-                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80"
+                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=75"
                 alt="Client Avatar"
                 className="trust-avatar"
+                loading="lazy"
+                decoding="async"
+                width="40"
+                height="40"
               />
             </div>
             <div className="trust-text-box">
@@ -762,6 +789,10 @@ export default function Home() {
                       alt={slide.title}
                       className="hero-3d-img"
                       loading={idx === currentSlide ? "eager" : "lazy"}
+                      fetchPriority={idx === currentSlide ? "high" : "low"}
+                      decoding="async"
+                      width="460"
+                      height="340"
                     />
                     <div className="hero-3d-overlay"></div>
 
@@ -1109,7 +1140,10 @@ export default function Home() {
                     src={slide.image} 
                     alt={slide.title} 
                     className="story-card-img" 
-                    loading={Math.abs(idx - showcaseSlide) <= 2 ? "eager" : "lazy"}
+                    loading="lazy"
+                    decoding="async"
+                    width="360"
+                    height="460"
                   />
                   <div className="story-card-overlay"></div>
 
@@ -1290,9 +1324,13 @@ export default function Home() {
         <div className="featured-immersive-wrapper">
           <div className="immersive-bg-holder">
             <img
-              src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1600&q=80"
+              src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=75"
               alt="The Palace Royale Masterpiece"
               className="immersive-hero-img"
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="600"
             />
             <div className="immersive-gradient-mask"></div>
             <div className="immersive-gold-glow"></div>
@@ -1454,7 +1492,10 @@ export default function Home() {
                         src={occ.image}
                         alt={occ.title}
                         className="portfolio-card-img"
-                        loading={idx <= 1 ? "eager" : "lazy"}
+                        loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="400"
                       />
                       <div className="portfolio-card-gradient" />
                       <div className="portfolio-card-badge-pill">
@@ -1658,6 +1699,10 @@ export default function Home() {
                   src={reviewsList[activeReviewIndex].avatar}
                   alt={reviewsList[activeReviewIndex].author}
                   className="test-avatar"
+                  loading="lazy"
+                  decoding="async"
+                  width="48"
+                  height="48"
                 />
                 <div className="test-author-info">
                   <h5>{reviewsList[activeReviewIndex].author}</h5>

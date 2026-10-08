@@ -505,17 +505,29 @@
 }
 
 @media (max-width: 680px) {
+  .gallery-main-section {
+    padding: 30px 4% 30px;
+  }
+
   .gallery-editorial-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
   }
 
   .gallery-hero-section {
-    min-height: 340px;
+    min-height: 320px;
+    padding: 20px 0;
+  }
+
+  .gallery-hero-content {
+    padding: 30px 5%;
   }
 
   .gallery-hero-title {
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 7vw, 2.5rem);
+    letter-spacing: 1px;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .gallery-card-img-wrapper,
@@ -525,7 +537,7 @@
 
   .gallery-video-card,
   .gallery-card-video-wrapper {
-    min-height: 340px;
+    min-height: 320px;
   }
 
   .gallery-card,
@@ -545,12 +557,89 @@
     animation: none !important;
   }
 
+  .gallery-lightbox-media-wrapper {
+    max-width: 92vw;
+    max-height: 72vh;
+    border-radius: 12px;
+  }
+
+  .gallery-lightbox-img,
+  .gallery-lightbox-video {
+    max-width: 90vw;
+    max-height: 70vh;
+  }
+
+  .lightbox-close-btn {
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .lightbox-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+
   .lightbox-nav-btn.prev {
-    left: 10px;
+    left: 8px;
   }
 
   .lightbox-nav-btn.next {
-    right: 10px;
+    right: 8px;
+  }
+
+  .lightbox-counter-badge {
+    bottom: 14px;
+    font-size: 0.78rem;
+    padding: 3px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-hero-section {
+    min-height: 270px;
+  }
+
+  .gallery-hero-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.2rem);
+  }
+
+  .gallery-card-img-wrapper,
+  .gallery-card {
+    min-height: 210px;
+  }
+
+  .gallery-video-card,
+  .gallery-card-video-wrapper {
+    min-height: 270px;
+  }
+
+  .gallery-card-zoom-icon {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 360px) {
+  .gallery-hero-section {
+    min-height: 240px;
+  }
+
+  .gallery-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .gallery-card-img-wrapper,
+  .gallery-card {
+    min-height: 190px;
+  }
+
+  .gallery-video-card,
+  .gallery-card-video-wrapper {
+    min-height: 240px;
   }
 }
 

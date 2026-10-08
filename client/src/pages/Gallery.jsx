@@ -118,10 +118,29 @@ export default function Gallery() {
 
     cardElements.forEach((el) => observer.observe(el));
 
+    // Video intersection observer to only play videos visible in the viewport
+    const videoElements = Object.values(videoRefs.current).filter(Boolean);
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const vid = entry.target;
+          if (entry.isIntersecting) {
+            vid.play().catch(() => {});
+          } else {
+            vid.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    videoElements.forEach((vid) => videoObserver.observe(vid));
+
     return () => {
       observer.disconnect();
+      videoObserver.disconnect();
     };
-  }, []);
+  }, [allMediaItems]);
 
   // Keyboard navigation (Esc, Left, Right) + Body scroll lock
   useEffect(() => {
@@ -154,6 +173,7 @@ export default function Gallery() {
           loop
           muted
           playsInline
+          preload="metadata"
           className="gallery-fixed-bg-video"
         />
         <div className="gallery-fixed-bg-overlay" />
@@ -186,6 +206,9 @@ export default function Gallery() {
                     alt="Gallery visual"
                     className="gallery-card-img"
                     loading="lazy"
+                    decoding="async"
+                    width="380"
+                    height="320"
                   />
                   <div className="gallery-card-zoom-icon" title="View Fullscreen">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -207,11 +230,10 @@ export default function Gallery() {
                     }}
                     src={item.src}
                     className="gallery-card-video"
-                    autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="none"
                   />
                   <div className="gallery-card-zoom-icon" title="View Fullscreen Video">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

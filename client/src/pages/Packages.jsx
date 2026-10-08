@@ -79,6 +79,11 @@ export default function Packages() {
             src="/bg.png"
             alt="Luxury Event Banquet Setup"
             className="packages-hero-banquet-img"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            width="600"
+            height="520"
           />
           <div className="packages-hero-media-gradient"></div>
         </div>
@@ -124,6 +129,9 @@ export default function Packages() {
                   alt={pkg.name}
                   className="pkg-card-img"
                   loading="lazy"
+                  decoding="async"
+                  width="400"
+                  height="230"
                 />
                 <div className="pkg-card-overlay"></div>
 

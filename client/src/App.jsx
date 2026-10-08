@@ -1,20 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from './pages/Home';
-import Services from './pages/Services';
-import Packages from './pages/Packages';
-import Gallery from './pages/Gallery';
-import HighBooking from './pages/HighBooking';
-import MediumBooking from './pages/MediumBooking';
-import LowBooking from './pages/LowBooking';
-import MyEvents from './pages/MyEvents';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import AdminDashboard from './pages/AdminDashboard';
+
+// Dynamic code-splitting for routes
+const Home = lazy(() => import('./pages/Home'));
+const Services = lazy(() => import('./pages/Services'));
+const Packages = lazy(() => import('./pages/Packages'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const HighBooking = lazy(() => import('./pages/HighBooking'));
+const MediumBooking = lazy(() => import('./pages/MediumBooking'));
+const LowBooking = lazy(() => import('./pages/LowBooking'));
+const MyEvents = lazy(() => import('./pages/MyEvents'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 function ScrollToTop() {
   const { pathname, search } = useLocation();
@@ -70,20 +72,22 @@ export default function App() {
         <div className="app-container">
           <Navbar />
           <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/packages" element={<Packages />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/packages/high" element={<HighBooking />} />
-              <Route path="/packages/medium" element={<MediumBooking />} />
-              <Route path="/packages/low" element={<LowBooking />} />
-              <Route path="/my-events" element={<MyEvents />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-            </Routes>
+            <Suspense fallback={null}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/packages" element={<Packages />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/packages/high" element={<HighBooking />} />
+                <Route path="/packages/medium" element={<MediumBooking />} />
+                <Route path="/packages/low" element={<LowBooking />} />
+                <Route path="/my-events" element={<MyEvents />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+              </Routes>
+            </Suspense>
           </main>
           <Footer />
         </div>
