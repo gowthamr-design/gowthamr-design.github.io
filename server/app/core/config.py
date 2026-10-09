@@ -29,7 +29,10 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
-    # MySQL Database Connection String
+    # Cloud Database URI (Used when deployed on Render / Railway / Aiven)
+    DATABASE_URL: str = os.getenv("DATABASE_URL") or os.getenv("MYSQL_URL") or ""
+
+    # MySQL Database Connection String (Used for individual fields / local)
     DB_USER: str = os.getenv("DB_USER", "second_user")
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "gowtham2003")
     DB_HOST: str = os.getenv("DB_HOST", "localhost")
@@ -47,6 +50,17 @@ class Settings(BaseSettings):
 
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if self.DATABASE_URL and self.DATABASE_URL.strip():
+            url = self.DATABASE_URL.strip()
+            if url.startswith("mysql://"):
+                url = url.replace("mysql://", "mysql+pymysql://", 1)
+            elif not url.startswith("mysql+pymysql://") and "://" in url:
+                # Replace prefix if other dialect passed
+                scheme = url.split("://")[0]
+                url = url.replace(f"{scheme}://", "mysql+pymysql://", 1)
+            if "?" not in url:
+                url += "?charset=utf8mb4"
+            return url
         return f"mysql+pymysql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}?charset=utf8mb4"
 
 settings = Settings()
