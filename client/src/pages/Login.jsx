@@ -41,8 +41,15 @@ export default function Login() {
         }, 600);
       }
     } catch (err) {
-      const detail = err.response?.data?.detail || 'Invalid username or password';
-      showToast(detail);
+      if (!err.response) {
+        showToast('Unable to connect to backend server. Please verify the backend server is running on port 8000.');
+      } else if (err.response.status === 401) {
+        showToast(err.response.data?.detail || 'Invalid username or password');
+      } else if (err.response.status === 403) {
+        showToast(err.response.data?.detail || 'Account deactivated. Please contact support or administrator.');
+      } else {
+        showToast(err.response.data?.detail || 'Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

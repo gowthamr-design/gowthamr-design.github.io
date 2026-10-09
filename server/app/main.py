@@ -45,6 +45,8 @@ app.add_middleware(
 # Mount static files for media uploads
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
+from fastapi.responses import RedirectResponse
+
 @app.on_event("startup")
 def on_startup():
     db = SessionLocal()
@@ -62,11 +64,32 @@ def on_startup():
                 last_name="Manager",
                 age=30,
                 role="ADMIN",
+                is_active=1,
                 password_hash=get_password_hash("Admin@123")
             )
             db.add(admin_user)
             db.commit()
             logger.info("Created default administrator account (username: admin, email: admin@bananabrothers.com)")
+
+        # 1b. Ensure Super Admin account exists
+        sa_user = db.query(User).filter(
+            (User.username == "bananabrothers") | (User.email == "bananabrothers@gmail.com")
+        ).first()
+        if not sa_user:
+            sa_user = User(
+                username="bananabrothers",
+                email="bananabrothers@gmail.com",
+                name="Banana Brothers Super Admin",
+                first_name="Banana",
+                last_name="Brothers",
+                age=30,
+                role="SUPER_ADMIN",
+                is_active=1,
+                password_hash=get_password_hash("bananabrothers@123")
+            )
+            db.add(sa_user)
+            db.commit()
+            logger.info("Created default super admin account (username: bananabrothers)")
 
         # 2. Seed default services if empty
         if db.query(Service).count() == 0:
@@ -177,4 +200,9 @@ def root():
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@app.get("/docs", include_in_schema=False)
+def docs_redirect():
+    return RedirectResponse(url=f"{settings.API_V1_STR}/docs")
+
 

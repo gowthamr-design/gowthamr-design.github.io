@@ -1,36 +1,48 @@
-import React, { useEffect, useLayoutEffect, lazy, Suspense } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-// Eagerly import Home to eliminate initial Suspense empty-main flash of Footer
+// Direct imports eliminate async chunk suspense flashes where footer jumps to the top
 import Home from './pages/Home';
-
-// Dynamic code-splitting for secondary routes
-const Services = lazy(() => import('./pages/Services'));
-const Packages = lazy(() => import('./pages/Packages'));
-const Gallery = lazy(() => import('./pages/Gallery'));
-const HighBooking = lazy(() => import('./pages/HighBooking'));
-const MediumBooking = lazy(() => import('./pages/MediumBooking'));
-const LowBooking = lazy(() => import('./pages/LowBooking'));
-const MyEvents = lazy(() => import('./pages/MyEvents'));
-const Login = lazy(() => import('./pages/Login'));
-const Register = lazy(() => import('./pages/Register'));
-const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+import Services from './pages/Services';
+import Packages from './pages/Packages';
+import Gallery from './pages/Gallery';
+import HighBooking from './pages/HighBooking';
+import MediumBooking from './pages/MediumBooking';
+import LowBooking from './pages/LowBooking';
+import MyEvents from './pages/MyEvents';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import AdminDashboard from './pages/AdminDashboard';
 
 function ScrollToTop() {
-  const { pathname, search } = useLocation();
+  const { pathname, search, hash } = useLocation();
 
-  useLayoutEffect(() => {
+  // Ensure browser scroll restoration is set to manual on mount
+  useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
+  }, []);
+
+  useLayoutEffect(() => {
+    // 1. Instant synchronous scroll reset
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-  }, [pathname, search]);
+
+    // 2. Next animation frame fallback to guarantee 0 scroll position across all browsers/refresh states
+    const rafId = requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, [pathname, search, hash]);
 
   return null;
 }
@@ -72,22 +84,20 @@ export default function App() {
         <div className="app-container">
           <Navbar />
           <main className="main-content">
-            <Suspense fallback={null}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/packages" element={<Packages />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/packages/high" element={<HighBooking />} />
-                <Route path="/packages/medium" element={<MediumBooking />} />
-                <Route path="/packages/low" element={<LowBooking />} />
-                <Route path="/my-events" element={<MyEvents />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-              </Routes>
-            </Suspense>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/packages" element={<Packages />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/packages/high" element={<HighBooking />} />
+              <Route path="/packages/medium" element={<MediumBooking />} />
+              <Route path="/packages/low" element={<LowBooking />} />
+              <Route path="/my-events" element={<MyEvents />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Routes>
           </main>
           <Footer />
         </div>

@@ -57,7 +57,11 @@ export default function Register() {
       setOtpVerified(false);
       showToast(res.data?.message || 'Verification code sent to your email! Please check your inbox.');
     } catch (err) {
-      showToast(err.response?.data?.detail || 'Failed to send verification code via email.');
+      if (!err.response) {
+        showToast('Unable to connect to backend server. Please verify the server is running.');
+      } else {
+        showToast(err.response?.data?.detail || 'Failed to send verification code via email.');
+      }
     } finally {
       setSendingOtp(false);
     }
@@ -82,7 +86,11 @@ export default function Register() {
       showToast(res.data?.message || 'OTP verified successfully!');
     } catch (err) {
       setOtpVerified(false);
-      showToast(err.response?.data?.detail || 'Invalid or expired verification code.');
+      if (!err.response) {
+        showToast('Unable to connect to backend server. Please verify the server is running.');
+      } else {
+        showToast(err.response?.data?.detail || 'Invalid or expired verification code.');
+      }
     } finally {
       setVerifyingOtp(false);
     }
@@ -120,8 +128,12 @@ export default function Register() {
         setTimeout(() => navigate(from || '/my-events'), 800);
       }
     } catch (err) {
-      const detail = err.response?.data?.detail || 'Registration failed. Please try again.';
-      showToast(detail);
+      if (!err.response) {
+        showToast('Unable to connect to backend server. Please verify the server is running.');
+      } else {
+        const detail = err.response?.data?.detail || 'Registration failed. Please try again.';
+        showToast(detail);
+      }
     } finally {
       setLoading(false);
     }

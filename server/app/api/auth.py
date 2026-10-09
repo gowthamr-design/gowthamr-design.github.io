@@ -169,8 +169,12 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=TokenResponse)
 def login(payload: UserLogin, db: Session = Depends(get_db)):
+    identifier = payload.username.strip() if payload.username else ""
     user = db.query(User).filter(
-        (User.username == payload.username) | (User.email == payload.username)
+        (User.username == identifier) |
+        (User.email == identifier.lower()) |
+        (User.username.ilike(identifier)) |
+        (User.email.ilike(identifier))
     ).first()
 
     if not user or not verify_password(payload.password, user.password_hash):
