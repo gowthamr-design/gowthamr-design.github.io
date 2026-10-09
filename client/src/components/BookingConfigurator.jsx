@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { bookingAPI } from '../services/api';
 
 const DISTRICTS = [
@@ -38,6 +39,8 @@ const NEEDS_LIST = [
 
 export default function BookingConfigurator({ tier, badgeText, basePrice, images }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user, loading: authLoading } = useAuth();
   const step2Ref = useRef(null);
 
   // Form states
@@ -47,6 +50,20 @@ export default function BookingConfigurator({ tier, badgeText, basePrice, images
   const [emailAddr, setEmailAddr] = useState('');
   const [functionType, setFunctionType] = useState('');
   const [selectedNeeds, setSelectedNeeds] = useState([]);
+
+  // Auto-fill user profile info if logged in
+  useEffect(() => {
+    if (user) {
+      const computedName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.name || user.username || '';
+      setFullName((prev) => prev || computedName);
+      if (user.email) {
+        setEmailAddr((prev) => prev || user.email);
+      }
+      if (user.phone) {
+        setMobileNo((prev) => prev || user.phone);
+      }
+    }
+  }, [user]);
 
   // Step 2 states
   const [isStep2Active, setIsStep2Active] = useState(false);
@@ -83,6 +100,20 @@ export default function BookingConfigurator({ tier, badgeText, basePrice, images
 
     setTotalPrice(total);
   }, [selectedNeeds, fromDate, toDate, basePrice]);
+
+  // If still checking authentication, show elegant loading state
+  if (authLoading) {
+    return (
+      <div className="booking-page-container" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#D4AF37', fontSize: '1.1rem', letterSpacing: '0.05em' }}>Loading booking portal...</div>
+      </div>
+    );
+  }
+
+  // If unauthenticated, redirect immediately to login before rendering form
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+  }
 
   const handleNeedToggle = (need) => {
     if (selectedNeeds.some((n) => n.name === need.name)) {
@@ -131,9 +162,13 @@ export default function BookingConfigurator({ tier, badgeText, basePrice, images
       alert(`Your ${tier.toUpperCase()} Package Order has been placed successfully!\nReference: ${res.data.booking_reference}\nEstimated Amount: ₹ ${totalPrice.toLocaleString('en-IN')}`);
       navigate('/my-events');
     } catch (err) {
-      // Fallback display if backend is offline or returned error
-      alert(`Your ${tier.toUpperCase()} Package Order has been placed successfully!\nEstimated Amount: ₹ ${totalPrice.toLocaleString('en-IN')}`);
-      navigate('/my-events');
+      if (err.response?.status === 401) {
+        alert('Your session has expired or authentication is required. Please log in.');
+        navigate('/login', { state: { from: location.pathname } });
+        return;
+      }
+      const msg = err.response?.data?.detail || 'Failed to place booking. Please try again.';
+      alert(`Booking submission error: ${msg}`);
     } finally {
       setSubmitting(false);
     }

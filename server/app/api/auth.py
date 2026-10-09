@@ -7,7 +7,7 @@ from app.schemas.schemas import UserRegister, UserLogin, TokenResponse, UserResp
 from app.models.models import OTPVerification
 import secrets
 from datetime import datetime, timedelta
-from app.core.email import send_otp_email
+from app.core.email import send_otp_email, send_admin_user_registration_email
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -126,7 +126,8 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == email_clean).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email is already registered")
 
-    user_role = "ADMIN" if payload.role and payload.role.upper() == "ADMIN" else "USER"
+    # Strict RBAC: Public registration ALWAYS assigns the USER role (no privilege escalation)
+    user_role = "USER"
 
     user = User(
         name=f"{payload.firstName.strip()} {payload.lastName.strip()}",
@@ -136,11 +137,15 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
         email=email_clean,
         age=payload.age,
         role=user_role,
+        is_active=1,
         password_hash=get_password_hash(payload.password)
     )
     db.add(user)
     db.commit()
     db.refresh(user)
+
+    # Send admin notification email (non-blocking, failure-safe)
+    send_admin_user_registration_email(user=user)
 
     # Invalidate / remove the used OTP so it cannot be reused
     if stored_otp:
@@ -157,7 +162,8 @@ def register(payload: UserRegister, db: Session = Depends(get_db)):
             email=user.email,
             first_name=user.first_name,
             last_name=user.last_name,
-            role=user.role
+            role=user.role,
+            is_active=user.is_active if hasattr(user, "is_active") else 1
         )
     )
 
@@ -170,6 +176,12 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
 
+    if getattr(user, "is_active", 1) == 0:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Your account has been deactivated. Please contact support or system administrator."
+        )
+
     access_token = create_access_token(data={"sub": str(user.id), "username": user.username, "role": user.role})
     return TokenResponse(
         access_token=access_token,
@@ -180,7 +192,8 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
             email=user.email,
             first_name=user.first_name or "",
             last_name=user.last_name or "",
-            role=user.role
+            role=user.role,
+            is_active=user.is_active if hasattr(user, "is_active") else 1
         )
     )
 
@@ -192,7 +205,8 @@ def get_current_user_profile(current_user: User = Depends(get_current_user)):
         email=current_user.email,
         first_name=current_user.first_name or "",
         last_name=current_user.last_name or "",
-        role=current_user.role
+        role=current_user.role,
+        is_active=current_user.is_active if hasattr(current_user, "is_active") else 1
     )
 
 @router.post("/forgot-password")

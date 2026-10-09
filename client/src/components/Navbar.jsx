@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, isSuperAdmin, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,6 +38,13 @@ export default function Navbar() {
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+  };
+
+  const getRoleBadgeLabel = () => {
+    if (!user) return 'User';
+    if (isSuperAdmin) return `👑 Super Admin (${user.username || user.email})`;
+    if (isAdmin) return `🛡️ Admin (${user.username || user.email})`;
+    return user.first_name || user.username || 'User';
   };
 
   return (
@@ -74,10 +81,11 @@ export default function Navbar() {
             <li>
               <Link
                 to="/admin"
-                className={location.pathname === '/admin' ? 'active' : ''}
-                style={{ color: '#FFC400', fontWeight: '750' }}
+                className={`nav-admin-btn ${location.pathname === '/admin' ? 'active' : ''}`}
+                title="Open Administrative Dashboard"
               >
-                ★ Admin Panel
+                <span>{isSuperAdmin ? '👑' : '🛡️'}</span>
+                <span>Admin Panel</span>
               </Link>
             </li>
           )}
@@ -101,22 +109,23 @@ export default function Navbar() {
           </form>
 
           {/* My Booking Icon */}
-          <Link to="/my-events" className="icon-btn" title="My Booking" aria-label="My Bookings">
+          <Link to="/my-events" className="icon-btn" title="My Bookings" aria-label="My Bookings">
             <svg viewBox="0 0 24 24">
               <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
             </svg>
           </Link>
 
-          {/* User Login Icon or Logged In Username */}
+          {/* User Login Icon or Logged In Username Badge */}
           {user ? (
-            <span
-              className="user-badge"
+            <button
+              type="button"
+              className={`user-badge ${isSuperAdmin ? 'super-admin' : isAdmin ? 'admin' : ''}`}
               onClick={handleLogout}
-              title="Click to Logout"
-              style={isAdmin ? { background: 'linear-gradient(135deg, #4A0712, #2A050D)', color: '#fff', border: '1px solid rgba(254, 178, 178, 0.4)' } : {}}
+              title={`Logged in as ${getRoleBadgeLabel()} — Click to Logout`}
+              aria-label={`Logged in as ${getRoleBadgeLabel()} — Click to Logout`}
             >
-              {isAdmin ? `🛡️ Admin (${user.username})` : (user.first_name || user.username || 'User')}
-            </span>
+              <span className="user-badge-text">{getRoleBadgeLabel()}</span>
+            </button>
           ) : (
             <Link to="/login" className="icon-btn" title="User Login" aria-label="User Login">
               <svg viewBox="0 0 24 24">
@@ -188,11 +197,11 @@ export default function Navbar() {
             <li>
               <Link
                 to="/admin"
-                className={location.pathname === '/admin' ? 'active' : ''}
-                style={{ color: '#FFC400', fontWeight: '750' }}
+                className={`mobile-admin-link ${location.pathname === '/admin' ? 'active' : ''}`}
                 onClick={closeMobileMenu}
               >
-                ★ Admin Panel
+                <span>{isSuperAdmin ? '👑 Admin Panel' : '🛡️ Admin Panel'}</span>
+                <span className="mobile-admin-pill">Portal</span>
               </Link>
             </li>
           )}
@@ -208,8 +217,8 @@ export default function Navbar() {
 
           {user ? (
             <div className="mobile-user-row">
-              <span className="mobile-user-name">
-                {isAdmin ? `🛡️ Admin (${user.username})` : `👤 ${user.first_name || user.username || 'User'}`}
+              <span className="mobile-user-name" title={getRoleBadgeLabel()}>
+                {getRoleBadgeLabel()}
               </span>
               <button type="button" className="mobile-logout-btn" onClick={handleLogout}>
                 Logout

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import '../styles/home.css';
 
 export default function Home() {
-  const [cardTilt, setCardTilt] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
   const [counterTriggered, setCounterTriggered] = useState(false);
   const [counters, setCounters] = useState({
     events: 0,
@@ -265,6 +263,7 @@ export default function Home() {
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const dragDistRef = useRef(0);
+  const dragRafRef = useRef(null);
 
   const showcaseSlides = [
     {
@@ -330,7 +329,7 @@ export default function Home() {
   const nextShowcase = () => setShowcaseSlide((prev) => (prev + 1) % showcaseSlides.length);
   const prevShowcase = () => setShowcaseSlide((prev) => (prev - 1 + showcaseSlides.length) % showcaseSlides.length);
 
-  // Mouse Drag handlers for horizontal gallery
+  // Mouse Drag handlers for horizontal gallery with RAF throttling
   const handleShowcaseMouseDown = (e) => {
     isDraggingRef.current = true;
     startXRef.current = e.clientX;
@@ -342,12 +341,16 @@ export default function Home() {
     if (!isDraggingRef.current) return;
     const diff = e.clientX - startXRef.current;
     dragDistRef.current = diff;
-    setDragOffset(diff);
+    if (dragRafRef.current) cancelAnimationFrame(dragRafRef.current);
+    dragRafRef.current = requestAnimationFrame(() => {
+      setDragOffset(diff);
+    });
   };
 
   const handleShowcaseMouseUp = () => {
     if (!isDraggingRef.current) return;
     isDraggingRef.current = false;
+    if (dragRafRef.current) cancelAnimationFrame(dragRafRef.current);
     if (dragDistRef.current < -50) {
       nextShowcase();
     } else if (dragDistRef.current > 50) {
@@ -363,7 +366,7 @@ export default function Home() {
     setIsShowcasePaused(false);
   };
 
-  // Mobile Touch Swipe handlers for horizontal gallery
+  // Mobile Touch Swipe handlers for horizontal gallery with RAF throttling
   const showcaseTouchStartX = useRef(0);
   const showcaseTouchDeltaX = useRef(0);
 
@@ -376,11 +379,15 @@ export default function Home() {
   const handleShowcaseTouchMove = (e) => {
     const diff = e.touches[0].clientX - showcaseTouchStartX.current;
     showcaseTouchDeltaX.current = diff;
-    setDragOffset(diff);
+    if (dragRafRef.current) cancelAnimationFrame(dragRafRef.current);
+    dragRafRef.current = requestAnimationFrame(() => {
+      setDragOffset(diff);
+    });
   };
 
   const handleShowcaseTouchEnd = () => {
     setIsShowcasePaused(false);
+    if (dragRafRef.current) cancelAnimationFrame(dragRafRef.current);
     if (showcaseTouchDeltaX.current < -45) {
       nextShowcase();
     } else if (showcaseTouchDeltaX.current > 45) {
@@ -528,7 +535,7 @@ export default function Home() {
     setPortfolioIndex(idx);
   };
 
-  // 7. Hero Card 3D Magnetic Parallax Tilt with RAF throttling
+  // 7. Hero Card 3D Magnetic Parallax Tilt with zero React re-renders
   const handleMouseMove = (e) => {
     if (!heroCardRef.current) return;
     const rect = heroCardRef.current.getBoundingClientRect();
@@ -537,20 +544,29 @@ export default function Home() {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
+    const rotateX = (((y - centerY) / centerY) * -3.5).toFixed(2);
+    const rotateY = (((x - centerX) / centerX) * 3.5).toFixed(2);
 
     if (mouseRafRef.current) cancelAnimationFrame(mouseRafRef.current);
     mouseRafRef.current = requestAnimationFrame(() => {
-      setCardTilt({ x: rotateX, y: rotateY });
+      if (heroCardRef.current) {
+        heroCardRef.current.style.transform = `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      }
     });
   };
 
-  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseEnter = () => {
+    if (heroCardRef.current) {
+      heroCardRef.current.style.transition = 'transform 0.15s ease-out';
+    }
+  };
+
   const handleMouseLeave = () => {
     if (mouseRafRef.current) cancelAnimationFrame(mouseRafRef.current);
-    setIsHovered(false);
-    setCardTilt({ x: 0, y: 0 });
+    if (heroCardRef.current) {
+      heroCardRef.current.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      heroCardRef.current.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg)';
+    }
   };
 
   // 8. Client Reviews Horizontal Slider
@@ -722,12 +738,6 @@ export default function Home() {
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            style={{
-              transform: isHovered
-                ? `perspective(1400px) rotateX(${cardTilt.x * 0.35}deg) rotateY(${cardTilt.y * 0.35}deg)`
-                : 'perspective(1400px)',
-              transition: isHovered ? 'transform 0.15s ease-out' : 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)'
-            }}
           >
             {/* Left Nav Arrow */}
             <button

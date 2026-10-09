@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -10,6 +10,10 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const from = location.state?.from || queryParams.get('from') || queryParams.get('redirect');
 
   const showToast = (text) => {
     setMsg(text);
@@ -27,7 +31,9 @@ export default function Login() {
         showToast(`Welcome back, ${res.data.user.first_name || res.data.user.username}!`);
         
         setTimeout(() => {
-          if (res.data.user.role === 'ADMIN') {
+          if (from) {
+            navigate(from);
+          } else if (res.data.user.role === 'ADMIN' || res.data.user.role === 'SUPER_ADMIN') {
             navigate('/admin');
           } else {
             navigate('/my-events');
@@ -76,7 +82,7 @@ export default function Login() {
             <Link to="/forgot-password" className="link-item">
               Forgot password?
             </Link>
-            <Link to="/register" className="link-item">
+            <Link to="/register" state={{ from }} className="link-item">
               Register
             </Link>
           </div>

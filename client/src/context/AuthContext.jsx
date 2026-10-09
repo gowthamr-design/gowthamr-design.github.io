@@ -46,10 +46,12 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('bb_user');
   };
 
-  const isAdmin = user?.role === 'ADMIN';
+  const userRole = (user?.role || '').toUpperCase();
+  const isAdmin = userRole === 'ADMIN' || userRole === 'SUPER_ADMIN';
+  const isSuperAdmin = userRole === 'SUPER_ADMIN';
 
   return (
-    <AuthContext.Provider value={{ user, token, isAdmin, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isAdmin, isSuperAdmin, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

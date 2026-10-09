@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -20,6 +20,10 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const from = location.state?.from || queryParams.get('from') || queryParams.get('redirect');
 
   const showToast = (text) => {
     setMsg(text);
@@ -113,7 +117,7 @@ export default function Register() {
       if (res.data && res.data.access_token) {
         login(res.data.access_token, res.data.user);
         showToast('Registration successful! Welcome to Banana Brothers.');
-        setTimeout(() => navigate('/my-events'), 800);
+        setTimeout(() => navigate(from || '/my-events'), 800);
       }
     } catch (err) {
       const detail = err.response?.data?.detail || 'Registration failed. Please try again.';
@@ -259,7 +263,7 @@ export default function Register() {
 
           {/* Link Row */}
           <div className="links-row">
-            <Link to="/login" className="link-item">
+            <Link to="/login" state={{ from }} className="link-item">
               Already have an account? Login
             </Link>
           </div>

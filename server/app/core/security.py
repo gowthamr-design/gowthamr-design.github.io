@@ -44,19 +44,33 @@ def get_current_user(token: Optional[str] = Depends(oauth2_scheme), db: Session 
     if not payload or "sub" not in payload:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication token",
+            detail="Invalid or expired authentication token",
             headers={"WWW-Authenticate": "Bearer"},
         )
     user_id = payload.get("sub")
     from app.models.models import User
-    user = db.query(User).filter(User.id == int(user_id)).first()
+    try:
+        user = db.query(User).filter(User.id == int(user_id)).first()
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found",
+            detail="User account not found",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    if getattr(user, "is_active", 1) == 0:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Your account has been deactivated. Please contact support or system administrator."
+        )
     return user
+
+get_current_active_user = get_current_user
 
 def get_optional_current_user(token: Optional[str] = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     if not token:
@@ -67,14 +81,26 @@ def get_optional_current_user(token: Optional[str] = Depends(oauth2_scheme), db:
     try:
         user_id = int(payload.get("sub"))
         from app.models.models import User
-        return db.query(User).filter(User.id == user_id).first()
+        user = db.query(User).filter(User.id == user_id).first()
+        if user and getattr(user, "is_active", 1) != 0:
+            return user
+        return None
     except Exception:
         return None
 
-def require_admin(current_user = Depends(get_current_user)):
-    if not current_user or current_user.role != "ADMIN":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Administrative privileges required to access this resource"
-        )
-    return current_user
+def require_roles(*allowed_roles: str):
+    def role_checker(current_user = Depends(get_current_user)):
+        normalized_roles = [r.upper() for r in allowed_roles]
+        user_role = (current_user.role or "USER").upper()
+        if user_role not in normalized_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Access forbidden: requires one of the following roles: {', '.join(normalized_roles)}"
+            )
+        return current_user
+    return role_checker
+
+# Convenience role dependencies
+require_admin = require_roles("ADMIN", "SUPER_ADMIN")
+require_super_admin = require_roles("SUPER_ADMIN")
+

@@ -120,9 +120,9 @@ DEFAULT_SERVICES = [
 
 @router.get("", response_model=List[ServiceResponse])
 def get_services(category: Optional[str] = Query(None), q: Optional[str] = Query(None), db: Session = Depends(get_db)):
-    # Query database services or fallback to exact defaults from prototype
-    services = db.query(Service).all()
-    if not services or len(services) < 12:
+    # Query only published database services or fallback to defaults
+    services = db.query(Service).filter(Service.is_published == 1).order_by(Service.display_order.asc(), Service.id.asc()).all()
+    if not services:
         res = DEFAULT_SERVICES
     else:
         res = [

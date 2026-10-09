@@ -42,11 +42,51 @@ DEFAULT_PACKAGES = [
 
 @router.get("", response_model=List[PackageResponse])
 def get_packages(db: Session = Depends(get_db)):
-    return DEFAULT_PACKAGES
+    db_pkgs = db.query(Package).filter(Package.is_published == 1).order_by(Package.display_order.asc(), Package.id.asc()).all()
+    if db_pkgs:
+        return [
+            PackageResponse(
+                id=p.id,
+                name=p.name,
+                tier_name=p.name,
+                tier_slug=p.tier_slug,
+                badge_text=p.badge_text,
+                starting_price=float(p.starting_price or p.base_price or 0.0),
+                base_price=float(p.base_price or 0.0),
+                description=p.description,
+                services_included=p.services_included,
+                features_list=[s.strip() for s in p.services_included.split(",")] if p.services_included else [],
+                image_url=p.image_url,
+                display_order=p.display_order or 0,
+                is_published=getattr(p, "is_published", 1)
+            )
+            for p in db_pkgs
+        ]
+    return [
+        PackageResponse(**p, tier_name=p["name"]) for p in DEFAULT_PACKAGES
+    ]
 
 @router.get("/{tier_slug}", response_model=PackageResponse)
 def get_package_by_slug(tier_slug: str, db: Session = Depends(get_db)):
-    for pkg in DEFAULT_PACKAGES:
-        if pkg["tier_slug"].lower() == tier_slug.lower():
-            return pkg
-    return DEFAULT_PACKAGES[0]
+    slug_clean = tier_slug.strip().lower()
+    p = db.query(Package).filter(Package.tier_slug == slug_clean).first()
+    if p:
+        return PackageResponse(
+            id=p.id,
+            name=p.name,
+            tier_name=p.name,
+            tier_slug=p.tier_slug,
+            badge_text=p.badge_text,
+            starting_price=float(p.starting_price or p.base_price or 0.0),
+            base_price=float(p.base_price or 0.0),
+            description=p.description,
+            services_included=p.services_included,
+            features_list=[s.strip() for s in p.services_included.split(",")] if p.services_included else [],
+            image_url=p.image_url,
+            display_order=p.display_order or 0,
+            is_published=getattr(p, "is_published", 1)
+        )
+    for def_pkg in DEFAULT_PACKAGES:
+        if def_pkg["tier_slug"].lower() == slug_clean:
+            return PackageResponse(**def_pkg, tier_name=def_pkg["name"])
+    return PackageResponse(**DEFAULT_PACKAGES[0], tier_name=DEFAULT_PACKAGES[0]["name"])

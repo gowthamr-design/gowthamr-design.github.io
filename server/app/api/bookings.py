@@ -4,7 +4,8 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.core.security import decode_token
+from app.core.security import decode_token, get_current_active_user, get_optional_current_user
+from app.core.email import send_admin_booking_notification_email
 from app.models.models import Booking, User
 from app.schemas.schemas import BookingCalculateRequest, BookingCalculateResponse, BookingCreateRequest, BookingResponse
 
@@ -55,18 +56,11 @@ def calculate_booking_price(payload: BookingCalculateRequest):
     )
 
 @router.post("")
-def create_booking(payload: BookingCreateRequest, authorization: str = Header(None), db: Session = Depends(get_db)):
-    # Check if user is authenticated via token
-    user_id = None
-    if authorization and authorization.startswith("Bearer "):
-        token = authorization.split(" ")[1]
-        decoded = decode_token(token)
-        if decoded and "sub" in decoded:
-            try:
-                user_id = int(decoded["sub"])
-            except Exception:
-                user_id = None
-
+def create_booking(
+    payload: BookingCreateRequest,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
     tier = payload.package_tier.lower()
     base_price = BASE_PRICES.get(tier, 150000.0)
 
@@ -91,12 +85,12 @@ def create_booking(payload: BookingCreateRequest, authorization: str = Header(No
 
     booking = Booking(
         booking_reference=booking_ref,
-        user_id=user_id,
+        user_id=current_user.id,
         package_tier=payload.package_tier,
-        full_name=payload.fullName,
-        mobile_no=payload.mobileNo,
+        full_name=payload.fullName or current_user.name or current_user.username,
+        mobile_no=payload.mobileNo or current_user.phone or "",
         alt_mobile_no=payload.altMobileNo,
-        email=payload.emailAddr,
+        email=payload.emailAddr or current_user.email,
         function_category=payload.functionType,
         district=payload.districtSelect,
         place_area=payload.place,
@@ -120,6 +114,9 @@ def create_booking(payload: BookingCreateRequest, authorization: str = Header(No
     db.commit()
     db.refresh(booking)
 
+    # Send admin notification email (non-blocking, failure-safe)
+    send_admin_booking_notification_email(booking=booking)
+
     return {
         "success": True,
         "message": f"Your {payload.package_tier.capitalize()} Package Order has been placed successfully!",
@@ -130,7 +127,11 @@ def create_booking(payload: BookingCreateRequest, authorization: str = Header(No
     }
 
 @router.get("/{identifier}", response_model=BookingResponse)
-def get_booking_by_id_or_ref(identifier: str, db: Session = Depends(get_db)):
+def get_booking_by_id_or_ref(
+    identifier: str,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_optional_current_user)
+):
     if identifier.isdigit():
         booking = db.query(Booking).filter(Booking.id == int(identifier)).first()
     else:
@@ -138,6 +139,29 @@ def get_booking_by_id_or_ref(identifier: str, db: Session = Depends(get_db)):
 
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
+
+    # Access Control:
+    # 1. Admin & Super Admin have full access
+    if current_user and (current_user.role or "").upper() in ["ADMIN", "SUPER_ADMIN"]:
+        pass
+    # 2. Authenticated standard user can only access their own bookings
+    elif current_user:
+        is_owner = (
+            (booking.user_id is not None and booking.user_id == current_user.id) or
+            (booking.email and booking.email.strip().lower() == current_user.email.strip().lower())
+        )
+        if not is_owner:
+            raise HTTPException(
+                status_code=403,
+                detail="Access denied: You do not have permission to view this booking."
+            )
+    # 3. Unauthenticated access is only allowed for the unique booking reference token (e.g. immediately after checkout)
+    else:
+        if identifier.isdigit():
+            raise HTTPException(
+                status_code=401,
+                detail="Authentication required to access booking details by ID."
+            )
 
     return BookingResponse(
         id=booking.id,

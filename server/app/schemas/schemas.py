@@ -1,4 +1,4 @@
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Union
 from pydantic import BaseModel, EmailStr
 
 # Auth Schemas
@@ -24,6 +24,7 @@ class UserResponse(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     role: str = "USER"
+    is_active: int = 1
 
     class Config:
         from_attributes = True
@@ -45,28 +46,199 @@ class ForgotPasswordRequest(BaseModel):
     otp: str
     new_password: str
 
-# Catalog Schemas
-class ServiceResponse(BaseModel):
-    id: int
+# RBAC Management Schemas
+class AdminCreateRequest(BaseModel):
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    full_name: Optional[str] = None
+    phone_number: Optional[str] = None
+    username: str
+    email: EmailStr
+    age: Optional[int] = 25
+    password: str
+    role: Optional[str] = "ADMIN"
+
+class UserRoleUpdateRequest(BaseModel):
+    role: str  # USER, ADMIN, SUPER_ADMIN
+
+class UserStatusUpdateRequest(BaseModel):
+    is_active: int  # 1 for active, 0 for inactive
+
+# Catalog & CMS Schemas
+class ServiceCreateRequest(BaseModel):
     name: str
     category: str
     description: Optional[str] = None
     starting_price: float
+    base_price: Optional[float] = None
     price_unit: Optional[str] = "flat"
     image_url: Optional[str] = None
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
+
+class ServiceUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    category: Optional[str] = None
+    description: Optional[str] = None
+    starting_price: Optional[float] = None
+    base_price: Optional[float] = None
+    price_unit: Optional[str] = None
+    image_url: Optional[str] = None
+    display_order: Optional[int] = None
+    is_published: Optional[int] = None
+
+class ServiceResponse(BaseModel):
+    id: int
+    name: str
+    category: Optional[str] = "Weddings"
+    description: Optional[str] = None
+    starting_price: Optional[float] = 0.0
+    base_price: Optional[float] = None
+    price_unit: Optional[str] = "flat"
+    image_url: Optional[str] = None
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
 
     class Config:
         from_attributes = True
 
+class PackageCreateRequest(BaseModel):
+    name: Optional[str] = None
+    tier_name: Optional[str] = None
+    tier_slug: Optional[str] = None
+    badge_text: Optional[str] = None
+    starting_price: float
+    base_price: Optional[float] = None
+    description: Optional[str] = None
+    features_list: Optional[Union[List[str], str]] = None
+    services_included: Optional[str] = None
+    image_url: Optional[str] = None
+    display_order: Optional[int] = 0
+    is_published: Optional[Union[int, bool]] = 1
+
+class PackageUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    tier_name: Optional[str] = None
+    tier_slug: Optional[str] = None
+    badge_text: Optional[str] = None
+    starting_price: Optional[float] = None
+    base_price: Optional[float] = None
+    description: Optional[str] = None
+    features_list: Optional[Union[List[str], str]] = None
+    services_included: Optional[str] = None
+    image_url: Optional[str] = None
+    display_order: Optional[int] = None
+    is_published: Optional[Union[int, bool]] = None
+
 class PackageResponse(BaseModel):
     id: int
     name: str
-    tier_slug: str
-    badge_text: str
-    starting_price: float
-    base_price: float
+    tier_name: Optional[str] = None
+    tier_slug: Optional[str] = None
+    badge_text: Optional[str] = None
+    starting_price: Optional[float] = 0.0
+    base_price: Optional[float] = None
+    description: Optional[str] = None
+    features_list: Optional[Union[List[str], str]] = None
+    services_included: Optional[str] = None
+    image_url: Optional[str] = None
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
+
+    class Config:
+        from_attributes = True
+
+# Gallery Schemas
+class GalleryCreateRequest(BaseModel):
+    title: Optional[str] = None
+    media_type: str = "image"  # "image" or "video"
+    src: str
+    poster_url: Optional[str] = None
+    category: Optional[str] = "Highlights"
+    caption: Optional[str] = None
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
+
+class GalleryUpdateRequest(BaseModel):
+    title: Optional[str] = None
+    media_type: Optional[str] = None
+    src: Optional[str] = None
+    poster_url: Optional[str] = None
+    category: Optional[str] = None
+    caption: Optional[str] = None
+    display_order: Optional[int] = None
+    is_published: Optional[int] = None
+
+class GalleryReorderRequest(BaseModel):
+    item_ids: List[int]
+
+class GalleryResponse(BaseModel):
+    id: int
+    title: Optional[str] = None
+    media_type: str = "image"
+    src: str
+    poster_url: Optional[str] = None
+    category: Optional[str] = "Highlights"
+    caption: Optional[str] = None
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
+
+    class Config:
+        from_attributes = True
+
+# Event Showcase Schemas
+class EventCreateRequest(BaseModel):
+    title: str
+    category: Optional[str] = "Custom Event"
+    status: Optional[str] = "UPCOMING"
+    date: Optional[str] = None
+    location: Optional[str] = None
     description: Optional[str] = None
     image_url: Optional[str] = None
+    total_amount: Optional[float] = 0.0
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
+
+class EventUpdateRequest(BaseModel):
+    title: Optional[str] = None
+    category: Optional[str] = None
+    status: Optional[str] = None
+    date: Optional[str] = None
+    location: Optional[str] = None
+    description: Optional[str] = None
+    image_url: Optional[str] = None
+    total_amount: Optional[float] = None
+    display_order: Optional[int] = None
+    is_published: Optional[int] = None
+
+class EventResponse(BaseModel):
+    id: int
+    title: str
+    category: Optional[str] = None
+    status: str = "UPCOMING"
+    date: Optional[str] = None
+    location: Optional[str] = None
+    description: Optional[str] = None
+    image_url: Optional[str] = None
+    total_amount: Optional[float] = 0.0
+    display_order: Optional[int] = 0
+    is_published: Optional[int] = 1
+
+    class Config:
+        from_attributes = True
+
+# Page Content CMS Schemas
+class PageContentSaveRequest(BaseModel):
+    page_key: str
+    section_key: str
+    content_json: str
+
+class PageContentResponse(BaseModel):
+    id: int
+    page_key: str
+    section_key: str
+    content_json: str
+    updated_at: Optional[Any] = None
 
     class Config:
         from_attributes = True
@@ -101,7 +273,7 @@ class BookingCreateRequest(BaseModel):
     toDate: str
     fromTime: str
     toTime: str
-    mapLocation: str
+    mapLocation: Optional[str] = None
     estimatedAmount: Optional[float] = None
 
 class BookingResponse(BaseModel):

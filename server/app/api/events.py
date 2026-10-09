@@ -1,9 +1,10 @@
 from typing import List
 from fastapi import APIRouter, Depends, Header
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from app.core.database import get_db
 from app.core.security import decode_token
-from app.models.models import Booking
+from app.models.models import Booking, User
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
@@ -56,7 +57,16 @@ def get_my_events(authorization: str = Header(None), db: Session = Depends(get_d
                 user_id = None
 
     if user_id:
-        bookings = db.query(Booking).filter(Booking.user_id == user_id).order_by(Booking.id.desc()).all()
+        user = db.query(User).filter(User.id == user_id).first()
+        user_email = user.email.strip().lower() if user and user.email else None
+
+        if user_email:
+            bookings = db.query(Booking).filter(
+                (Booking.user_id == user_id) | (func.lower(Booking.email) == user_email)
+            ).order_by(Booking.id.desc()).all()
+        else:
+            bookings = db.query(Booking).filter(Booking.user_id == user_id).order_by(Booking.id.desc()).all()
+
         if bookings:
             return [
                 {

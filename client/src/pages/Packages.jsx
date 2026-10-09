@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/packages.css';
 
 const PACKAGES_DATA = [
@@ -63,6 +64,18 @@ const PACKAGES_DATA = [
 ];
 
 export default function Packages() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSelectPackage = (e, targetLink) => {
+    e.preventDefault();
+    if (!user) {
+      navigate('/login', { state: { from: targetLink } });
+    } else {
+      navigate(targetLink);
+    }
+  };
+
   return (
     <main className="packages-master-page">
       {/* Ambient Parallax Glowing Orbs */}
@@ -173,6 +186,7 @@ export default function Packages() {
                 <div className="pkg-action-wrap">
                   <Link
                     to={pkg.detailsLink}
+                    onClick={(e) => handleSelectPackage(e, pkg.detailsLink)}
                     className="pkg-view-btn"
                     aria-label={`View details for ${pkg.name}`}
                   >

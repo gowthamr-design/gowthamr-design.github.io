@@ -16,6 +16,7 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     age = Column(Integer, nullable=True)
     role = Column(String(50), default="USER", nullable=False)
+    is_active = Column(Integer, default=1, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -34,7 +35,10 @@ class Package(Base):
     tier_slug = Column(String(50), nullable=True)
     badge_text = Column(String(50), nullable=True)
     image_url = Column(String(500), nullable=True)
+    display_order = Column(Integer, default=0)
+    is_published = Column(Integer, default=1, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Service(Base):
     __tablename__ = "services"
@@ -47,7 +51,10 @@ class Service(Base):
     starting_price = Column(Numeric(12, 2), nullable=True)
     price_unit = Column(String(50), default="flat")
     image_url = Column(String(500), nullable=True)
+    display_order = Column(Integer, default=0)
+    is_published = Column(Integer, default=1, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Booking(Base):
     __tablename__ = "bookings"
@@ -95,3 +102,46 @@ class OTPVerification(Base):
     is_used = Column(Integer, default=0) # Using Integer (0/1) since some DBs lack Boolean
     expires_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+class GalleryItem(Base):
+    __tablename__ = "gallery_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), nullable=True)
+    media_type = Column(String(50), default="image", nullable=False) # "image" or "video"
+    src = Column(String(500), nullable=False)
+    poster_url = Column(String(500), nullable=True)
+    category = Column(String(100), default="Highlights", nullable=True)
+    caption = Column(Text, nullable=True)
+    display_order = Column(Integer, default=0)
+    is_published = Column(Integer, default=1, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class EventItem(Base):
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), nullable=False)
+    category = Column(String(100), nullable=True)
+    status = Column(String(50), default="UPCOMING", nullable=False)
+    date = Column(String(100), nullable=True)
+    location = Column(String(255), nullable=True)
+    description = Column(Text, nullable=True)
+    image_url = Column(String(500), nullable=True)
+    total_amount = Column(Numeric(12, 2), default=0.0)
+    display_order = Column(Integer, default=0)
+    is_published = Column(Integer, default=1, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class PageContent(Base):
+    __tablename__ = "page_contents"
+
+    id = Column(Integer, primary_key=True, index=True)
+    page_key = Column(String(100), nullable=False, index=True) # e.g. "home", "about", "contact"
+    section_key = Column(String(100), nullable=False, index=True) # e.g. "hero", "metrics", "testimonials"
+    content_json = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
