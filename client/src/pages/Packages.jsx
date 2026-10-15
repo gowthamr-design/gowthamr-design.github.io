@@ -13,7 +13,7 @@ const PACKAGES_DATA = [
     tagline: 'Royal Bespoke Experience',
     description: 'Complete royal wedding curation featuring monumental stage architectures, imported floral canopies, 4K multi-cam drone cinematography, and opulent culinary banquets.',
     price: '₹3,50,000',
-    image: '/images (3).jpg',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     features: [
       'Bespoke Stage Architecture & Imported Florals',
       '4K Cinematic Cinema Drone & Live Coverage',
@@ -32,7 +32,7 @@ const PACKAGES_DATA = [
     tagline: 'High-Impact Executive Production',
     description: 'Premier business conferences, product launches, and annual awards celebrations equipped with concert-grade line arrays, professional photography, and executive dining.',
     price: '₹1,20,000',
-    image: '/images (20).jpg',
+    image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     features: [
       'Keynote Staging & Live Broadcast AV Array',
       'Ultra-HD Candid Event Photography & Albums',
@@ -51,7 +51,7 @@ const PACKAGES_DATA = [
     tagline: 'Vibrant Milestone Memories',
     description: 'Customized milestone birthdays, baby showers, and anniversary surprises with elegant themed backdrops, balloon installations, mood lighting, and high-energy music.',
     price: '₹25,000',
-    image: '/images (7).jpg',
+    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
     features: [
       'Custom Thematic Backdrop & Balloon Architecture',
       'High-Definition Candid Photography Coverage',

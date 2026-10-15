@@ -9,7 +9,7 @@ const DEFAULT_EVENTS = [
     date: '15 Nov 2026',
     location: 'Chennai, Tamil Nadu',
     description: 'Full traditional wedding setup with imported floral backdrop, cinematic 4K videography, and lavish multi-course feast.',
-    image_url: '/images (3).jpg',
+    image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80',
     status: 'UPCOMING',
     status_class: 'status-upcoming',
     booking_reference: 'BB-2026-DEMO1'
@@ -20,7 +20,7 @@ const DEFAULT_EVENTS = [
     date: '02 Dec 2026',
     location: 'Coimbatore, Tamil Nadu',
     description: 'Executive conference setup with high-end audio-visual systems, ambient lighting, and executive catering buffet.',
-    image_url: '/images (20).jpg',
+    image_url: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80',
     status: 'UPCOMING',
     status_class: 'status-upcoming',
     booking_reference: 'BB-2026-DEMO2'
@@ -31,7 +31,7 @@ const DEFAULT_EVENTS = [
     date: '24 Aug 2026',
     location: 'Madurai, Tamil Nadu',
     description: 'Themed balloon arch decorations, custom cake table arrangement, sound system, and fun entertainment activities.',
-    image_url: '/images (7).jpg',
+    image_url: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80',
     status: 'COMPLETED',
     status_class: 'status-completed',
     booking_reference: 'BB-2026-DEMO3'
@@ -76,7 +76,7 @@ export default function MyEvents() {
         {events.map((ev) => (
           <div className="event-card" key={ev.id || ev.booking_reference}>
             <div className="card-image-wrap">
-              <img src={ev.image_url || '/images (3).jpg'} alt={ev.title} className="card-image" />
+              <img src={ev.image_url || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80'} alt={ev.title} className="card-image" />
               <span className={`status-tag ${ev.status_class || (ev.status === 'COMPLETED' ? 'status-completed' : 'status-upcoming')}`}>
                 {ev.status || 'UPCOMING'}
               </span>

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const rawBaseUrl = import.meta.env.VITE_API_BASE_URL;
+const PRODUCTION_BACKEND_URL = 'https://banana-brothers-api.onrender.com/api/v1';
 
-const formatBaseUrl = (url) => {
-  if (!url || !url.trim()) return '/api/v1';
+export const formatBaseUrl = (url) => {
+  if (!url || !url.trim()) return '';
   let clean = url.trim().replace(/\/+$/, '');
   if (!clean.endsWith('/api/v1') && (clean.startsWith('http://') || clean.startsWith('https://'))) {
     clean = `${clean}/api/v1`;
@@ -11,7 +11,58 @@ const formatBaseUrl = (url) => {
   return clean;
 };
 
-export const API_BASE_URL = formatBaseUrl(rawBaseUrl);
+export const resolveApiBaseUrl = () => {
+  // 1. Explicit window or localStorage override (useful for custom domains or staging)
+  if (typeof window !== 'undefined') {
+    const override = window.VITE_API_BASE_URL || localStorage.getItem('bb_api_base_url');
+    if (override && override.trim()) {
+      return formatBaseUrl(override);
+    }
+  }
+
+  // 2. Build-time environment variable if configured to an absolute backend URL
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  if (envUrl && envUrl.trim() && envUrl !== '/api/v1') {
+    return formatBaseUrl(envUrl);
+  }
+
+  // 3. Runtime domain check: if loaded on GitHub Pages or any non-localhost host
+  if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+    const host = window.location.hostname.toLowerCase();
+    const isLocalhost = host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host === '';
+    if (!isLocalhost) {
+      return PRODUCTION_BACKEND_URL;
+    }
+  }
+
+  // 4. Default for local development (proxied by Vite to http://localhost:8000)
+  return formatBaseUrl(envUrl) || '/api/v1';
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
+
+/**
+ * Resolves static or uploaded media URLs.
+ * If the path starts with /uploads/ and we are on production, points to backend origin.
+ */
+export const getMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+    return url;
+  }
+  if (url.startsWith('/uploads/')) {
+    const base = resolveApiBaseUrl();
+    if (base.startsWith('http://') || base.startsWith('https://')) {
+      try {
+        const origin = new URL(base).origin;
+        return `${origin}${url}`;
+      } catch {
+        return url;
+      }
+    }
+  }
+  return url;
+};
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -20,8 +71,11 @@ const api = axios.create({
   }
 });
 
-// Intercept requests to attach JWT token if present
+// Intercept requests to dynamically attach baseURL and JWT token
 api.interceptors.request.use((config) => {
+  if (!config.baseURL || config.baseURL === '/api/v1') {
+    config.baseURL = resolveApiBaseUrl();
+  }
   const token = localStorage.getItem('bb_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
