@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -18,9 +18,14 @@ export default function Register() {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const firstNameInputRef = useRef(null);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    firstNameInputRef.current?.focus();
+  }, []);
 
   const queryParams = new URLSearchParams(location.search);
   const from = location.state?.from || queryParams.get('from') || queryParams.get('redirect');
@@ -151,6 +156,8 @@ export default function Register() {
           <div className="two-col-group">
             <div className="input-group">
               <input
+                ref={firstNameInputRef}
+                autoFocus
                 type="text"
                 className="input-field-auth"
                 placeholder="First name"

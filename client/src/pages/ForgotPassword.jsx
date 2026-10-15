@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../services/api';
 
@@ -13,7 +13,12 @@ export default function ForgotPassword() {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const emailInputRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    emailInputRef.current?.focus();
+  }, []);
 
   const showToast = (text) => {
     setMsg(text);
@@ -132,6 +137,8 @@ export default function ForgotPassword() {
           <div className="input-group">
             <div className="input-with-action">
               <input
+                ref={emailInputRef}
+                autoFocus
                 type="email"
                 className="input-field-auth"
                 placeholder="Email address"

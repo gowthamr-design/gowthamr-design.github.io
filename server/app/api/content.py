@@ -11,40 +11,72 @@ router = APIRouter(prefix="/content", tags=["Site Content"])
 DEFAULT_PAGE_CONTENTS = {
     "home": {
         "hero": {
-            "badge_text": "EST. 2018 • EXCELLENCE IN EVENT CRAFTSMANSHIP",
-            "title_line_1": "Bespoke Celebrations,",
-            "title_line_2": "Unforgettable Memories",
-            "description": "Tamil Nadu's premier event management company. From magnificent weddings and milestone galas to high-impact corporate summits, we engineer extraordinary experiences with flawless execution.",
+            "tag": "Banana Brothers Events",
+            "badge_text": "Banana Brothers Events",
+            "title": "Where Moments Become Memories.",
+            "lead": "From thoughtful planning to grand celebrations, we bring your vision to life with seamless execution. Every detail is managed with care to create unforgettable moments.",
+            "description": "From thoughtful planning to grand celebrations, we bring your vision to life with seamless execution. Every detail is managed with care to create unforgettable moments.",
+            "primaryBtnText": "Explore Packages",
             "primary_btn_text": "Explore Packages",
+            "primaryBtnLink": "/packages",
             "primary_btn_url": "/packages",
-            "secondary_btn_text": "View Our Work",
-            "secondary_btn_url": "/gallery"
+            "secondaryBtnText": "Book Event",
+            "secondary_btn_text": "Book Event",
+            "secondaryBtnLink": "/packages",
+            "secondary_btn_url": "/packages"
         },
         "metrics": {
+            "events": 1200,
             "events_count": 1200,
-            "events_label": "Celebrations Delivered",
+            "satisfaction": 98,
             "satisfaction_pct": 98,
-            "satisfaction_label": "Client Satisfaction",
+            "specialists": 50,
             "specialists_count": 50,
-            "specialists_label": "In-House Specialists",
-            "experience_years": 15,
-            "experience_label": "Years Industry Mastery"
+            "experience": 15,
+            "experience_years": 15
         },
         "highlights": [
             {
                 "id": 1,
-                "title": "Turnkey Event Execution",
-                "desc": "End-to-end management from concept, 3D design, staging, catering to post-event teardown."
+                "tag": "Luxury Weddings",
+                "title": "The Grand Imperial Wedding",
+                "desc": "Bespoke grand mandap setups, ethereal floral canopies & regal crystal chandeliers.",
+                "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75"
             },
             {
                 "id": 2,
-                "title": "Bespoke Decor & Production",
-                "desc": "Custom handcrafted stages, ethereal lighting rigs, and floral architecture tailored to your theme."
+                "tag": "Corporate Summits",
+                "title": "Global Leadership Summit",
+                "desc": "Cutting-edge panoramic staging, intelligent beam lighting & executive keynote production.",
+                "image": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=75"
             },
             {
                 "id": 3,
-                "title": "Transparent Guaranteed Pricing",
-                "desc": "Itemized add-on calculations with zero hidden fees. Premium service guaranteed at every tier."
+                "tag": "Milestone Celebrations",
+                "title": "Opulent Golden Soirée",
+                "desc": "Luxe marquee illuminations, artisanal decor arrangements & VIP celebratory hosting.",
+                "image": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=75"
+            },
+            {
+                "id": 4,
+                "tag": "Concerts & Festivals",
+                "title": "Electrifying Arena Stage",
+                "desc": "Concert line-array acoustics, dynamic synchronized laser fixtures & stadium energy.",
+                "image": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=75"
+            },
+            {
+                "id": 5,
+                "tag": "Destination Galas",
+                "title": "Ethereal Sunset Pavilion",
+                "desc": "Panoramic beachfront florals, fairy-light canopies & timeless romantic elegance.",
+                "image": "https://images.unsplash.com/photo-1545232979-fbf69c362143?auto=format&fit=crop&w=800&q=75"
+            },
+            {
+                "id": 6,
+                "tag": "Royal Banquets",
+                "title": "Prestige Ballroom Honors",
+                "desc": "Black-tie dining staging, majestic ceiling drapery & world-class banquet coordination.",
+                "image": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=75"
             }
         ]
     },

@@ -1,8 +1,55 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { contentAPI } from '../services/api';
 import '../styles/home.css';
 
+const DEFAULT_HERO_SLIDES = [
+  {
+    id: 1,
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75',
+    tag: 'Luxury Weddings',
+    title: 'The Grand Imperial Wedding',
+    desc: 'Bespoke grand mandap setups, ethereal floral canopies & regal crystal chandeliers.',
+  },
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=75',
+    tag: 'Corporate Summits',
+    title: 'Global Leadership Summit',
+    desc: 'Cutting-edge panoramic staging, intelligent beam lighting & executive keynote production.',
+  },
+  {
+    id: 3,
+    image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=75',
+    tag: 'Milestone Celebrations',
+    title: 'Opulent Golden Soirée',
+    desc: 'Luxe marquee illuminations, artisanal decor arrangements & VIP celebratory hosting.',
+  },
+  {
+    id: 4,
+    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=75',
+    tag: 'Concerts & Festivals',
+    title: 'Electrifying Arena Stage',
+    desc: 'Concert line-array acoustics, dynamic synchronized laser fixtures & stadium energy.',
+  },
+  {
+    id: 5,
+    image: 'https://images.unsplash.com/photo-1545232979-fbf69c362143?auto=format&fit=crop&w=800&q=75',
+    tag: 'Destination Galas',
+    title: 'Ethereal Sunset Pavilion',
+    desc: 'Panoramic beachfront florals, fairy-light canopies & timeless romantic elegance.',
+  },
+  {
+    id: 6,
+    image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=75',
+    tag: 'Royal Banquets',
+    title: 'Prestige Ballroom Honors',
+    desc: 'Black-tie dining staging, majestic ceiling drapery & world-class banquet coordination.',
+  },
+];
+
 export default function Home() {
+  const [homeContent, setHomeContent] = useState(null);
   const [counterTriggered, setCounterTriggered] = useState(false);
   const [counters, setCounters] = useState({
     events: 0,
@@ -16,6 +63,19 @@ export default function Home() {
   const masterContainerRef = useRef(null);
   const progressBarRef = useRef(null);
   const mouseRafRef = useRef(null);
+
+  // Dynamic Home Content Fetching from Database CMS
+  useEffect(() => {
+    contentAPI.getContent('home')
+      .then((res) => {
+        if (res.data) {
+          setHomeContent(res.data);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to load dynamic home content, using defaults:', err);
+      });
+  }, []);
 
   // 1. Optimized RAF Scroll Progress Tracking (Zero React component re-renders)
   useEffect(() => {
@@ -73,6 +133,11 @@ export default function Home() {
           if (entry.isIntersecting && !counterTriggered) {
             setCounterTriggered(true);
 
+            const targetEvents = homeContent?.metrics?.events ?? homeContent?.metrics?.events_count ?? 1200;
+            const targetSatisfaction = homeContent?.metrics?.satisfaction ?? homeContent?.metrics?.satisfaction_pct ?? 98;
+            const targetSpecialists = homeContent?.metrics?.specialists ?? homeContent?.metrics?.specialists_count ?? 50;
+            const targetExperience = homeContent?.metrics?.experience ?? homeContent?.metrics?.experience_years ?? 15;
+
             const duration = 1800; // ms
             const startTime = performance.now();
 
@@ -83,10 +148,10 @@ export default function Home() {
               const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
 
               setCounters({
-                events: Math.floor(easeOut * 1200),
-                satisfaction: Math.floor(easeOut * 98),
-                specialists: Math.floor(easeOut * 50),
-                experience: Math.floor(easeOut * 15),
+                events: Math.floor(easeOut * targetEvents),
+                satisfaction: Math.floor(easeOut * targetSatisfaction),
+                specialists: Math.floor(easeOut * targetSpecialists),
+                experience: Math.floor(easeOut * targetExperience),
               });
 
               if (progress < 1) {
@@ -103,7 +168,7 @@ export default function Home() {
 
     counterObserver.observe(targetMetrics);
     return () => counterObserver.disconnect();
-  }, [counterTriggered]);
+  }, [counterTriggered, homeContent]);
 
   // 4. Hero 3D Carousel State, Auto-play & Fullscreen HD Lightbox
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -111,50 +176,15 @@ export default function Home() {
   const [heroLightboxOpen, setHeroLightboxOpen] = useState(false);
   const [heroLightboxIndex, setHeroLightboxIndex] = useState(0);
 
-  const heroSlides = [
-    {
-      id: 1,
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75',
-      tag: 'Luxury Weddings',
-      title: 'The Grand Imperial Wedding',
-      desc: 'Bespoke grand mandap setups, ethereal floral canopies & regal crystal chandeliers.',
-    },
-    {
-      id: 2,
-      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=75',
-      tag: 'Corporate Summits',
-      title: 'Global Leadership Summit',
-      desc: 'Cutting-edge panoramic staging, intelligent beam lighting & executive keynote production.',
-    },
-    {
-      id: 3,
-      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=75',
-      tag: 'Milestone Celebrations',
-      title: 'Opulent Golden Soirée',
-      desc: 'Luxe marquee illuminations, artisanal decor arrangements & VIP celebratory hosting.',
-    },
-    {
-      id: 4,
-      image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=75',
-      tag: 'Concerts & Festivals',
-      title: 'Electrifying Arena Stage',
-      desc: 'Concert line-array acoustics, dynamic synchronized laser fixtures & stadium energy.',
-    },
-    {
-      id: 5,
-      image: 'https://images.unsplash.com/photo-1545232979-fbf69c362143?auto=format&fit=crop&w=800&q=75',
-      tag: 'Destination Galas',
-      title: 'Ethereal Sunset Pavilion',
-      desc: 'Panoramic beachfront florals, fairy-light canopies & timeless romantic elegance.',
-    },
-    {
-      id: 6,
-      image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=75',
-      tag: 'Royal Banquets',
-      title: 'Prestige Ballroom Honors',
-      desc: 'Black-tie dining staging, majestic ceiling drapery & world-class banquet coordination.',
-    },
-  ];
+  const heroSlides = (homeContent?.highlights && Array.isArray(homeContent.highlights) && homeContent.highlights.length > 0)
+    ? homeContent.highlights.map((h, idx) => ({
+        id: h.id || idx + 1,
+        tag: h.tag || 'Showcase',
+        title: h.title,
+        desc: h.desc,
+        image: h.image || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75'
+      }))
+    : DEFAULT_HERO_SLIDES;
 
   // Auto-slide every 3.8s with pause on hover/interaction & pause when lightbox open
   useEffect(() => {
@@ -656,28 +686,32 @@ export default function Home() {
         <div className="hero-left-col reveal-left">
           <div className="hero-badge-pill">
             <span className="badge-sparkle">✦</span>
-            <span>Banana Brothers Events</span>
+            <span>{homeContent?.hero?.tag || homeContent?.hero?.badge_text || 'Banana Brothers Events'}</span>
           </div>
 
           <h1 className="hero-main-title">
-            Where <span className="gradient-text">Moments</span> Become <span className="gradient-text">Memories.</span>
+            {(!homeContent?.hero?.title || homeContent.hero.title === 'Where Moments Become Memories.') ? (
+              <>Where <span className="gradient-text">Moments</span> Become <span className="gradient-text">Memories.</span></>
+            ) : (
+              homeContent.hero.title
+            )}
           </h1>
 
           <p className="hero-lead-text">
-            From thoughtful planning to grand celebrations, we bring your vision to life with seamless execution. Every detail is managed with care to create unforgettable moments.
+            {homeContent?.hero?.lead || homeContent?.hero?.description || 'From thoughtful planning to grand celebrations, we bring your vision to life with seamless execution. Every detail is managed with care to create unforgettable moments.'}
           </p>
 
           <div className="hero-cta-wrapper">
-            <Link to="/packages" className="btn-luxury-primary">
-              <span>Explore Packages</span>
+            <Link to={homeContent?.hero?.primaryBtnLink || homeContent?.hero?.primary_btn_url || '/packages'} className="btn-luxury-primary">
+              <span>{homeContent?.hero?.primaryBtnText || homeContent?.hero?.primary_btn_text || 'Explore Packages'}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </Link>
 
-            <Link to="/packages" className="btn-luxury-outline">
-              <span>Book Event</span>
+            <Link to={homeContent?.hero?.secondaryBtnLink || homeContent?.hero?.secondary_btn_url || '/packages'} className="btn-luxury-outline">
+              <span>{homeContent?.hero?.secondaryBtnText || homeContent?.hero?.secondary_btn_text || 'Book Event'}</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="16" y1="2" x2="16" y2="6"></line>

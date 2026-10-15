@@ -187,3 +187,56 @@ def get_booking_by_id_or_ref(
         total_amount=float(booking.total_amount or 0.0),
         created_at=booking.created_at.isoformat() if booking.created_at else None
     )
+
+@router.post("/{identifier}/cancel")
+@router.patch("/{identifier}/cancel")
+def cancel_booking(
+    identifier: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_active_user)
+):
+    if identifier.isdigit():
+        booking = db.query(Booking).filter(Booking.id == int(identifier)).first()
+    else:
+        booking = db.query(Booking).filter(Booking.booking_reference == identifier).first()
+
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+
+    # Strict Access Control: Admin/Super_Admin or Booking Owner
+    is_admin = (current_user.role or "").upper() in ["ADMIN", "SUPER_ADMIN"]
+    is_owner = (
+        (booking.user_id is not None and booking.user_id == current_user.id) or
+        (booking.email and booking.email.strip().lower() == current_user.email.strip().lower())
+    )
+    if not (is_admin or is_owner):
+        raise HTTPException(
+            status_code=403,
+            detail="Access denied: You do not have permission to cancel this booking."
+        )
+
+    # Business Rules / Eligibility Check:
+    current_status = (booking.status or "").strip().upper()
+    if current_status == "CANCELLED":
+        raise HTTPException(
+            status_code=400,
+            detail="This booking has already been cancelled."
+        )
+    if current_status != "UPCOMING":
+        raise HTTPException(
+            status_code=400,
+            detail=f"Only upcoming bookings can be cancelled. Current status is {booking.status}."
+        )
+
+    booking.status = "CANCELLED"
+    db.commit()
+    db.refresh(booking)
+
+    return {
+        "success": True,
+        "message": "Booking has been cancelled successfully.",
+        "booking_id": booking.id,
+        "booking_reference": booking.booking_reference,
+        "status": booking.status
+    }
+

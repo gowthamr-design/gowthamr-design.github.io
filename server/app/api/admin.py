@@ -516,8 +516,12 @@ def admin_get_page_content(
     current_admin: User = Depends(require_admin)
 ):
     key_clean = page_key.strip().lower()
-    records = db.query(PageContent).filter(PageContent.page_key == key_clean).all()
+    from app.api.content import DEFAULT_PAGE_CONTENTS
     out = {}
+    if key_clean in DEFAULT_PAGE_CONTENTS:
+        out = json.loads(json.dumps(DEFAULT_PAGE_CONTENTS[key_clean]))
+
+    records = db.query(PageContent).filter(PageContent.page_key == key_clean).all()
     for r in records:
         try:
             out[r.section_key] = json.loads(r.content_json)
@@ -526,6 +530,7 @@ def admin_get_page_content(
     return out
 
 @router.put("/content/{page_key}")
+@router.post("/content/{page_key}")
 def admin_save_page_content(
     page_key: str,
     payload: dict,
@@ -555,6 +560,25 @@ def admin_save_page_content(
             db.add(record)
     db.commit()
     return {"success": True, "message": f"Page content for '{page_key}' saved successfully."}
+
+@router.delete("/content/{page_key}/{section_key}")
+def admin_delete_page_content(
+    page_key: str,
+    section_key: str,
+    db: Session = Depends(get_db),
+    current_admin: User = Depends(require_admin)
+):
+    key_clean = page_key.strip().lower()
+    sec_clean = section_key.strip().lower()
+    record = db.query(PageContent).filter(
+        PageContent.page_key == key_clean,
+        PageContent.section_key == sec_clean
+    ).first()
+    if record:
+        db.delete(record)
+        db.commit()
+        return {"success": True, "message": f"Section '{section_key}' deleted from database."}
+    return {"success": True, "message": f"Section '{section_key}' was in default state."}
 
 # =========================================================================
 # 8. BOOKINGS MANAGEMENT

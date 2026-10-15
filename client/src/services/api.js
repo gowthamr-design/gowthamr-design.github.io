@@ -125,6 +125,7 @@ export const bookingAPI = {
   create: (data) => api.post('/bookings', data),
   getBooking: (idOrRef) => api.get(`/bookings/${idOrRef}`),
   getMyEvents: () => api.get('/events/my-events'),
+  cancelBooking: (idOrRef) => api.post(`/bookings/${idOrRef}/cancel`),
 };
 
 export const adminAPI = {
@@ -193,6 +194,7 @@ export const adminAPI = {
     section_key,
     content_json
   }),
+  deletePageContent: (page_key, section_key) => api.delete(`/admin/content/${page_key}/${section_key}`),
 };
 
 export default api;

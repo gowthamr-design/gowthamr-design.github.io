@@ -6,8 +6,24 @@ import '../styles/admin.css';
 
 export default function AdminDashboard() {
   const { user, isAdmin, isSuperAdmin, loading: authLoading } = useAuth();
-  const [activeMainTab, setActiveMainTab] = useState('overview'); 
-  // 'overview' | 'home_cms' | 'services_cms' | 'packages_cms' | 'gallery_cms' | 'events_cms' | 'content_cms' | 'bookings' | 'users' | 'admins'
+  const [activeMainTab, setActiveMainTabState] = useState(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const qTab = urlParams.get('tab');
+      const valid = ['overview', 'home_cms', 'services_cms', 'packages_cms', 'gallery_cms', 'events_cms', 'content_cms', 'bookings', 'users', 'admins'];
+      if (qTab && valid.includes(qTab)) return qTab;
+      const saved = sessionStorage.getItem('admin_active_tab');
+      if (saved && valid.includes(saved)) return saved;
+    } catch (e) {}
+    return 'overview';
+  });
+
+  const setActiveMainTab = (tab) => {
+    setActiveMainTabState(tab);
+    try {
+      sessionStorage.setItem('admin_active_tab', tab);
+    } catch (e) {}
+  };
   
   const [stats, setStats] = useState({
     total_bookings: 0,
@@ -142,7 +158,7 @@ export default function AdminDashboard() {
   // =========================================================================
   // 8. HOME & PAGE CONTENT CMS STATE
   // =========================================================================
-  const [homeCmsData, setHomeCmsData] = useState({
+  const DEFAULT_HOME_CMS = {
     hero: {
       tag: 'Banana Brothers Events',
       title: 'Where Moments Become Memories.',
@@ -159,10 +175,42 @@ export default function AdminDashboard() {
       experience: 15
     },
     highlights: [
-      { id: 1, title: 'Luxury Weddings', desc: 'Bespoke grand mandap setups, ethereal floral canopies & regal chandeliers.' },
-      { id: 2, title: 'Corporate Summits', desc: 'Panoramic staging, intelligent beam lighting & executive keynote production.' },
-      { id: 3, title: 'Milestone Celebrations', desc: 'Luxe marquee illuminations & artisanal decor arrangements.' }
+      { id: 1, tag: 'Luxury Weddings', title: 'The Grand Imperial Wedding', desc: 'Bespoke grand mandap setups, ethereal floral canopies & regal crystal chandeliers.', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75' },
+      { id: 2, tag: 'Corporate Summits', title: 'Global Leadership Summit', desc: 'Cutting-edge panoramic staging, intelligent beam lighting & executive keynote production.', image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=75' },
+      { id: 3, tag: 'Milestone Celebrations', title: 'Opulent Golden Soirée', desc: 'Luxe marquee illuminations, artisanal decor arrangements & VIP celebratory hosting.', image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=75' },
+      { id: 4, tag: 'Concerts & Festivals', title: 'Electrifying Arena Stage', desc: 'Concert line-array acoustics, dynamic synchronized laser fixtures & stadium energy.', image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=75' },
+      { id: 5, tag: 'Destination Galas', title: 'Ethereal Sunset Pavilion', desc: 'Panoramic beachfront florals, fairy-light canopies & timeless romantic elegance.', image: 'https://images.unsplash.com/photo-1545232979-fbf69c362143?auto=format&fit=crop&w=800&q=75' },
+      { id: 6, tag: 'Royal Banquets', title: 'Prestige Ballroom Honors', desc: 'Black-tie dining staging, majestic ceiling drapery & world-class banquet coordination.', image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=75' }
     ]
+  };
+
+  const [homeCmsData, setHomeCmsDataState] = useState(() => {
+    try {
+      const draft = sessionStorage.getItem('admin_home_cms_draft');
+      if (draft) return JSON.parse(draft);
+    } catch (e) {}
+    return DEFAULT_HOME_CMS;
+  });
+
+  const setHomeCmsData = (updater) => {
+    setHomeCmsDataState(prev => {
+      const next = typeof updater === 'function' ? updater(prev) : updater;
+      try {
+        sessionStorage.setItem('admin_home_cms_draft', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
+  };
+
+  const [showHomeItemModal, setShowHomeItemModal] = useState(false);
+  const [editingHomeItem, setEditingHomeItem] = useState(null);
+  const [homeItemSearch, setHomeItemSearch] = useState('');
+  const [homeItemForm, setHomeItemForm] = useState({
+    id: null,
+    tag: 'Luxury Weddings',
+    title: '',
+    desc: '',
+    image: ''
   });
 
   const [aboutCmsData, setAboutCmsData] = useState({
@@ -304,16 +352,23 @@ export default function AdminDashboard() {
     }
   };
 
-  const loadHomeContent = async () => {
+  const loadHomeContent = async (forceSync = false) => {
     try {
       setLoadingContent(true);
       const res = await contentAPI.getContent('home');
       if (res.data) {
-        setHomeCmsData(prev => ({
-          hero: res.data.hero || prev.hero,
-          metrics: res.data.metrics || prev.metrics,
-          highlights: res.data.highlights || prev.highlights,
-        }));
+        const serverData = {
+          hero: res.data.hero || DEFAULT_HOME_CMS.hero,
+          metrics: res.data.metrics || DEFAULT_HOME_CMS.metrics,
+          highlights: (res.data.highlights && Array.isArray(res.data.highlights) && res.data.highlights.length > 0)
+            ? res.data.highlights
+            : DEFAULT_HOME_CMS.highlights,
+        };
+        const hasDraft = sessionStorage.getItem('admin_home_cms_draft');
+        if (!hasDraft || forceSync) {
+          setHomeCmsDataState(serverData);
+          sessionStorage.setItem('admin_home_cms_draft', JSON.stringify(serverData));
+        }
       }
     } catch (err) {
       console.warn('Using default home content:', err);
@@ -655,17 +710,109 @@ export default function AdminDashboard() {
   };
 
   // =========================================================================
-  // HOME PAGE CMS SAVE HANDLER
+  // HOME PAGE CMS CRUD HANDLERS
   // =========================================================================
-  const handleSaveHomeContent = async (e) => {
+  const handleOpenHomeItemModal = (item = null) => {
+    if (item) {
+      setEditingHomeItem(item);
+      setHomeItemForm({
+        id: item.id,
+        tag: item.tag || 'Luxury Event',
+        title: item.title || '',
+        desc: item.desc || '',
+        image: item.image || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75'
+      });
+    } else {
+      setEditingHomeItem(null);
+      setHomeItemForm({
+        id: Date.now(),
+        tag: 'Featured Highlight',
+        title: '',
+        desc: '',
+        image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=75'
+      });
+    }
+    setShowHomeItemModal(true);
+  };
+
+  const handleSaveHomeItem = async (e) => {
     e.preventDefault();
+    try {
+      let updatedHighlights;
+      const currentList = Array.isArray(homeCmsData.highlights) ? homeCmsData.highlights : [];
+      if (editingHomeItem) {
+        updatedHighlights = currentList.map(h => h.id === editingHomeItem.id ? { ...homeItemForm } : h);
+      } else {
+        updatedHighlights = [...currentList, { ...homeItemForm, id: homeItemForm.id || Date.now() }];
+      }
+
+      await adminAPI.savePageContent('home', 'highlights', updatedHighlights);
+      const updatedAll = { ...homeCmsData, highlights: updatedHighlights };
+      setHomeCmsData(updatedAll);
+      setShowHomeItemModal(false);
+      showFeedback(editingHomeItem ? 'Showcase item updated in database!' : 'Showcase item added to database!');
+    } catch (err) {
+      showError(err.response?.data?.detail || 'Failed to save showcase item.');
+    }
+  };
+
+  const handleDeleteHomeItem = async (item) => {
+    if (!window.confirm(`Are you sure you want to delete "${item.title || item.tag}"?`)) return;
+    try {
+      const currentList = Array.isArray(homeCmsData.highlights) ? homeCmsData.highlights : [];
+      const updatedHighlights = currentList.filter(h => h.id !== item.id);
+      await adminAPI.savePageContent('home', 'highlights', updatedHighlights);
+      const updatedAll = { ...homeCmsData, highlights: updatedHighlights };
+      setHomeCmsData(updatedAll);
+      showFeedback('Showcase item deleted from database!');
+    } catch (err) {
+      showError(err.response?.data?.detail || 'Failed to delete showcase item.');
+    }
+  };
+
+  const handleSaveHomeHero = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    try {
+      await adminAPI.savePageContent('home', 'hero', homeCmsData.hero);
+      showFeedback('Hero Spotlight section saved to database and live on user site!');
+    } catch (err) {
+      showError(err.response?.data?.detail || 'Failed to save Hero section.');
+    }
+  };
+
+  const handleSaveHomeMetrics = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    try {
+      await adminAPI.savePageContent('home', 'metrics', homeCmsData.metrics);
+      showFeedback('Metrics Counters saved to database and live on user site!');
+    } catch (err) {
+      showError(err.response?.data?.detail || 'Failed to save Metrics.');
+    }
+  };
+
+  const handleSaveHomeContent = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     try {
       await adminAPI.savePageContent('home', 'hero', homeCmsData.hero);
       await adminAPI.savePageContent('home', 'metrics', homeCmsData.metrics);
       await adminAPI.savePageContent('home', 'highlights', homeCmsData.highlights);
-      showFeedback('Home Page content successfully saved to database!');
+      showFeedback('All Home Page content successfully saved to database!');
     } catch (err) {
       showError(err.response?.data?.detail || 'Failed to save Home Page content.');
+    }
+  };
+
+  const handleResetHomeContent = async () => {
+    if (!window.confirm('Reset Home Page content back to default values? This will update the database.')) return;
+    try {
+      await adminAPI.deletePageContent('home', 'hero');
+      await adminAPI.deletePageContent('home', 'metrics');
+      await adminAPI.deletePageContent('home', 'highlights');
+      sessionStorage.removeItem('admin_home_cms_draft');
+      setHomeCmsData(DEFAULT_HOME_CMS);
+      showFeedback('Home Page content reset to defaults in database!');
+    } catch (err) {
+      showError('Failed to reset content.');
     }
   };
 
@@ -1006,14 +1153,54 @@ export default function AdminDashboard() {
       )}
 
       {/* ======================================================== */}
-      {/* 2. HOME PAGE CMS TAB */}
+      {/* 2. HOME PAGE CMS TAB (FULL CRUD) */}
       {/* ======================================================== */}
       {activeMainTab === 'home_cms' && (
-        <form onSubmit={handleSaveHomeContent}>
+        <div>
+          {/* Top Control Bar */}
+          <div className="admin-toolbar" style={{ marginBottom: '20px', background: 'rgba(26, 8, 8, 0.6)', padding: '12px 18px', borderRadius: '12px', border: '1px solid rgba(217, 164, 65, 0.25)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '1.2rem' }}>🏠</span>
+              <div>
+                <strong style={{ color: '#FFF4DC', display: 'block' }}>Home Page CMS & Showcase Manager</strong>
+                <span style={{ fontSize: '0.78rem', color: '#F0D28A' }}>Admin changes persist in database and reflect live on user site</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="button"
+                className="btn-sm btn-view"
+                onClick={handleResetHomeContent}
+                title="Reset all Home content to factory defaults"
+              >
+                ↺ Reset to Defaults
+              </button>
+              <button
+                type="button"
+                className="btn-sm"
+                style={{ background: 'var(--gold-pill-gradient)', color: '#0D0306', fontWeight: '800', padding: '9px 24px' }}
+                onClick={handleSaveHomeContent}
+              >
+                💾 Save All Changes
+              </button>
+            </div>
+          </div>
+
+          {/* 1. Hero Spotlight Section */}
           <div className="cms-section-card">
-            <div className="cms-section-header">
-              <h3>🏠 Hero Spotlight Section</h3>
-              <p>Customize the primary showcase hero copy and call-to-action buttons visible to all visitors.</p>
+            <div className="cms-section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>🏠 Hero Spotlight Section</h3>
+                <p>Customize the primary showcase hero copy and call-to-action buttons visible to all visitors.</p>
+              </div>
+              <button
+                type="button"
+                className="btn-sm"
+                style={{ background: 'rgba(217, 164, 65, 0.2)', color: '#FFC400', border: '1px solid #D9A441', fontWeight: '700' }}
+                onClick={handleSaveHomeHero}
+              >
+                💾 Save Hero Section
+              </button>
             </div>
 
             <div className="cms-form-grid">
@@ -1049,7 +1236,7 @@ export default function AdminDashboard() {
                 <label className="detail-label">Hero Lead Description</label>
                 <textarea
                   className="admin-search-input"
-                  style={{ width: '100%', minHeight: '90px', borderRadius: '12px' }}
+                  style={{ width: '100%', minHeight: '85px', borderRadius: '12px' }}
                   value={homeCmsData.hero.lead}
                   onChange={(e) => setHomeCmsData({
                     ...homeCmsData,
@@ -1085,13 +1272,52 @@ export default function AdminDashboard() {
                   })}
                 />
               </div>
+
+              <div>
+                <label className="detail-label">Secondary Button Label</label>
+                <input
+                  type="text"
+                  className="admin-search-input"
+                  style={{ width: '100%' }}
+                  value={homeCmsData.hero.secondaryBtnText || 'Book Event'}
+                  onChange={(e) => setHomeCmsData({
+                    ...homeCmsData,
+                    hero: { ...homeCmsData.hero, secondaryBtnText: e.target.value }
+                  })}
+                />
+              </div>
+
+              <div>
+                <label className="detail-label">Secondary Button Route / URL</label>
+                <input
+                  type="text"
+                  className="admin-search-input"
+                  style={{ width: '100%' }}
+                  value={homeCmsData.hero.secondaryBtnLink || '/packages'}
+                  onChange={(e) => setHomeCmsData({
+                    ...homeCmsData,
+                    hero: { ...homeCmsData.hero, secondaryBtnLink: e.target.value }
+                  })}
+                />
+              </div>
             </div>
           </div>
 
+          {/* 2. Animated Metrics Section */}
           <div className="cms-section-card">
-            <div className="cms-section-header">
-              <h3>📈 Home Animated Metrics Counters</h3>
-              <p>Key achievements displayed with smooth numeric counter animations.</p>
+            <div className="cms-section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>📈 Home Animated Metrics Counters</h3>
+                <p>Key achievements displayed with smooth numeric counter animations on the live user site.</p>
+              </div>
+              <button
+                type="button"
+                className="btn-sm"
+                style={{ background: 'rgba(217, 164, 65, 0.2)', color: '#FFC400', border: '1px solid #D9A441', fontWeight: '700' }}
+                onClick={handleSaveHomeMetrics}
+              >
+                💾 Save Metrics
+              </button>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
@@ -1150,16 +1376,114 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <button
-              type="submit"
-              className="btn-sm"
-              style={{ background: 'var(--gold-pill-gradient)', color: '#0D0306', fontWeight: '800', padding: '12px 30px', fontSize: '1rem' }}
-            >
-              💾 Save Home Page Changes
-            </button>
+          {/* 3. Home Showcase & Highlights Carousel (Full CRUD) */}
+          <div className="cms-section-card" style={{ marginTop: '24px' }}>
+            <div className="cms-section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+              <div>
+                <h3>🌟 Home Showcase & 3D Carousel Highlights ({homeCmsData.highlights?.length || 0})</h3>
+                <p>Manage the rotating event showcase slides rendered in the Home 3D carousel and fullscreen lightbox.</p>
+              </div>
+              <button
+                type="button"
+                className="btn-sm"
+                style={{ background: 'var(--gold-pill-gradient)', color: '#0D0306', fontWeight: '800', padding: '9px 22px' }}
+                onClick={() => handleOpenHomeItemModal()}
+              >
+                + Add Showcase Item
+              </button>
+            </div>
+
+            <div className="admin-toolbar" style={{ marginBottom: '16px' }}>
+              <input
+                type="text"
+                className="admin-search-input"
+                placeholder="Filter showcase items by tag or title..."
+                value={homeItemSearch}
+                onChange={(e) => setHomeItemSearch(e.target.value)}
+                style={{ maxWidth: '400px' }}
+              />
+              <span style={{ fontSize: '0.8rem', color: '#F0D28A' }}>
+                Showing {(homeCmsData.highlights || []).filter(h => !homeItemSearch || (h.title && h.title.toLowerCase().includes(homeItemSearch.toLowerCase())) || (h.tag && h.tag.toLowerCase().includes(homeItemSearch.toLowerCase()))).length} items
+              </span>
+            </div>
+
+            <div className="admin-table-container">
+              {(!homeCmsData.highlights || homeCmsData.highlights.length === 0) ? (
+                <div className="empty-state">
+                  <h4>No Showcase Items Found</h4>
+                  <p>Click "+ Add Showcase Item" above to add your first highlight slide.</p>
+                </div>
+              ) : (
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '70px' }}>Order</th>
+                      <th style={{ width: '80px' }}>Image</th>
+                      <th style={{ width: '180px' }}>Tag / Badge</th>
+                      <th>Title & Description</th>
+                      <th style={{ width: '150px', textAlign: 'center' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(homeCmsData.highlights || [])
+                      .filter(h => {
+                        if (!homeItemSearch) return true;
+                        const q = homeItemSearch.toLowerCase();
+                        return (
+                          (h.tag && h.tag.toLowerCase().includes(q)) ||
+                          (h.title && h.title.toLowerCase().includes(q)) ||
+                          (h.desc && h.desc.toLowerCase().includes(q))
+                        );
+                      })
+                      .map((item, idx) => (
+                        <tr key={item.id || idx}>
+                          <td><span className="ref-code">#{idx + 1}</span></td>
+                          <td>
+                            {item.image ? (
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                style={{ width: '56px', height: '42px', objectFit: 'cover', borderRadius: '6px', border: '1px solid rgba(217, 164, 65, 0.3)' }}
+                              />
+                            ) : (
+                              <div style={{ width: '56px', height: '42px', background: 'rgba(217,164,65,0.1)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🖼️</div>
+                            )}
+                          </td>
+                          <td>
+                            <span style={{ background: 'rgba(217, 164, 65, 0.16)', color: '#FFC400', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: '700', border: '1px solid rgba(217, 164, 65, 0.3)' }}>
+                              {item.tag || 'Celebration'}
+                            </span>
+                          </td>
+                          <td>
+                            <strong style={{ display: 'block', color: '#FFF4DC', marginBottom: '4px' }}>{item.title}</strong>
+                            <p style={{ margin: 0, fontSize: '0.82rem', color: '#D9A441', lineHeight: '1.4' }}>{item.desc}</p>
+                          </td>
+                          <td>
+                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                              <button
+                                type="button"
+                                className="btn-sm btn-edit"
+                                onClick={() => handleOpenHomeItemModal(item)}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-sm btn-delete"
+                                onClick={() => handleDeleteHomeItem(item)}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
-        </form>
+        </div>
       )}
 
       {/* ======================================================== */}
@@ -2559,6 +2883,90 @@ export default function AdminDashboard() {
                   Close Inspection
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. HOME SHOWCASE ITEM CREATE / EDIT MODAL */}
+      {showHomeItemModal && (
+        <div className="admin-modal-overlay" onClick={() => setShowHomeItemModal(false)}>
+          <div className="admin-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '620px' }}>
+            <div className="admin-modal-header">
+              <h3>{editingHomeItem ? '🌟 Edit Showcase Item' : '🌟 Add Showcase Item'}</h3>
+              <button className="modal-close-btn" onClick={() => setShowHomeItemModal(false)}>×</button>
+            </div>
+            <div className="admin-modal-body">
+              <form onSubmit={handleSaveHomeItem}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
+                  <div>
+                    <label className="detail-label">Tag / Category *</label>
+                    <input
+                      type="text"
+                      className="admin-search-input"
+                      style={{ width: '100%' }}
+                      required
+                      placeholder="e.g. Luxury Weddings"
+                      value={homeItemForm.tag}
+                      onChange={(e) => setHomeItemForm({ ...homeItemForm, tag: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="detail-label">Item Title *</label>
+                    <input
+                      type="text"
+                      className="admin-search-input"
+                      style={{ width: '100%' }}
+                      required
+                      placeholder="e.g. The Grand Imperial Wedding"
+                      value={homeItemForm.title}
+                      onChange={(e) => setHomeItemForm({ ...homeItemForm, title: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: '14px' }}>
+                  <label className="detail-label">Description *</label>
+                  <textarea
+                    className="admin-search-input"
+                    style={{ width: '100%', minHeight: '85px', borderRadius: '10px' }}
+                    required
+                    placeholder="Short description of the showcase highlight..."
+                    value={homeItemForm.desc}
+                    onChange={(e) => setHomeItemForm({ ...homeItemForm, desc: e.target.value })}
+                  />
+                </div>
+
+                <div style={{ marginBottom: '20px' }}>
+                  <label className="detail-label">Showcase Image URL or Upload</label>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <input
+                      type="text"
+                      className="admin-search-input"
+                      style={{ flex: 1 }}
+                      placeholder="https://images.unsplash.com/... or uploaded URL"
+                      value={homeItemForm.image}
+                      onChange={(e) => setHomeItemForm({ ...homeItemForm, image: e.target.value })}
+                    />
+                    <label className="btn-sm btn-view" style={{ cursor: 'pointer', whiteSpace: 'nowrap', padding: '9px 14px' }}>
+                      {uploadingMedia ? 'Uploading...' : '📁 Upload'}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileUpload(e.target.files[0], (url) => setHomeItemForm(f => ({ ...f, image: url })))}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+                  <button type="button" className="btn-sm btn-view" onClick={() => setShowHomeItemModal(false)}>Cancel</button>
+                  <button type="submit" className="btn-sm" style={{ background: 'var(--gold-pill-gradient)', color: '#0D0306', fontWeight: '800', padding: '9px 24px' }}>
+                    {editingHomeItem ? 'Save Item' : 'Create Item'}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

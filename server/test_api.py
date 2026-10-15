@@ -787,6 +787,69 @@ class TestBananaBrothersPlatformRBAC(unittest.TestCase):
             self.assertTrue(booking_res.json()["success"])
             self.assertIn("booking_reference", booking_res.json())
 
+    def test_18_booking_cancellation_flow_and_security(self):
+        # 1. Login as User A
+        user_a_tok = self.client.post("/api/v1/auth/login", json={
+            "username": "test_user_a",
+            "password": "UserA@123"
+        }).json()["access_token"]
+        user_a_headers = {"Authorization": f"Bearer {user_a_tok}"}
+
+        # Login as User B
+        user_b_tok = self.client.post("/api/v1/auth/login", json={
+            "username": "test_user_b",
+            "password": "UserB@123"
+        }).json()["access_token"]
+        user_b_headers = {"Authorization": f"Bearer {user_b_tok}"}
+
+        # 2. User A creates an UPCOMING booking
+        booking_res = self.client.post("/api/v1/bookings", json={
+            "package_tier": "medium",
+            "fullName": "User A Booking",
+            "mobileNo": "9876543210",
+            "emailAddr": "test_user_a@example.com",
+            "functionType": "Wedding Ceremony",
+            "needs": ["Catering", "Decorations"],
+            "districtSelect": "Chennai",
+            "place": "Anna Nagar",
+            "fullAddress": "456 Royal Ave",
+            "pincode": "600040",
+            "fromDate": "2026-12-10",
+            "toDate": "2026-12-10",
+            "fromTime": "09:00",
+            "toTime": "15:00"
+        }, headers=user_a_headers)
+        self.assertEqual(booking_res.status_code, 200)
+        booking_data = booking_res.json()
+        booking_id = booking_data["booking_id"]
+        booking_ref = booking_data["booking_reference"]
+
+        # 3. Unauthenticated request to cancel should fail (401)
+        unauth_cancel = self.client.post(f"/api/v1/bookings/{booking_id}/cancel")
+        self.assertEqual(unauth_cancel.status_code, 401)
+
+        # 4. User B attempts to cancel User A's booking (403 Forbidden)
+        user_b_cancel = self.client.post(f"/api/v1/bookings/{booking_id}/cancel", headers=user_b_headers)
+        self.assertEqual(user_b_cancel.status_code, 403)
+        self.assertIn("Access denied", user_b_cancel.json()["detail"])
+
+        # 5. User A cancels their own booking by ID (200 OK)
+        user_a_cancel = self.client.post(f"/api/v1/bookings/{booking_id}/cancel", headers=user_a_headers)
+        self.assertEqual(user_a_cancel.status_code, 200)
+        self.assertTrue(user_a_cancel.json()["success"])
+        self.assertEqual(user_a_cancel.json()["status"], "CANCELLED")
+
+        # 6. Attempting to cancel an already cancelled booking returns 400
+        repeat_cancel = self.client.post(f"/api/v1/bookings/{booking_ref}/cancel", headers=user_a_headers)
+        self.assertEqual(repeat_cancel.status_code, 400)
+        self.assertIn("already been cancelled", repeat_cancel.json()["detail"])
+
+        # 7. Verify booking status is now CANCELLED in DB via get_booking
+        get_res = self.client.get(f"/api/v1/bookings/{booking_ref}")
+        self.assertEqual(get_res.status_code, 200)
+        self.assertEqual(get_res.json()["status"], "CANCELLED")
+
 if __name__ == "__main__":
     unittest.main()
+
 

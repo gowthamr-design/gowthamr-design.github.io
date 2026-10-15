@@ -38,10 +38,24 @@ const DEFAULT_EVENTS = [
   }
 ];
 
+const mapEventStatusClass = (status) => {
+  const s = (status || '').toUpperCase();
+  if (s === 'COMPLETED') return 'status-completed';
+  if (s === 'CANCELLED') return 'status-cancelled';
+  return 'status-upcoming';
+};
+
 export default function MyEvents() {
   const [events, setEvents] = useState(DEFAULT_EVENTS);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [cancellingId, setCancellingId] = useState(null);
+  const [toast, setToast] = useState({ text: '', type: 'success' });
   const { user } = useAuth();
+
+  const showToast = (text, type = 'success') => {
+    setToast({ text, type });
+    setTimeout(() => setToast({ text: '', type: 'success' }), 4000);
+  };
 
   useEffect(() => {
     bookingAPI.getMyEvents()
@@ -49,7 +63,7 @@ export default function MyEvents() {
         if (res.data && res.data.length > 0) {
           const mapped = res.data.map((item) => ({
             ...item,
-            status_class: item.status === 'COMPLETED' ? 'status-completed' : 'status-upcoming'
+            status_class: mapEventStatusClass(item.status)
           }));
           setEvents(mapped);
         }
@@ -59,6 +73,59 @@ export default function MyEvents() {
         setEvents(DEFAULT_EVENTS);
       });
   }, [user]);
+
+  const handleCancelBooking = async (ev) => {
+    const identifier = ev.id || ev.booking_reference;
+    const refDisplay = ev.booking_reference || `#${ev.id}`;
+    const confirmed = window.confirm(
+      `Are you sure you want to cancel your booking for "${ev.title || 'this event'}" (${refDisplay})?`
+    );
+    if (!confirmed) return;
+
+    setCancellingId(identifier);
+    try {
+      const res = await bookingAPI.cancelBooking(identifier);
+      const successMessage = res.data?.message || 'Booking has been cancelled successfully.';
+      showToast(successMessage, 'success');
+
+      setEvents((prev) =>
+        prev.map((item) => {
+          const isMatch =
+            (ev.id && item.id === ev.id) ||
+            (ev.booking_reference && item.booking_reference === ev.booking_reference);
+          if (isMatch) {
+            return {
+              ...item,
+              status: 'CANCELLED',
+              status_class: 'status-cancelled'
+            };
+          }
+          return item;
+        })
+      );
+
+      setSelectedEvent((prev) => {
+        if (!prev) return null;
+        const isMatch =
+          (ev.id && prev.id === ev.id) ||
+          (ev.booking_reference && prev.booking_reference === ev.booking_reference);
+        if (isMatch) {
+          return {
+            ...prev,
+            status: 'CANCELLED',
+            status_class: 'status-cancelled'
+          };
+        }
+        return prev;
+      });
+    } catch (err) {
+      const errorMsg =
+        err.response?.data?.detail || 'Failed to cancel booking. Please try again.';
+      showToast(errorMsg, 'error');
+    } finally {
+      setCancellingId(null);
+    }
+  };
 
   return (
     <main className="events-container">
@@ -71,33 +138,77 @@ export default function MyEvents() {
         </p>
       </div>
 
+      {/* Status Feedback Toast */}
+      {toast.text && (
+        <div
+          role="status"
+          style={{
+            maxWidth: '650px',
+            margin: '0 auto 24px auto',
+            padding: '12px 20px',
+            borderRadius: '10px',
+            background: toast.type === 'error' ? 'rgba(239, 68, 68, 0.22)' : 'rgba(34, 197, 94, 0.22)',
+            border: `1px solid ${toast.type === 'error' ? '#EF4444' : '#22C55E'}`,
+            color: '#FFF4DC',
+            fontSize: '0.92rem',
+            fontWeight: '600',
+            textAlign: 'center',
+            boxShadow: '0 4px 18px rgba(0, 0, 0, 0.35)'
+          }}
+        >
+          {toast.text}
+        </div>
+      )}
+
       {/* Grid - 3 Cards per Line */}
       <div className="events-grid">
-        {events.map((ev) => (
-          <div className="event-card" key={ev.id || ev.booking_reference}>
-            <div className="card-image-wrap">
-              <img src={ev.image_url || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80'} alt={ev.title} className="card-image" />
-              <span className={`status-tag ${ev.status_class || (ev.status === 'COMPLETED' ? 'status-completed' : 'status-upcoming')}`}>
-                {ev.status || 'UPCOMING'}
-              </span>
-            </div>
-            <div className="service-card-body">
-              <span className="event-date">📅 {ev.date}</span>
-              <h3 className="service-card-title">{ev.title}</h3>
-              <p className="service-card-desc">{ev.description}</p>
-              <div className="service-card-footer">
-                <span className="location-info">📍 {ev.location}</span>
-                <button
-                  type="button"
-                  className="view-btn"
-                  onClick={() => setSelectedEvent(ev)}
-                >
-                  View Details
-                </button>
+        {events.map((ev) => {
+          const isEligibleForCancel =
+            Boolean(user) && (ev.status || '').toUpperCase() === 'UPCOMING';
+          const cardId = ev.id || ev.booking_reference;
+
+          return (
+            <div className="event-card" key={cardId}>
+              <div className="card-image-wrap">
+                <img
+                  src={ev.image_url || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80'}
+                  alt={ev.title}
+                  className="card-image"
+                />
+                <span className={`status-tag ${ev.status_class || mapEventStatusClass(ev.status)}`}>
+                  {ev.status || 'UPCOMING'}
+                </span>
+              </div>
+              <div className="service-card-body">
+                <span className="event-date">📅 {ev.date}</span>
+                <h3 className="service-card-title">{ev.title}</h3>
+                <p className="service-card-desc">{ev.description}</p>
+                <div className="service-card-footer">
+                  <span className="location-info">📍 {ev.location}</span>
+                  <div style={{ display: 'inline-flex', gap: '8px', alignItems: 'center' }}>
+                    {isEligibleForCancel && (
+                      <button
+                        type="button"
+                        className="cancel-btn"
+                        disabled={cancellingId === cardId}
+                        onClick={() => handleCancelBooking(ev)}
+                      >
+                        {cancellingId === cardId ? 'Cancelling...' : 'Cancel Booking'}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="view-btn"
+                      onClick={() => setSelectedEvent(ev)}
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Detail Modal */}
@@ -135,9 +246,23 @@ export default function MyEvents() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
               <h3 style={{ fontSize: '1.35rem', fontWeight: '800', color: '#FFF4DC', fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif" }}>{selectedEvent.title}</h3>
               <span style={{
-                background: selectedEvent.status === 'COMPLETED' ? 'rgba(34, 197, 94, 0.22)' : 'rgba(217, 164, 65, 0.22)',
-                color: selectedEvent.status === 'COMPLETED' ? '#FFC400' : '#FFC400',
-                border: `1px solid ${selectedEvent.status === 'COMPLETED' ? '#FFC400' : '#D9A441'}`,
+                background: selectedEvent.status === 'COMPLETED'
+                  ? 'rgba(34, 197, 94, 0.22)'
+                  : selectedEvent.status === 'CANCELLED'
+                  ? 'rgba(239, 68, 68, 0.22)'
+                  : 'rgba(217, 164, 65, 0.22)',
+                color: selectedEvent.status === 'COMPLETED'
+                  ? '#4ADE80'
+                  : selectedEvent.status === 'CANCELLED'
+                  ? '#FCA5A5'
+                  : '#FFC400',
+                border: `1px solid ${
+                  selectedEvent.status === 'COMPLETED'
+                    ? '#22C55E'
+                    : selectedEvent.status === 'CANCELLED'
+                    ? '#EF4444'
+                    : '#D9A441'
+                }`,
                 padding: '4px 12px',
                 borderRadius: '20px',
                 fontSize: '0.76rem',
@@ -175,14 +300,34 @@ export default function MyEvents() {
               </div>
             )}
 
-            <button
-              type="button"
-              className="view-btn"
-              style={{ width: '100%', padding: '12px', fontSize: '0.95rem', cursor: 'pointer', textAlign: 'center', background: 'var(--gold-pill-gradient)', color: '#2A050D', fontWeight: '800', border: 'none', borderRadius: '8px', boxShadow: '0 4px 15px rgba(255, 196, 0, 0.35)' }}
-              onClick={() => setSelectedEvent(null)}
-            >
-              Close Details
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {Boolean(user) && (selectedEvent.status || '').toUpperCase() === 'UPCOMING' && (
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    fontSize: '0.95rem'
+                  }}
+                  disabled={cancellingId === (selectedEvent.id || selectedEvent.booking_reference)}
+                  onClick={() => handleCancelBooking(selectedEvent)}
+                >
+                  {cancellingId === (selectedEvent.id || selectedEvent.booking_reference)
+                    ? 'Cancelling...'
+                    : 'Cancel Booking'}
+                </button>
+              )}
+
+              <button
+                type="button"
+                className="view-btn"
+                style={{ width: '100%', padding: '12px', fontSize: '0.95rem', cursor: 'pointer', textAlign: 'center', background: 'var(--gold-pill-gradient)', color: '#2A050D', fontWeight: '800', border: 'none', borderRadius: '8px', boxShadow: '0 4px 15px rgba(255, 196, 0, 0.35)' }}
+                onClick={() => setSelectedEvent(null)}
+              >
+                Close Details
+              </button>
+            </div>
           </div>
         </div>
       )}

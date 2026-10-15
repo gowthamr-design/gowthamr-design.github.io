@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -8,9 +8,14 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const usernameInputRef = useRef(null);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    usernameInputRef.current?.focus();
+  }, []);
 
   const queryParams = new URLSearchParams(location.search);
   const from = location.state?.from || queryParams.get('from') || queryParams.get('redirect');
@@ -65,6 +70,8 @@ export default function Login() {
         <form className="auth-form" onSubmit={handleLogin}>
           <div className="input-group">
             <input
+              ref={usernameInputRef}
+              autoFocus
               type="text"
               className="input-field-auth"
               placeholder="Username or email"

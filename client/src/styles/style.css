@@ -1638,6 +1638,12 @@ label {
   border: 1px solid #D9A441;
 }
 
+.status-cancelled {
+  background: rgba(239, 68, 68, 0.22);
+  color: #FCA5A5;
+  border: 1px solid #EF4444;
+}
+
 .event-date {
   font-size: 0.76rem;
   color: #F0D28A;
@@ -1674,6 +1680,36 @@ label {
   color: #0D0306;
   border-color: #FFC21A;
   box-shadow: 0 4px 14px rgba(255, 194, 26, 0.35);
+}
+
+.cancel-btn {
+  padding: 7px 16px;
+  background: rgba(239, 68, 68, 0.16);
+  color: #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  font-size: 0.78rem;
+  font-weight: 750;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.35);
+  color: #FFFFFF;
+  border-color: #EF4444;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ==========================================================================
