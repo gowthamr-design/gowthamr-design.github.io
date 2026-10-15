@@ -144,7 +144,8 @@ body::before {
 
 .main-content {
   flex: 1 0 auto;
-  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -1559,10 +1560,12 @@ label {
    MY EVENTS PAGE
    ========================================================================== */
 .events-container {
+  flex: 1 0 auto;
   max-width: 1100px;
+  width: 100%;
   margin: 0 auto;
   padding: 40px 20px 80px 20px;
-  min-height: calc(100vh - 160px);
+  box-sizing: border-box;
 }
 
 .events-grid {
@@ -1716,11 +1719,12 @@ label {
    AUTH PAGES (Login, Register, ForgotPassword)
    ========================================================================== */
 .auth-page-wrapper {
-  min-height: calc(100vh - 160px);
+  flex: 1 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px 16px;
+  padding: 40px 16px;
+  box-sizing: border-box;
 }
 
 .login-container,
@@ -1899,6 +1903,7 @@ label {
    ========================================================================== */
 .site-footer {
   width: 100%;
+  flex-shrink: 0;
   background: rgba(13, 3, 6, 0.60);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
